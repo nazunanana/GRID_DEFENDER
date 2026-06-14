@@ -21,6 +21,9 @@ DxLib/
 # デバッグ情報
 *.pdb
 
+# ログ
+Log.txt
+
 # VSCode
 .vscode/ipch/
 .vscode/*.db
