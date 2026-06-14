@@ -1,0 +1,33 @@
+# 設定フォルダ
+.vscode/
+
+# ビルド成果物
+build/
+
+# DXライブラリ
+DxLib/
+
+# 実行ファイル
+*.exe
+
+# オブジェクトファイル
+*.o
+*.obj
+
+# 静的ライブラリ
+*.a
+*.lib
+
+# デバッグ情報
+*.pdb
+
+# VSCode
+.vscode/ipch/
+.vscode/*.db
+
+# C/C++ Extension
+browse.VC.db
+
+# Windows
+Thumbs.db
+Desktop.ini
