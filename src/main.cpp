@@ -29,3 +29,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
     return 0;
 }
+
+// #include "Core/App.h"
+// #include "DxLib.h"
+
+// /*
+// メイン関数
+// */
+
+// int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+// {
+// 	// APPクラスを生成
+// 	App app;
+// 	// Run()を呼ぶ
+// 	return app.Run();
+// }

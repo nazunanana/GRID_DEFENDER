@@ -1,0 +1,33 @@
+#pragma once
+#include "IScene.h"
+#include <memory>
+
+class Input;
+
+enum class SceneType
+{
+    Title,
+    Game,
+    Clear,
+    GameOver,
+};
+
+class SceneManager
+{
+public:
+    SceneManager(Input* input);
+    // シーンの更新
+    void Update();
+    // シーンの描画
+    void Draw();
+    // シーン変更を予約する
+    void RequestChange(SceneType type);
+private:
+    Input* m_input;
+    // 現在のシーンを保持
+    std::unique_ptr<IScene> m_currScene;
+    // 次のシーンを保持
+    std::unique_ptr<IScene> m_nextScene;
+    // シーン変更処理
+    void ChangeScene();
+};
