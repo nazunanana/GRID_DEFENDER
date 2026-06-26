@@ -20,7 +20,7 @@ bool Input::Pressed(Action a) const
 }
 
 // マウスの位置を取得
-Vector2 Input::GetMousePosition() const
+Vec2 Input::GetMousePosition() const
 {
     return m_mousePos;
 }
