@@ -1,5 +1,5 @@
 #pragma once
-#include "Virus.h"
+#include "../Entity/Virus.h"
 #include <optional>
 #include <vector>
 

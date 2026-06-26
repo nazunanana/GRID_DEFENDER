@@ -1,23 +1,20 @@
 #pragma once
 #include "IScene.h"
-#include "Player.h"
-#include "BlockGrid.h"
-#include "VirusManager.h"
-#include "ChainManager.h"
-#include "ScoreManager.h"
+#include "../GameSystem/Player.h"
+#include "../GameSystem/BlockGrid.h"
+#include "../GameSystem/VirusManager.h"
+#include "../GameSystem/ChainManager.h"
+#include "../GameSystem/ScoreManager.h"
 
 class GameScene : public IScene
 {
 public:
-    // GameScene(SceneManager* mgr, Input* input);
-    // void Enter() override;
-    // void Exit() override;
+    GameScene(SceneManager* mgr, Input* input);
+    void Enter() override;
+    void Exit() override;
     void Update() override;
     void Draw() override;
-    static constexpr int COL_MAX = 8;
-    static constexpr int ROW_MAX = 16;
-    static constexpr int BOX_SIZE = 40;
-    bool isStart;
+    bool isStart = false;
 
 private:
     void ResolveHit(int col, int row, int color);

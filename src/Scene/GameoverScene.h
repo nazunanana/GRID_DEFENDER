@@ -4,9 +4,9 @@
 class GameoverScene : public IScene
 {
 public:
-    // GameoverScene(SceneManager* mgr, Input* input);
-    // void Enter() override;
-    // void Exit() override;
+    GameoverScene(SceneManager* mgr, Input* input);
+    void Enter() override;
+    void Exit() override;
     void Update() override;
     void Draw() override;
 

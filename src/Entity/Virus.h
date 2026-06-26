@@ -6,7 +6,7 @@ public:
     Virus(int col, int row, int color);
     void Update();
     void Draw();
-    void Despawm();
+    void Despawn();
 private:
     int m_col;
     int m_row;

@@ -1,13 +1,18 @@
 #include "App.h"
 #include "DxLib.h"
 #include "Config.h"
+#include "../Scene/SceneManager.h"
+#include <memory>
 
 
 /*
 アプリ、DxLibの実行・終了制御
 */
 
-// TODO: タイトルシーンのセット・ドロー、BGMロード
+App::App() {
+    m_input = std::make_unique<Input>();
+    m_scene = std::make_unique<SceneManager>(m_input.get());
+}
 
 // DxLib初期化
 bool App::InitDxLib_()
@@ -47,14 +52,19 @@ int App::Run()
 {
     if (!InitDxLib_()) return -1;
 
+	m_scene->RequestChange(SceneType::Game);;
+
     while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0) {
         ClearDrawScreen();
-        DrawString(100, 100, "TEST", GetColor(0, 255, 255));
+
+		m_scene->Update();
+        m_scene->Draw();
+
         ScreenFlip();
+		LimitFps_();
     }
 
     ShutdownDxLib_();
-
     return 0;
 }
 

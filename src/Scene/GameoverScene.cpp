@@ -1,6 +1,6 @@
 #include "GameoverScene.h"
 #include "SceneManager.h"
-#include "Input.h"
+#include "../Input/input.h"
 
 #include "DxLib.h"
 
@@ -8,10 +8,19 @@
 ゲームオーバーシーン
 */
 
-// // ゲームオーバー画面に入ったときの処理
-// void GameoverScene::Enter()
-// {
-// }
+GameoverScene::GameoverScene(SceneManager* manager, Input* input)
+    : IScene(manager, input) {}
+
+// ゲームオーバー画面に入ったときの処理
+void GameoverScene::Enter()
+{
+}
+
+// ゲームオーバー画面を出たときの処理
+void GameoverScene::Exit()
+{
+    
+}
 
 // ゲームオーバー画面の更新処理
 void GameoverScene::Update()

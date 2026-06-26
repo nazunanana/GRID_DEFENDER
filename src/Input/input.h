@@ -1,5 +1,5 @@
 #pragma once
-#include "Common.h"
+#include "../GameSystem/Common.h"
 #include <array>
 
 enum class Action

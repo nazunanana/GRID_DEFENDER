@@ -1,6 +1,6 @@
 #include "ClearScene.h"
 #include "SceneManager.h"
-#include "Input.h"
+#include "../Input/input.h"
 
 #include "DxLib.h"
 
@@ -8,10 +8,19 @@
 クリアシーン
 */
 
-// // クリア画面に入ったときの処理
-// void ClearScene::Enter()
-// {
-// }
+ClearScene::ClearScene(SceneManager* manager, Input* input)
+    : IScene(manager, input) {}
+
+// クリア画面に入ったときの処理
+void ClearScene::Enter()
+{
+}
+
+// クリア画面を出たときの処理
+void ClearScene::Exit()
+{
+    
+}
 
 // クリア画面の更新処理
 void ClearScene::Update()

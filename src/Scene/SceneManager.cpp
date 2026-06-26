@@ -3,6 +3,7 @@
 #include "GameScene.h"
 #include "GameoverScene.h"
 #include "ClearScene.h"
+#include <memory>
 
 /*
 シーンの切り替え、更新処理
@@ -10,11 +11,7 @@
 
 // コンストラクタ
 SceneManager::SceneManager(Input* input)
-    : m_input(input)
-{
-    m_currScene = std::make_unique<TitleScene>(this, m_input);
-    // m_currScene->Enter();
-}
+    : m_input(input) {}
 
 void SceneManager::Update()
 {
@@ -46,7 +43,15 @@ void SceneManager::RequestChange(SceneType type)
     case SceneType::Title:
         m_nextScene = std::make_unique<TitleScene>(this, m_input);
         break;
-    // 他のシーンタイプの処理
+    case SceneType::Game:
+        m_nextScene = std::make_unique<GameScene>(this, m_input);
+        break;
+    case SceneType::GameOver:
+        m_nextScene = std::make_unique<GameoverScene>(this, m_input);
+        break;
+    case SceneType::Clear:
+        m_nextScene = std::make_unique<ClearScene>(this, m_input);
+        break;
     }
 }
 

@@ -1,6 +1,6 @@
 #include "TitleScene.h"
 #include "SceneManager.h"
-#include "Input.h"
+#include "../Input/input.h"
 
 #include "DxLib.h"
 
@@ -8,10 +8,19 @@
 タイトルシーン
 */
 
-// // タイトル画面に入ったときの処理
-// void TitleScene::Enter()
-// {
-// }
+TitleScene::TitleScene(SceneManager* manager, Input* input)
+    : IScene(manager, input) {}
+
+// タイトル画面に入ったときの処理
+void TitleScene::Enter()
+{
+}
+
+// タイトル画面を出たときの処理
+void TitleScene::Exit()
+{
+    
+}
 
 // タイトル画面の更新処理
 void TitleScene::Update()

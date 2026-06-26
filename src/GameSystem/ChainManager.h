@@ -1,5 +1,5 @@
 #pragma once
-#include "Ripple.h"
+#include "../Entity/Ripple.h"
 #include <queue>
 #include <vector>
 
