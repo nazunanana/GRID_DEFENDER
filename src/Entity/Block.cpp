@@ -16,7 +16,7 @@ void Block::Draw(int screenX, int screenY)
 {
     // 塗りつぶしブロック
     DrawBox(screenX, screenY, screenX + BOX_SIZE, screenY + BOX_SIZE,
-            ToDrawColor(0), TRUE);//m_color
+            ToDrawColor(m_color), TRUE);
     // ブロック枠線
     DrawBox(screenX, screenY, screenX + BOX_SIZE, screenY + BOX_SIZE,
             GetColor(200, 200, 200), FALSE);

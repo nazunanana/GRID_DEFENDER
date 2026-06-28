@@ -1,5 +1,6 @@
 #pragma once
 #include "IScene.h"
+#include "../Input/Input.h"
 #include "../GameSystem/Player.h"
 #include "../GameSystem/BlockGrid.h"
 #include "../GameSystem/VirusManager.h"
@@ -20,6 +21,7 @@ private:
     void ResolveHit(int col, int row, int color);
     int coreTex = -1;
     int frameImg = -1;
+    Input m_input;
     Player m_player;
     BlockGrid m_blockGrid;
     VirusManager m_virusMgr;

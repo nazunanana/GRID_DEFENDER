@@ -31,11 +31,8 @@ void GameScene::Exit()
 // ゲーム画面の更新処理
 void GameScene::Update()
 {
-    // if (m_input->Pressed(Action::Decide))// Decideでゲームシーンに移行
-    // {
-    //     m_sceneMgr->RequestChange(SceneType::Clear);
-    //     return;
-    // }
+    m_input.Update();
+    m_player.Update(m_input.Pressed(Action::Shoot));
 }
 
 // ゲーム画面の描画処理
@@ -44,6 +41,7 @@ void GameScene::Draw()
     DrawBox(0, 0, SCREEN_W, SCREEN_H, GetColor(0, 0, 0), true);
 
     m_blockGrid.Draw();
+    m_player.Draw(m_input.GetMousePosition());
 
     // メインコア
     DrawExtendGraph(0, COL_MAX * BOX_SIZE + ORIGIN_Y, SCREEN_W, SCREEN_H - ORIGIN_Y,

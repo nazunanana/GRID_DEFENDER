@@ -4,6 +4,7 @@
 // 入力の更新
 void Input::Update()
 {
+    SetMouseDispFlag(GetWindowActiveFlag() ? FALSE : TRUE);
     for (int i = 0; i < (int)Action::COUNT; ++i)
     {
         m_curr[i] = GetActionDown_((Action)i);

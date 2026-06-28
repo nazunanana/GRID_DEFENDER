@@ -1,13 +1,16 @@
 #pragma once
-#include "../Input/input.h"
+#include "Common.h"
 
 class Player
 {
 public:
-    void Update();
-    void Draw();
+    void Update(bool isInput);
+    void Draw(Vec2 pos);
     bool isShoot = false;
 private:
+    const int LINE_LENGTH = 14;
+    const int LINE_THICKNESS = 2;
+    const int CIRCLE_RADIUS = 10;
     float m_cooldown = 0.f;
     float m_maxCooldown = 0.5f;
 };
