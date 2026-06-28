@@ -27,12 +27,12 @@ Vec2 Input::GetMousePosition() const
 }
 
 // Actionとキーの結び付け　入力されていれば1を返す
-int Input::GetActionDown_(Action a) const
+int Input::GetActionDown_(Action a)
 {
     switch (a)
     {
     case Action::Shoot:
-        return IsKeyDown_(KEY_INPUT_Z);
+        return IsMouseDown_(MOUSE_INPUT_LEFT);
     case Action::Decide:
         return IsKeyDown_(KEY_INPUT_X);
     case Action::Back:
@@ -53,5 +53,8 @@ int Input::IsKeyDown_(int key)
 // マウスが押されているかどうかを返す
 int Input::IsMouseDown_(int button)
 {
-    return GetMouseInput() & button;
+    int currentMouseState = (GetMouseInput() & button) ? 1 : 0;
+    int trigger = (m_lastMouseState == 0 && currentMouseState == 1) ? 1 : 0;
+    m_lastMouseState = currentMouseState; // 状態を更新
+    return trigger;
 }

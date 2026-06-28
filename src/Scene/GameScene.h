@@ -18,7 +18,7 @@ public:
     bool isStart = false;
 
 private:
-    void ResolveHit(int col, int row, int color);
+    void ResolveHit(int col, int row, int color = -1);
     int coreTex = -1;
     int frameImg = -1;
     Input m_input;

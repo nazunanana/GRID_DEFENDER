@@ -31,8 +31,9 @@ void Block::Draw(int screenX, int screenY)
     // TODO: ヒットしたときは一瞬光らせる
 }
 
-void Block::Hit()
+void Block::Hit(int color)
 {
+    m_color = color;
 }
 
 unsigned int Block::ToDrawColor(int colorId)
