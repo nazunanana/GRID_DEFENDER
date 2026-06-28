@@ -10,7 +10,7 @@
 */
 
 // コンストラクタ
-SceneManager::SceneManager(Input* input)
+SceneManager::SceneManager(Input *input)
     : m_input(input) {}
 
 void SceneManager::Update()

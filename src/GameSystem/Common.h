@@ -7,7 +7,7 @@ struct Vec2{
 
 enum class ColorId {
     None = -1,
-    Pink = 1,
-    Cyan = 2,
-    Yellow = 3,
+    Magenta = 0,
+    Cyan = 1,
+    Yellow = 2
 };

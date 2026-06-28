@@ -18,6 +18,8 @@ public:
 
 private:
     void ResolveHit(int col, int row, int color);
+    int coreTex = -1;
+    int frameImg = -1;
     Player m_player;
     BlockGrid m_blockGrid;
     VirusManager m_virusMgr;

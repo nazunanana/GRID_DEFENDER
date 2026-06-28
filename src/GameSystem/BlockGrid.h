@@ -12,5 +12,4 @@ public:
     void ChangeColor(int col, int row, int color);
 private:
     Block m_blocks[COL_MAX][ROW_MAX];
-    void MakeStage();
 };
