@@ -21,12 +21,12 @@ void Block::Draw(int screenX, int screenY)
     DrawBox(screenX, screenY, screenX + BOX_SIZE, screenY + BOX_SIZE,
             GetColor(200, 200, 200), FALSE);
     // ブロック枠線を足す
-    if(screenX == ORIGIN_X)
-        DrawBox(0, screenY, BOX_SIZE, screenY + BOX_SIZE,
-            GetColor(200, 200, 200), FALSE);
-    else if(screenX == ORIGIN_X + BOX_SIZE * (ROW_MAX - 1))
-        DrawBox(screenX + BOX_SIZE, screenY, screenX + BOX_SIZE * 2, screenY + BOX_SIZE,
-            GetColor(200, 200, 200), FALSE);
+    // if(screenX == ORIGIN_X)
+    //     DrawBox(0, screenY, BOX_SIZE, screenY + BOX_SIZE,
+    //         GetColor(200, 200, 200), FALSE);
+    // else if(screenX == ORIGIN_X + BOX_SIZE * (ROW_MAX - 1))
+    //     DrawBox(screenX + BOX_SIZE, screenY, screenX + BOX_SIZE * 2, screenY + BOX_SIZE,
+    //         GetColor(200, 200, 200), FALSE);
 
     // TODO: ヒットしたときは一瞬光らせる
 }
@@ -47,6 +47,6 @@ unsigned int Block::ToDrawColor(int colorId)
     case 2:
         return GetColor(255, 255, 60); // Yellow
     default:
-        return GetColor(10, 10, 10); // 無色
+        return GetColor(5, 0, 40); // 無色
     }
 }

@@ -16,8 +16,8 @@ GameScene::GameScene(SceneManager *manager, Input *input)
 // ゲーム画面に入ったときの処理
 void GameScene::Enter()
 {
-    coreTex = LoadGraph("img/core_tex.png");
-    frameImg = LoadGraph("img/frame.png");
+    coreTex = LoadGraph("img/core_tex2.png");
+    // frameImg = LoadGraph("img/frame.png");
     // 仮
     isStart = true;
 }
@@ -53,12 +53,12 @@ void GameScene::Draw()
     m_player.Draw();
 
     // メインコア
-    DrawExtendGraph(0, COL_MAX * BOX_SIZE + ORIGIN_Y, SCREEN_W, SCREEN_H - ORIGIN_Y,
+    DrawExtendGraph(ORIGIN_X, COL_MAX * BOX_SIZE + ORIGIN_Y, SCREEN_W-ORIGIN_X, SCREEN_H - ORIGIN_Y,
                     coreTex, TRUE);
 
     // フレーム
-    DrawExtendGraph(0, 0, SCREEN_W, SCREEN_H,
-                    frameImg, TRUE);
+    // DrawExtendGraph(0, 0, SCREEN_W, SCREEN_H,
+    //                 frameImg, TRUE);
 }
 
 void GameScene::ResolveHit(int col, int row, int rippleColor)
