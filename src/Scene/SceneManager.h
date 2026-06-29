@@ -17,7 +17,7 @@ class SceneManager
 public:
     SceneManager(Input* input);
     // シーンの更新
-    void Update();
+    void Update(float df);
     // シーンの描画
     void Draw();
     // シーン変更を予約する

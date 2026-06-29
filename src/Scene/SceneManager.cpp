@@ -13,7 +13,7 @@
 SceneManager::SceneManager(Input *input)
     : m_input(input) {}
 
-void SceneManager::Update()
+void SceneManager::Update(float dt)
 {
     // シーン変更が予約されている場合は、シーンを切り替える
     if (m_nextScene != nullptr)
@@ -23,7 +23,7 @@ void SceneManager::Update()
     m_nextScene = nullptr;
 
     // 現在のシーンの更新処理を呼び出す
-    m_currScene->Update();
+    m_currScene->Update(dt);
 }
 
 void SceneManager::Draw()

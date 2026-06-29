@@ -7,7 +7,7 @@ public:
     ClearScene(SceneManager* mgr, Input* input);
     void Enter() override;
     void Exit() override;
-    void Update() override;
+    void Update(float dt) override;
     void Draw() override;
 
 };

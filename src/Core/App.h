@@ -1,6 +1,7 @@
 #pragma once
 #include "../Input/input.h"
 #include "../Scene/SceneManager.h"
+#include "Time.h"
 #include <memory>
 
 /*
@@ -21,4 +22,5 @@ private:
 private:
     std::unique_ptr<Input> m_input;
     std::unique_ptr<SceneManager> m_scene;
+	Time m_time;
 };

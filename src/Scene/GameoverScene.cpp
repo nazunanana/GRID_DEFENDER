@@ -23,7 +23,7 @@ void GameoverScene::Exit()
 }
 
 // ゲームオーバー画面の更新処理
-void GameoverScene::Update()
+void GameoverScene::Update(float dt)
 {
     // Decideでタイトルシーンに移行
     if (m_input->Pressed(Action::Decide))

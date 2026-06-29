@@ -29,11 +29,12 @@ void GameScene::Exit()
 }
 
 // ゲーム画面の更新処理
-void GameScene::Update()
+void GameScene::Update(float dt)
 {
     // 各クラスのUpdateを呼び出す
     m_input.Update();
     m_player.Update(m_input.Pressed(Action::Shoot), m_input.GetMousePosition());
+    m_virusMgr.Update(dt);
 
     // 発射検知＆ブロック上であればヒット処理
     if (m_player.isShoot)
@@ -50,6 +51,7 @@ void GameScene::Draw()
     DrawBox(0, 0, SCREEN_W, SCREEN_H, GetColor(0, 0, 0), true);
 
     m_blockGrid.Draw();
+    m_virusMgr.Draw();
     m_player.Draw();
 
     // メインコア
@@ -64,6 +66,7 @@ void GameScene::Draw()
 void GameScene::ResolveHit(int col, int row, int rippleColor)
 {
     // ウィルスがいたら色を返す
+    std::optional<int> color = m_virusMgr.GetVirusColor(col, row);
 
     // 無色ブロック& !colorの場合はreturn
 

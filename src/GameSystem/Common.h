@@ -9,5 +9,7 @@ enum class ColorId {
     None = -1,
     Magenta = 0,
     Cyan = 1,
-    Yellow = 2
+    Purple = 2,
+
+    COUNT
 };

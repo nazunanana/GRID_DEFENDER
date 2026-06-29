@@ -1,17 +1,17 @@
 #include "App.h"
 #include "DxLib.h"
 #include "Config.h"
-#include "../Scene/SceneManager.h"
+//#include "../Scene/SceneManager.h"
 #include <memory>
-
 
 /*
 アプリ、DxLibの実行・終了制御
 */
 
-App::App() {
-    m_input = std::make_unique<Input>();
-    m_scene = std::make_unique<SceneManager>(m_input.get());
+App::App()
+{
+	m_input = std::make_unique<Input>();
+	m_scene = std::make_unique<SceneManager>(m_input.get());
 }
 
 // DxLib初期化
@@ -22,7 +22,7 @@ bool App::InitDxLib_()
 
 	if (DxLib_Init() == -1)
 		return false;
-	
+
 	SetDrawScreen(DX_SCREEN_BACK);
 	return true;
 }
@@ -50,21 +50,25 @@ void App::LimitFps_()
 
 int App::Run()
 {
-    if (!InitDxLib_()) return -1;
+	if (!InitDxLib_())
+		return -1;
 
-	m_scene->RequestChange(SceneType::Game);;
+	m_time.Reset();
+	m_scene->RequestChange(SceneType::Game);
 
-    while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0) {
-        ClearDrawScreen();
+	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
+	{
+		m_time.Update(); // タイマーカウント
 
-		m_scene->Update();
-        m_scene->Draw();
+		ClearDrawScreen();
 
-        ScreenFlip();
+		m_scene->Update(m_time.DeltaTime());
+		m_scene->Draw();
+
+		ScreenFlip();
 		LimitFps_();
-    }
+	}
 
-    ShutdownDxLib_();
-    return 0;
+	ShutdownDxLib_();
+	return 0;
 }
-

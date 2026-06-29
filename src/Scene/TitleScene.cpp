@@ -23,7 +23,7 @@ void TitleScene::Exit()
 }
 
 // タイトル画面の更新処理
-void TitleScene::Update()
+void TitleScene::Update(float dt)
 {
     // Decideでゲームシーンに移行
     if (m_input->Pressed(Action::Decide))

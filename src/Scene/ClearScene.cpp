@@ -23,7 +23,7 @@ void ClearScene::Exit()
 }
 
 // クリア画面の更新処理
-void ClearScene::Update()
+void ClearScene::Update(float dt)
 {
     // Decideでタイトルシーンに移行
     if (m_input->Pressed(Action::Decide))

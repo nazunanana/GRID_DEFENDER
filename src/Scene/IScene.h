@@ -20,7 +20,7 @@ public:
     // シーンから出たときの処理
     virtual void Exit() {}
     // シーンの更新
-    virtual void Update() = 0;
+    virtual void Update(float dt) = 0;
     // シーンの描画
     virtual void Draw() = 0;
 
