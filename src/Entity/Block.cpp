@@ -31,22 +31,27 @@ void Block::Draw(int screenX, int screenY)
     // TODO: ヒットしたときは一瞬光らせる
 }
 
-void Block::Hit(int color)
+void Block::Hit(ColorId color)
 {
     m_color = color;
 }
 
-unsigned int Block::ToDrawColor(int colorId)
+unsigned int Block::ToDrawColor(ColorId colorId)
 {
     switch (colorId)
     {
-    case 0:
-        return GetColor(255, 60, 200); // Magenta
-    case 1:
-        return GetColor(60, 255, 255); // Cyan
-    case 2:
-        return GetColor(255, 255, 60); // Yellow
+    case ColorId::Magenta:
+        return GetColor(255, 50, 150);
+    case ColorId::Cyan:
+        return GetColor(100, 255, 255);
+    case ColorId::Purple:
+        return GetColor(160, 80, 255);
     default:
         return GetColor(5, 0, 40); // 無色
     }
+}
+
+ColorId Block::GetBlockColor()
+{
+    return m_color;
 }

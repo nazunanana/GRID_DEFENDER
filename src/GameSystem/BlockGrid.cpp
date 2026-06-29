@@ -33,28 +33,14 @@ bool BlockGrid::HitBlock(Vec2 screenPos, int &outCol, int &outRow)
     outCol = col;
     outRow = row;
     return true;
-    // if (screenPos.x < ORIGIN_X || SCREEN_W - ORIGIN_X < screenPos.x || screenPos.y < ORIGIN_Y || SCREEN_H - ORIGIN_Y < screenPos.y)
-    //     return false;
-
-    // for (int i = 0; i < COL_MAX; i++)
-    // {
-    //     if (screenPos.y < ORIGIN_Y + BOX_SIZE * (i + 1))
-    //     {
-    //         for (int j = 0; j < ROW_MAX; j++)
-    //         {
-    //             if (screenPos.x < ORIGIN_X + BOX_SIZE * (j + 1))
-    //             {
-    //                 outCol = i;
-    //                 outRow = j;
-    //                 return true;
-    //             }
-    //         }
-    //     }
-    // }
-    // return false;
 }
 
-void BlockGrid::ChangeColor(int col, int row, int color)
+void BlockGrid::ChangeColor(int col, int row, ColorId color)
 {
     m_blocks[col][row].Hit(color);
+}
+
+std::optional<ColorId> BlockGrid::GetBlockColorAt(int col, int row)
+{
+    return m_blocks[col][row].GetBlockColor();
 }

@@ -40,7 +40,7 @@ void GameScene::Update(float dt)
     if (m_player.isShoot)
     {
         int col, row;
-        if(m_blockGrid.HitBlock(m_player.GetPos(), col, row))
+        if (m_blockGrid.HitBlock(m_player.GetPos(), col, row))
             ResolveHit(col, row);
     }
 }
@@ -55,7 +55,7 @@ void GameScene::Draw()
     m_player.Draw();
 
     // メインコア
-    DrawExtendGraph(ORIGIN_X, COL_MAX * BOX_SIZE + ORIGIN_Y, SCREEN_W-ORIGIN_X, SCREEN_H - ORIGIN_Y,
+    DrawExtendGraph(ORIGIN_X, COL_MAX * BOX_SIZE + ORIGIN_Y, SCREEN_W - ORIGIN_X, SCREEN_H - ORIGIN_Y,
                     coreTex, TRUE);
 
     // フレーム
@@ -66,12 +66,22 @@ void GameScene::Draw()
 void GameScene::ResolveHit(int col, int row, int rippleColor)
 {
     // ウィルスがいたら色を返す
-    std::optional<int> color = m_virusMgr.GetVirusColor(col, row);
+    std::optional<int> virusColor = m_virusMgr.GetVirusColor(col, row);
 
-    // 無色ブロック& !colorの場合はreturn
+    // !virusColorかつ無色ブロックの場合はreturn
+    if (!virusColor && (m_blockGrid.GetBlockColorAt(col, row) != ColorId::None))
+        return;
+    else if(virusColor) // ウィルスがいた場合は退治
+    {
+        m_virusMgr.KillVirus(col, row);
+        // 波紋による他色ウィルス退治の場合はここでreturn
+        if(virusColor != rippleColor && rippleColor != -1)
+            return;
+    }
 
-    // if(virusColor) // ウィルスがいた場合
-    // ウィルス退治
-    // 波紋による他色ウィルス退治の場合はここでreturn
-    m_blockGrid.ChangeColor(col, row, 0);
+    // ブロックの色変更
+    ColorId colorToSet = virusColor ? static_cast<ColorId>(*virusColor) : ColorId::None;
+    m_blockGrid.ChangeColor(col, row, colorToSet);
+
+    // 波紋生成
 }

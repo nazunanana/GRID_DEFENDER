@@ -1,12 +1,14 @@
 #pragma once
+#include "../GameSystem/Common.h"
 
 class Block
 {
 public:
     void Update();
     void Draw(int screenX, int screenY);
-    void Hit(int color);
+    void Hit(ColorId color);
+    ColorId GetBlockColor();
 private:
-    int m_color = -1;
-    unsigned int ToDrawColor(int colorId);
+    ColorId m_color = ColorId::None;
+    unsigned int ToDrawColor(ColorId colorId);
 };

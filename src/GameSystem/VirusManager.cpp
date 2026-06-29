@@ -59,6 +59,11 @@ void VirusManager::Draw()
 
 void VirusManager::KillVirus(int col, int row)
 {
+    for (auto &v : m_viruses)
+    {
+        if (v.IsAlive() && v.GetCol() == col && v.GetRow() == row)
+            return v.Despawn();
+    }
 }
 
 std::optional<int> VirusManager::GetVirusColor(int col, int row)
