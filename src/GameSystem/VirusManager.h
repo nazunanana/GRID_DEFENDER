@@ -13,7 +13,7 @@ public:
     void Update(float dt);
     void Draw();
     void KillVirus(int col, int row);
-    std::optional<int> GetVirusColor(int col, int row);
+    std::optional<ColorId> GetVirusColor(int col, int row);
 
 private:
     int m_graph[static_cast<int>(ColorId::COUNT)];

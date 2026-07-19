@@ -27,7 +27,7 @@ void VirusManager::Update(float dt)
         // スポーン
         m_spawnTimer -= m_spawnInterval;
         int row = GetRand(ROW_MAX - 1);                            // 出現位置
-        int color = GetRand(static_cast<int>(ColorId::COUNT) - 1); // 出現カラー
+        ColorId color = static_cast<ColorId>(GetRand(static_cast<int>(ColorId::COUNT) - 1)); // 出現カラー
         m_viruses.emplace_back(row, color);
     }
 
@@ -51,7 +51,7 @@ void VirusManager::Draw()
         {
             int x = ORIGIN_X + v.GetRow() * BOX_SIZE;
             int y = ORIGIN_Y + v.GetCol() * BOX_SIZE;
-            int graph = m_graph[v.GetColor()];
+            int graph = m_graph[static_cast<int>(v.GetColor())];
             DrawExtendGraph(x, y, x + BOX_SIZE, y + BOX_SIZE, graph, TRUE);
         }
     }
@@ -66,7 +66,7 @@ void VirusManager::KillVirus(int col, int row)
     }
 }
 
-std::optional<int> VirusManager::GetVirusColor(int col, int row)
+std::optional<ColorId> VirusManager::GetVirusColor(int col, int row)
 {
     for (auto &v : m_viruses)
     {

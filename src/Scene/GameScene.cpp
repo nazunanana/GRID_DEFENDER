@@ -43,6 +43,14 @@ void GameScene::Update(float dt)
         if (m_blockGrid.HitBlock(m_player.GetPos(), col, row))
             ResolveHit(col, row);
     }
+
+    // 波紋の処理
+    m_chainMgr.Update();
+    // 波紋による衝突処理が残っていたらResolveHitを呼ぶ
+    while (m_chainMgr.HasExpandedRipple()) {
+        ChainManager::ExpandedRipple r = m_chainMgr.PopExpandedRipple();
+        ResolveHit(r.col, r.row, r.color);
+    }
 }
 
 // ゲーム画面の描画処理
@@ -52,6 +60,7 @@ void GameScene::Draw()
 
     m_blockGrid.Draw();
     m_virusMgr.Draw();
+    m_chainMgr.Draw();
     m_player.Draw();
 
     // メインコア
@@ -63,25 +72,27 @@ void GameScene::Draw()
     //                 frameImg, TRUE);
 }
 
-void GameScene::ResolveHit(int col, int row, int rippleColor)
+// ブロックにヒットしたときの処理
+void GameScene::ResolveHit(int col, int row, std::optional<ColorId> rippleColor)
 {
     // ウィルスがいたら色を返す
-    std::optional<int> virusColor = m_virusMgr.GetVirusColor(col, row);
+    std::optional<ColorId> virusColor = m_virusMgr.GetVirusColor(col, row);
 
-    // !virusColorかつ無色ブロックの場合はreturn
-    if (!virusColor && (m_blockGrid.GetBlockColorAt(col, row) != ColorId::None))
+    // ウィルスがなく、かつ無色ブロックの場合はreturn
+    if ((rippleColor && !virusColor) || (!virusColor && (m_blockGrid.GetBlockColorAt(col, row) == ColorId::None)))
         return;
     else if(virusColor) // ウィルスがいた場合は退治
     {
         m_virusMgr.KillVirus(col, row);
         // 波紋による他色ウィルス退治の場合はここでreturn
-        if(virusColor != rippleColor && rippleColor != -1)
+        if(rippleColor && virusColor != rippleColor)
             return;
     }
 
     // ブロックの色変更
-    ColorId colorToSet = virusColor ? static_cast<ColorId>(*virusColor) : ColorId::None;
+    ColorId colorToSet = virusColor ? *virusColor : m_blockGrid.GetBlockColorAt(col, row).value();
     m_blockGrid.ChangeColor(col, row, colorToSet);
 
     // 波紋生成
+    m_chainMgr.GenerateRipple(col, row, colorToSet);
 }

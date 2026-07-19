@@ -18,7 +18,7 @@ public:
     bool isStart = false;
 
 private:
-    void ResolveHit(int col, int row, int color = -1);
+    void ResolveHit(int col, int row, std::optional<ColorId> rippleColor = std::nullopt);
     int coreTex = -1;
     int frameImg = -1;
     Input m_input;
