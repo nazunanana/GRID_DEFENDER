@@ -20,6 +20,7 @@ public:
 private:
     void ResolveHit(int col, int row, std::optional<ColorId> rippleColor = std::nullopt);
     int coreTex = -1;
+    int fieldTex = -1;
     int frameImg = -1;
     Input m_input;
     Player m_player;

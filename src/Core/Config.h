@@ -5,7 +5,7 @@
 */
 
 constexpr int SCREEN_W = 800;  // 横の解像度
-constexpr int SCREEN_H = 640;  // 縦の解像度
+constexpr int SCREEN_H = 680;  // 縦の解像度
 constexpr int TARGET_FPS = 60; // FPS
 constexpr int BOX_SIZE = 40; // ブロックの大きさ
 constexpr int ORIGIN_X = 0; // BOX_SIZE; // ブロックのX座標基準値

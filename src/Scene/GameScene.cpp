@@ -16,7 +16,8 @@ GameScene::GameScene(SceneManager *manager, Input *input)
 // ゲーム画面に入ったときの処理
 void GameScene::Enter()
 {
-    coreTex = LoadGraph("img/core_tex2.png");
+    coreTex = LoadGraph("img/core_tex.png");
+    fieldTex = LoadGraph("img/field_tex.png");
     // frameImg = LoadGraph("img/frame.png");
     // 仮
     isStart = true;
@@ -26,6 +27,7 @@ void GameScene::Enter()
 void GameScene::Exit()
 {
     DeleteGraph(coreTex);
+    DeleteGraph(fieldTex);
 }
 
 // ゲーム画面の更新処理
@@ -47,7 +49,8 @@ void GameScene::Update(float dt)
     // 波紋の処理
     m_chainMgr.Update();
     // 波紋による衝突処理が残っていたらResolveHitを呼ぶ
-    while (m_chainMgr.HasExpandedRipple()) {
+    while (m_chainMgr.HasExpandedRipple())
+    {
         ChainManager::ExpandedRipple r = m_chainMgr.PopExpandedRipple();
         ResolveHit(r.col, r.row, r.color);
     }
@@ -57,6 +60,10 @@ void GameScene::Update(float dt)
 void GameScene::Draw()
 {
     DrawBox(0, 0, SCREEN_W, SCREEN_H, GetColor(0, 0, 0), true);
+
+    // 背景
+    DrawExtendGraph(ORIGIN_X, ORIGIN_Y, SCREEN_W - ORIGIN_X, ORIGIN_Y + COL_MAX * BOX_SIZE,
+                    fieldTex, TRUE);
 
     m_blockGrid.Draw();
     m_virusMgr.Draw();
@@ -81,11 +88,11 @@ void GameScene::ResolveHit(int col, int row, std::optional<ColorId> rippleColor)
     // ウィルスがなく、かつ無色ブロックの場合はreturn
     if ((rippleColor && !virusColor) || (!virusColor && (m_blockGrid.GetBlockColorAt(col, row) == ColorId::None)))
         return;
-    else if(virusColor) // ウィルスがいた場合は退治
+    else if (virusColor) // ウィルスがいた場合は退治
     {
         m_virusMgr.KillVirus(col, row);
         // 波紋による他色ウィルス退治の場合はここでreturn
-        if(rippleColor && virusColor != rippleColor)
+        if (rippleColor && virusColor != rippleColor)
             return;
     }
 
