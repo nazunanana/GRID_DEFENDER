@@ -11,6 +11,7 @@ Virus::Virus(int row, ColorId color)
 
 void Virus::Update(float dt, float moveInterval)
 {
+    m_moveInterval = moveInterval;
     m_moveTimer += dt;
     if(m_moveTimer > moveInterval)
     {
@@ -44,4 +45,11 @@ int Virus::GetRow()
 ColorId Virus::GetColor()
 {
     return m_color;
+}
+
+int Virus::GetDrawY()
+{
+    float speed = static_cast<float>(BOX_SIZE) / m_moveInterval; // 1秒あたりの移動px数
+    float y = ORIGIN_Y + m_col * BOX_SIZE - BOX_SIZE / 2.0f + speed * m_moveTimer;
+    return static_cast<int>(y);
 }

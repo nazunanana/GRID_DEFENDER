@@ -22,6 +22,6 @@ private:
     ColorId m_color;
     bool m_isActive;
     unsigned int ToDrawColor(ColorId colorId);
-    static constexpr float SPEED = 1.5f;
+    static constexpr float SPEED = 2.0f;
     static constexpr float MAX_LEVEL = 2.5f;
 };

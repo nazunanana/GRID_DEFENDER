@@ -19,6 +19,6 @@ private:
     int m_graph[static_cast<int>(ColorId::COUNT)];
     std::vector<Virus> m_viruses;
     float m_spawnTimer = 0.0f;
-    float m_spawnInterval = 3.0f;
-    float m_moveInterval = 2.0f;
+    float m_spawnInterval = 2.0f;
+    float m_moveInterval = 1.0f;
 };

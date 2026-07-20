@@ -50,7 +50,7 @@ void VirusManager::Draw()
         if (v.IsAlive())
         {
             int x = ORIGIN_X + v.GetRow() * BOX_SIZE;
-            int y = ORIGIN_Y + v.GetCol() * BOX_SIZE;
+            int y = v.GetDrawY();
             int graph = m_graph[static_cast<int>(v.GetColor())];
             DrawExtendGraph(x, y, x + BOX_SIZE, y + BOX_SIZE, graph, TRUE);
         }

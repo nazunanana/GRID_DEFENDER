@@ -17,7 +17,7 @@ GameScene::GameScene(SceneManager *manager, Input *input)
 void GameScene::Enter()
 {
     coreTex = LoadGraph("img/core_tex.png");
-    fieldTex = LoadGraph("img/field_tex.png");
+    fieldTex = LoadGraph("img/field_tex2.png");
     // frameImg = LoadGraph("img/frame.png");
     // 仮
     isStart = true;
@@ -61,11 +61,12 @@ void GameScene::Draw()
 {
     DrawBox(0, 0, SCREEN_W, SCREEN_H, GetColor(0, 0, 0), true);
 
+    m_blockGrid.Draw();
+
     // 背景
     DrawExtendGraph(ORIGIN_X, ORIGIN_Y, SCREEN_W - ORIGIN_X, ORIGIN_Y + COL_MAX * BOX_SIZE,
                     fieldTex, TRUE);
 
-    m_blockGrid.Draw();
     m_virusMgr.Draw();
     m_chainMgr.Draw();
     m_player.Draw();

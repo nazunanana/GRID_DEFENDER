@@ -18,7 +18,7 @@ void ChainManager::Update()
             {
                 for (int dr = -offset; dr <= offset; dr++)
                 {
-                    if (std::abs(dc) < offset && std::abs(dr) < offset) continue;
+                    //if (std::abs(dc) < offset && std::abs(dr) < offset) continue;
                     int col = dc + r.GetCol();
                     int row = dr + r.GetRow();
                     if(col < 0 || COL_MAX <= col || row < 0 || ROW_MAX <= row) continue;
