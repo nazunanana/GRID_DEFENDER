@@ -14,6 +14,7 @@ public:
     void Draw();
     void KillVirus(int col, int row);
     std::optional<ColorId> GetVirusColor(int col, int row);
+    int PopLeakCount(); // 前回呼び出し以降にコア到達したウィルス数を取得しカウントをリセット
 
 private:
     int m_graph[static_cast<int>(ColorId::COUNT)];
@@ -21,4 +22,5 @@ private:
     float m_spawnTimer = 0.0f;
     float m_spawnInterval = 2.0f;
     float m_moveInterval = 1.0f;
+    int m_leakCount = 0;
 };

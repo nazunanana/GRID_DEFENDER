@@ -12,3 +12,7 @@ constexpr int ORIGIN_X = 0; // BOX_SIZE; // ブロックのX座標基準値
 constexpr int ORIGIN_Y = BOX_SIZE; // ブロックのY座標基準値
 constexpr int COL_MAX = 10; // ブロックの縦の最大個数
 constexpr int ROW_MAX = SCREEN_W / BOX_SIZE; // ブロックの横の最大個数
+
+/* UI */
+constexpr const char* FONT_NAME = "x12y16pxMaruMonica";
+constexpr int SCORE_FONT_SIZE = 24;

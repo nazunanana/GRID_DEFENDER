@@ -17,8 +17,11 @@ void Virus::Update(float dt, float moveInterval)
     {
         m_moveTimer -= moveInterval;
         m_col++;
-        if(m_col > COL_MAX)
+        if(m_col > COL_MAX) // 一番下まで到達
+        {
+            m_leaked = true;
             Despawn();
+        }
     }
 }
 
@@ -30,6 +33,11 @@ void Virus::Despawn()
 bool Virus::IsAlive()
 {
     return m_alive;
+}
+
+bool Virus::HasLeaked()
+{
+    return m_leaked;
 }
 
 int Virus::GetCol()

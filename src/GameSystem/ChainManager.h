@@ -8,8 +8,8 @@ class ChainManager
 public:
     void Update();
     void Draw();
-    void GenerateRipple(int col, int row, ColorId color);
-    struct ExpandedRipple { int col; int row; ColorId color; };
+    void GenerateRipple(int col, int row, ColorId color, int chainLevel);
+    struct ExpandedRipple { int col; int row; ColorId color; int chainLevel; };
     bool HasExpandedRipple();
     ExpandedRipple PopExpandedRipple();
 private:

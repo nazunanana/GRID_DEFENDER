@@ -26,14 +26,19 @@ void VirusManager::Update(float dt)
     {
         // スポーン
         m_spawnTimer -= m_spawnInterval;
-        int row = GetRand(ROW_MAX - 1);                            // 出現位置
+        int row = GetRand(ROW_MAX - 1);                                                      // 出現位置
         ColorId color = static_cast<ColorId>(GetRand(static_cast<int>(ColorId::COUNT) - 1)); // 出現カラー
         m_viruses.emplace_back(row, color);
     }
 
-    // ウィルスの状態を更新
     for (auto &v : m_viruses)
+    {
+        // ウィルスの状態を更新
         v.Update(dt, m_moveInterval);
+        // ウィルスのコア到達数を集計
+        if (!v.IsAlive() && v.HasLeaked())
+            m_leakCount++;
+    }
 
     // デスポーン
     m_viruses.erase( // 後ろにつめた死んでいるVirusを削除
@@ -74,4 +79,11 @@ std::optional<ColorId> VirusManager::GetVirusColor(int col, int row)
             return v.GetColor();
     }
     return std::nullopt;
+}
+
+int VirusManager::PopLeakCount()
+{
+    int count = m_leakCount;
+    m_leakCount = 0;
+    return count;
 }

@@ -22,7 +22,7 @@ void ChainManager::Update()
                     int col = dc + r.GetCol();
                     int row = dr + r.GetRow();
                     if(col < 0 || COL_MAX <= col || row < 0 || ROW_MAX <= row) continue;
-                    m_expandedRipples.push({ col, row, r.GetRippleColor() });
+                    m_expandedRipples.push({ col, row, r.GetRippleColor(), r.GetChainLevel() });
                 }
             }
         }
@@ -45,12 +45,12 @@ void ChainManager::Draw()
     }
 }
 
-void ChainManager::GenerateRipple(int col, int row, ColorId color)
+void ChainManager::GenerateRipple(int col, int row, ColorId color, int chainLevel)
 {
     int screenX = ORIGIN_X + row * BOX_SIZE + BOX_SIZE / 2;
     int screenY = ORIGIN_Y + col * BOX_SIZE + BOX_SIZE / 2;
     // コンストラクタを生成してm_ripplesに追加
-    m_ripples.emplace_back(col, row, screenX, screenY, color);
+    m_ripples.emplace_back(col, row, screenX, screenY, color, chainLevel);
 }
 
 bool ChainManager::HasExpandedRipple()

@@ -4,13 +4,14 @@
 class Ripple
 {
 public:
-    Ripple(int col, int row, int screenX, int screenY, ColorId color);
+    Ripple(int col, int row, int screenX, int screenY, ColorId color, int chainLevel);
     bool Update();
     void Draw();
     int GetExpandedLevel();
     int GetCol();
     int GetRow();
     ColorId GetRippleColor();
+    int GetChainLevel();
     bool IsActive();
 private:
     int m_col;
@@ -20,6 +21,7 @@ private:
     float m_size;
     int m_expandedLevel;
     ColorId m_color;
+    int m_chainLevel; // この波紋が何連鎖目かを表す
     bool m_isActive;
     unsigned int ToDrawColor(ColorId colorId);
     static constexpr float SPEED = 2.0f;

@@ -11,7 +11,8 @@ public:
     int GetRow();
     ColorId GetColor();
     bool IsAlive();
-    int GetDrawY(); // マス移動を滑らかに補間した描画用Y座標
+    bool HasLeaked();
+    int GetDrawY();
 private:
     int m_col = 0;
     int m_row;
@@ -19,4 +20,5 @@ private:
     float m_moveTimer = 0.0f;
     float m_moveInterval = 1.0f;
     bool  m_alive = true;
+    bool  m_leaked = false;
 };

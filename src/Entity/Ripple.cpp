@@ -6,8 +6,8 @@
 波紋
 */
 
-Ripple::Ripple(int col, int row, int screenX, int screenY, ColorId color)
-    : m_col(col), m_row(row), m_screenX(screenX), m_screenY(screenY), m_color(color)
+Ripple::Ripple(int col, int row, int screenX, int screenY, ColorId color, int chainLevel)
+    : m_col(col), m_row(row), m_screenX(screenX), m_screenY(screenY), m_color(color), m_chainLevel(chainLevel)
     {
         m_size = BOX_SIZE / 2.0f;
         m_expandedLevel = 1;
@@ -58,6 +58,11 @@ int Ripple::GetRow()
 ColorId Ripple::GetRippleColor()
 {
     return m_color;
+}
+
+int Ripple::GetChainLevel()
+{
+    return m_chainLevel;
 }
 
 bool Ripple::IsActive()
