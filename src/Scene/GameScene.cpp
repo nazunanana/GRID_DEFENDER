@@ -57,6 +57,20 @@ void GameScene::Update(float dt)
         ChainManager::ExpandedRipple r = m_chainMgr.PopExpandedRipple();
         ResolveHit(r.col, r.row, r.color, r.chainLevel);
     }
+
+    // 終了判定
+    m_elapsedTime += dt;
+    float remainingTime = TIME_LIMIT - m_elapsedTime;
+    if (remainingTime <= 0.0f)
+    {
+        m_sceneMgr->RequestChange(SceneType::Clear, m_scoreMgr.GetScore());
+        return;
+    }
+    if (hpNum <= 0)
+    {
+        m_sceneMgr->RequestChange(SceneType::GameOver, m_scoreMgr.GetScore(), remainingTime);
+        return;
+    }
 }
 
 // ゲーム画面の描画処理
@@ -85,9 +99,6 @@ void GameScene::Draw()
     DrawExtendGraph(ORIGIN_X, COL_MAX * BOX_SIZE + ORIGIN_Y, SCREEN_W - ORIGIN_X, SCREEN_H - ORIGIN_Y,
                     coreTex, TRUE);
 
-    // フレーム
-    // DrawExtendGraph(0, 0, SCREEN_W, SCREEN_H,
-    //                 frameImg, TRUE);
 }
 
 // ブロックにヒットしたときの処理

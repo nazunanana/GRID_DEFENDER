@@ -1,15 +1,57 @@
 #include "GameoverScene.h"
 #include "SceneManager.h"
 #include "../Input/input.h"
-
+#include "../Core/Config.h"
 #include "DxLib.h"
+#include <cstdio>
+#include <cstring>
 
 /*
 ゲームオーバーシーン
 */
 
-GameoverScene::GameoverScene(SceneManager* manager, Input* input)
-    : IScene(manager, input) {}
+GameoverScene::GameoverScene(SceneManager *manager, Input *input, int score, float remainingTime)
+    : IScene(manager, input), m_score(score), m_remainingTime(remainingTime)
+{
+    // ゲームオーバー
+    m_resultFontHandle = CreateFontToHandle(
+        FONT_NAME,                     // フォント名
+        RESULT_FONT_SIZE,              // フォントサイズ
+        -1,                            // 太さ（-1で規定値）
+        DX_FONTTYPE_ANTIALIASING_EDGE, // フォントタイプ（縁取り付きアンチエイリアス）
+        -1,                            // 文字セット（-1でデフォルト）
+        3                              // 縁のサイズ（EDGE系タイプ使用時）
+    );
+    m_resultTextWidth = GetDrawStringWidthToHandle("GAME CLEAR", -1, m_resultFontHandle);
+    // スコア・残り時間
+    m_resultScoreFontHandle = CreateFontToHandle(
+        FONT_NAME,                     // フォント名
+        RESULT_SCORE_FONT_SIZE,        // フォントサイズ
+        -1,                            // 太さ（-1で規定値）
+        DX_FONTTYPE_ANTIALIASING_EDGE, // フォントタイプ（縁取り付きアンチエイリアス）
+        -1,                            // 文字セット（-1でデフォルト）
+        3                              // 縁のサイズ（EDGE系タイプ使用時）
+    );
+    m_resultScoreTextWidth = GetDrawFormatStringWidthToHandle(m_resultScoreFontHandle, "SCORE : %d", m_score);
+    m_resultTimeTextWidth = GetDrawFormatStringWidthToHandle(m_resultScoreFontHandle, "TIME LEFT : %.1f", m_remainingTime);
+    // コマンド
+    m_commandFontHandle = CreateFontToHandle(
+        FONT_NAME,                     // フォント名
+        COMMAND_FONT_SIZE,             // フォントサイズ
+        -1,                            // 太さ（-1で規定値）
+        DX_FONTTYPE_ANTIALIASING_EDGE, // フォントタイプ（縁取り付きアンチエイリアス）
+        -1,                            // 文字セット（-1でデフォルト）
+        3                              // 縁のサイズ（EDGE系タイプ使用時）
+    );
+    m_commandTextWidth = GetDrawStringWidthToHandle("PRESS RETRY", -1, m_commandFontHandle);
+}
+
+GameoverScene::~GameoverScene()
+{
+    DeleteFontToHandle(m_resultFontHandle);
+    DeleteFontToHandle(m_resultScoreFontHandle);
+    DeleteFontToHandle(m_commandFontHandle);
+}
 
 // ゲームオーバー画面に入ったときの処理
 void GameoverScene::Enter()
@@ -19,7 +61,6 @@ void GameoverScene::Enter()
 // ゲームオーバー画面を出たときの処理
 void GameoverScene::Exit()
 {
-    
 }
 
 // ゲームオーバー画面の更新処理
@@ -28,7 +69,7 @@ void GameoverScene::Update(float dt)
     // Decideでタイトルシーンに移行
     if (m_input->Pressed(Action::Decide))
     {
-        m_sceneMgr->RequestChange(SceneType::Title);
+        m_sceneMgr->RequestChange(SceneType::Game);
         return;
     }
 }
@@ -36,7 +77,9 @@ void GameoverScene::Update(float dt)
 // ゲームオーバー画面の描画処理
 void GameoverScene::Draw()
 {
-    DrawBox(0, 0, 1280, 720, GetColor(10, 10, 20), true);
-    DrawString(200, 200, "GAME OVER", GetColor(255, 255, 255));
-    DrawString(200, 260, "PRESS START", GetColor(200, 200, 200));
+    DrawBox(0, 0, SCREEN_W, SCREEN_H, GetColor(5, 0, 40), true);
+    DrawStringToHandle((SCREEN_W - m_resultTextWidth) / 2, SCREEN_H / 5, "GAME OVER", GetColor(255, 255, 255), m_resultFontHandle);
+    DrawFormatStringToHandle((SCREEN_W - m_resultScoreTextWidth) / 2, SCREEN_H / 3, GetColor(255, 255, 255), m_resultScoreFontHandle, "SCORE : %d", m_score);
+    DrawFormatStringToHandle((SCREEN_W - m_resultTimeTextWidth) / 2, SCREEN_H / 3 + 40, GetColor(255, 255, 255),m_resultScoreFontHandle, "TIME LEFT : %.1f", m_remainingTime);
+    DrawStringToHandle((SCREEN_W - m_commandTextWidth) / 2, SCREEN_H * 3 / 4, "PRESS RETRY", GetColor(255, 255, 255), m_commandFontHandle);
 }

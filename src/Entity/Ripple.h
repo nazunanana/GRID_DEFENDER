@@ -24,6 +24,6 @@ private:
     int m_chainLevel; // この波紋が何連鎖目かを表す
     bool m_isActive;
     unsigned int ToDrawColor(ColorId colorId);
-    static constexpr float SPEED = 2.0f;
+    static constexpr float SPEED = 3.0f;
     static constexpr float MAX_LEVEL = 2.5f;
 };

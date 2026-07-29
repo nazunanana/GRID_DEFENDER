@@ -35,7 +35,7 @@ void SceneManager::Draw()
     }
 }
 
-void SceneManager::RequestChange(SceneType type)
+void SceneManager::RequestChange(SceneType type, int score, float remainingTime)
 {
     // 次のシーンを予約する
     switch (type)
@@ -47,10 +47,10 @@ void SceneManager::RequestChange(SceneType type)
         m_nextScene = std::make_unique<GameScene>(this, m_input);
         break;
     case SceneType::GameOver:
-        m_nextScene = std::make_unique<GameoverScene>(this, m_input);
+        m_nextScene = std::make_unique<GameoverScene>(this, m_input, score, remainingTime);
         break;
     case SceneType::Clear:
-        m_nextScene = std::make_unique<ClearScene>(this, m_input);
+        m_nextScene = std::make_unique<ClearScene>(this, m_input, score);
         break;
     }
 }

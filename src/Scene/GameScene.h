@@ -25,6 +25,7 @@ private:
     int frameImg = -1;
     int hpNum = 3;
     int hpUiOffset = 5;
+    float m_elapsedTime = 0.0f;
     Input m_input;
     Player m_player;
     BlockGrid m_blockGrid;

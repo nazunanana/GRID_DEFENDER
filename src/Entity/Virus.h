@@ -18,7 +18,7 @@ private:
     int m_row;
     ColorId m_color;
     float m_moveTimer = 0.0f;
-    float m_moveInterval = 1.0f;
+    float m_moveInterval;
     bool  m_alive = true;
     bool  m_leaked = false;
 };
