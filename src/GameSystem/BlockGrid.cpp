@@ -7,6 +7,9 @@
 
 void BlockGrid::Update()
 {
+    for (int i = 0; i < COL_MAX; i++)
+        for (int j = 0; j < ROW_MAX; j++)
+            m_blocks[i][j].Update();
 }
 
 void BlockGrid::Draw()

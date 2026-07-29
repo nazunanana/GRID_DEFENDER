@@ -10,5 +10,6 @@ public:
     ColorId GetBlockColor();
 private:
     ColorId m_color = ColorId::None;
+    int m_brightness = 0;
     unsigned int ToDrawColor(ColorId colorId);
 };

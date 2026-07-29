@@ -38,6 +38,7 @@ void GameScene::Update(float dt)
     // 各クラスのUpdateを呼び出す
     m_input.Update();
     m_player.Update(m_input.Pressed(Action::Shoot), m_input.GetMousePosition());
+    m_blockGrid.Update();
     m_virusMgr.Update(dt);
     hpNum -= m_virusMgr.PopLeakCount(); // コアに到達されたらHPを減らす
 
