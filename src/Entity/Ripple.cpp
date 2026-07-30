@@ -6,11 +6,10 @@
 波紋
 */
 
-Ripple::Ripple(int col, int row, int screenX, int screenY, ColorId color, int chainLevel)
-    : m_col(col), m_row(row), m_screenX(screenX), m_screenY(screenY), m_color(color), m_chainLevel(chainLevel)
+Ripple::Ripple(int screenX, int screenY, ColorId color, int chainLevel)
+    : m_screenX(screenX), m_screenY(screenY), m_color(color), m_chainLevel(chainLevel)
     {
         m_size = BOX_SIZE / 2.0f;
-        m_expandedLevel = 1;
         m_isActive = true;
     }
 
@@ -18,19 +17,12 @@ bool Ripple::Update()
 {
     if (!m_isActive) return false;
     m_size += SPEED;
-    float level = m_size / static_cast<float>(BOX_SIZE);
 
     // 最大サイズになったら消滅フラグ
-    if (level >= MAX_LEVEL)
+    if (m_size / static_cast<float>(BOX_SIZE) >= MAX_LEVEL)
         m_isActive = false;
 
-    // 波紋の大きさレベルを更新
-    if(level > m_expandedLevel)
-    {
-        m_expandedLevel++;
-        return true;
-    }
-    return false;
+    return true;
 }
 
 void Ripple::Draw()
@@ -40,19 +32,19 @@ void Ripple::Draw()
     DrawBoxAA(m_screenX - m_size, m_screenY - m_size, m_screenX + m_size, m_screenY + m_size, ToDrawColor(m_color), FALSE, 2.0f);
 }
 
-int Ripple::GetExpandedLevel()
+int Ripple::GetScreenX()
 {
-    return m_expandedLevel;
+    return m_screenX;
 }
 
-int Ripple::GetCol()
+int Ripple::GetScreenY()
 {
-    return m_col;
+    return m_screenY;
 }
 
-int Ripple::GetRow()
+float Ripple::GetSize()
 {
-    return m_row;
+    return m_size;
 }
 
 ColorId Ripple::GetRippleColor()

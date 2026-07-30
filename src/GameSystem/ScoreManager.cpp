@@ -30,9 +30,14 @@ int ScoreManager::GetScore()
     return m_score;
 }
 
-void ScoreManager::Draw()
+void ScoreManager::Draw(float time)
 {
     // スコア表示
-    DrawFormatStringToHandle(ORIGIN_X, (BOX_SIZE - SCORE_FONT_SIZE) / 2, GetColor(255, 255, 255), m_fontHandle,
+    DrawFormatStringToHandle(ORIGIN_X+20, (ORIGIN_Y - SCORE_FONT_SIZE) / 2, GetColor(255, 255, 255), m_fontHandle,
                              "SCORE: %d", m_score);
+    // 残り時間表示
+    int remainingTime = static_cast<int>(TIME_LIMIT - time);
+    if (remainingTime < 0) remainingTime = 0;
+    DrawFormatStringToHandle(SCREEN_W - ORIGIN_X - 150, (ORIGIN_Y - SCORE_FONT_SIZE) / 2, GetColor(255, 255, 255), m_fontHandle,
+                             "TIME: %d", remainingTime);
 }

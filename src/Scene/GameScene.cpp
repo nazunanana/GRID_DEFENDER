@@ -17,7 +17,7 @@ GameScene::GameScene(SceneManager *manager, Input *input)
 void GameScene::Enter()
 {
     coreTex = LoadGraph("img/core_tex.png");
-    fieldTex = LoadGraph("img/field_tex2.png");
+    fieldTex = LoadGraph("img/field_tex3.png");
     hpTex = LoadGraph("img/hp_tex.png");
     // frameImg = LoadGraph("img/frame.png");
     // 仮
@@ -36,27 +36,25 @@ void GameScene::Exit()
 void GameScene::Update(float dt)
 {
     // 各クラスのUpdateを呼び出す
-    m_input.Update();
-    m_player.Update(m_input.Pressed(Action::Shoot), m_input.GetMousePosition());
+    m_player.Update(m_input->Pressed(Action::Shoot), m_input->GetMousePosition());
     m_blockGrid.Update();
     m_virusMgr.Update(dt);
     hpNum -= m_virusMgr.PopLeakCount(); // コアに到達されたらHPを減らす
 
     // 発射検知＆ブロック上であればヒット処理
     if (m_player.isShoot)
-    {
-        int col, row;
-        if (m_blockGrid.HitBlock(m_player.GetPos(), col, row))
-            ResolveHit(col, row);
-    }
+        ResolveTapHit(m_player.GetPos().x, m_player.GetPos().y);
 
-    // 波紋の処理
+    // 波紋の処理（成長・消滅のみ）
     m_chainMgr.Update();
-    // 波紋による衝突処理が残っていたらResolveHitを呼ぶ
-    while (m_chainMgr.HasExpandedRipple())
+    for (auto &r : m_chainMgr.GetRipples())
     {
-        ChainManager::ExpandedRipple r = m_chainMgr.PopExpandedRipple();
-        ResolveHit(r.col, r.row, r.color, r.chainLevel);
+        if (!r.IsActive()) continue;
+
+        int col, row;
+        std::optional<ColorId> virusColor = m_virusMgr.CollisionRipple(r.GetScreenX(), r.GetScreenY(), r.GetSize(), col, row);
+        if (virusColor)
+            ResolveRippleHit(col, row, *virusColor, r.GetRippleColor(), r.GetChainLevel());
     }
 
     // 終了判定
@@ -82,10 +80,10 @@ void GameScene::Draw()
     // HP表示
     for (int i = 1; i <= hpNum; i++)
     {
-        DrawExtendGraph(SCREEN_W - ORIGIN_X - BOX_SIZE * i + hpUiOffset, hpUiOffset, SCREEN_W - ORIGIN_X - BOX_SIZE * (i - 1) - hpUiOffset, ORIGIN_Y - hpUiOffset,
+        DrawExtendGraph(SCREEN_W - ORIGIN_X - ORIGIN_Y * i + hpUiOffset, hpUiOffset + SCREEN_H - ORIGIN_Y, SCREEN_W - ORIGIN_X - ORIGIN_Y * (i - 1) - hpUiOffset, SCREEN_H - hpUiOffset,
                         hpTex, TRUE);
     }
-    m_scoreMgr.Draw();
+    m_scoreMgr.Draw(m_elapsedTime);
     m_blockGrid.Draw();
 
     // 背景
@@ -99,38 +97,43 @@ void GameScene::Draw()
     // メインコア
     DrawExtendGraph(ORIGIN_X, COL_MAX * BOX_SIZE + ORIGIN_Y, SCREEN_W - ORIGIN_X, SCREEN_H - ORIGIN_Y,
                     coreTex, TRUE);
-
 }
 
-// ブロックにヒットしたときの処理
-void GameScene::ResolveHit(int col, int row, std::optional<ColorId> rippleColor, int chainLevel)
+// 直接タップでのヒット処理
+void GameScene::ResolveTapHit(int x, int y)
 {
-    // ウィルスがいたら色を返す
-    std::optional<ColorId> virusColor = m_virusMgr.GetVirusColor(col, row);
+    // ウィルスがいたら色を返し、退治
+    std::optional<ColorId> virusColor = m_virusMgr.GetVirusColorAtPoint(y, x);
 
-    // ウィルスがなく、かつ無色ブロックの場合はreturn
-    if ((rippleColor && !virusColor) || (!virusColor && (m_blockGrid.GetBlockColorAt(col, row) == ColorId::None)))
-        return;
-    else if (virusColor) // ウィルスがいた場合は退治
+    int blockCol, blockRow;
+    m_blockGrid.ScreenToIndex(x, y, blockCol, blockRow); // スクリーン座標からブロック座標に変換
+    // ウィルスが存在しない&無色ブロックであればreturn
+    if(!virusColor && m_blockGrid.GetBlockColorAt(blockCol, blockRow) == ColorId::None) return;
+    // ウィルスが存在したらスコア+1000
+    if(virusColor) m_scoreMgr.IncreaseScore(1000);
+
+    // ブロックの色変更
+    ColorId colorToSet = virusColor ? *virusColor : m_blockGrid.GetBlockColorAt(blockCol, blockRow).value();
+    m_blockGrid.ChangeColor(blockCol, blockRow, colorToSet);
+
+    // 波紋生成
+    m_chainMgr.GenerateRipple(blockCol, blockRow, colorToSet, 1);
+}
+
+// 波紋でのヒット処理
+void GameScene::ResolveRippleHit(int col, int row, ColorId virusColor, ColorId rippleColor, int chainLevel)
+{
+    if (virusColor == rippleColor)
+        m_scoreMgr.IncreaseScore(3000 * chainLevel); // 同色の波紋で退治（連鎖継続）
+    else
     {
-        m_virusMgr.KillVirus(col, row);
-
-        if (!rippleColor)
-            m_scoreMgr.IncreaseScore(1000); // 直接タップで退治
-        else if (virusColor == rippleColor)
-            m_scoreMgr.IncreaseScore(2000 * chainLevel); // 同色の波紋で退治（連鎖継続）
-        else
-        {
-            m_scoreMgr.IncreaseScore(1000 * chainLevel); // 別色の波紋で退治（ここで連鎖は途切れる）
-            return;
-        }
+        m_scoreMgr.IncreaseScore(1000 * chainLevel); // 別色の波紋で退治（ここで連鎖は途切れる）
+        return;
     }
 
     // ブロックの色変更
-    ColorId colorToSet = virusColor ? *virusColor : m_blockGrid.GetBlockColorAt(col, row).value();
-    m_blockGrid.ChangeColor(col, row, colorToSet);
+    m_blockGrid.ChangeColor(col, row, virusColor);
 
-    // 波紋生成（直接タップ由来なら1連鎖目、既存の波紋由来ならその次の連鎖として生成）
-    int nextChainLevel = rippleColor ? chainLevel + 1 : 1;
-    m_chainMgr.GenerateRipple(col, row, colorToSet, nextChainLevel);
+    // 波紋生成
+    m_chainMgr.GenerateRipple(col, row, virusColor, chainLevel + 1);
 }

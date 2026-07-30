@@ -30,17 +30,6 @@ void Block::Draw(int screenX, int screenY)
         // 発光やめる
         SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
     }
-
-    // ブロック枠線
-    // DrawBox(screenX, screenY, screenX + BOX_SIZE, screenY + BOX_SIZE,
-    //         GetColor(70, 70, 120), FALSE);
-    // ブロック枠線を足す
-    // if(screenX == ORIGIN_X)
-    //     DrawBox(0, screenY, BOX_SIZE, screenY + BOX_SIZE,
-    //         GetColor(200, 200, 200), FALSE);
-    // else if(screenX == ORIGIN_X + BOX_SIZE * (ROW_MAX - 1))
-    //     DrawBox(screenX + BOX_SIZE, screenY, screenX + BOX_SIZE * 2, screenY + BOX_SIZE,
-    //         GetColor(200, 200, 200), FALSE);
 }
 
 void Block::Hit(ColorId color)

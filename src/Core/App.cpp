@@ -62,6 +62,7 @@ int App::Run()
 
 		ClearDrawScreen();
 
+		m_input->Update();
 		m_scene->Update(m_time.DeltaTime());
 		m_scene->Draw();
 

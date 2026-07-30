@@ -12,9 +12,9 @@ public:
 
     void Update(float dt);
     void Draw();
-    void KillVirus(int col, int row);
-    std::optional<ColorId> GetVirusColor(int col, int row);
-    int PopLeakCount(); // 前回呼び出し以降にコア到達したウィルス数を取得しカウントをリセット
+    std::optional<ColorId> GetVirusColorAtPoint(int col, int row);
+    std::optional<ColorId> CollisionRipple(int screenX, int screenY, float size, int &outCol, int &outRow);
+    int PopLeakCount();
 
 private:
     int m_graph[static_cast<int>(ColorId::COUNT)];

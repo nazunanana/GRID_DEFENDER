@@ -26,7 +26,7 @@ void VirusManager::Update(float dt)
     {
         // スポーン
         m_spawnTimer -= m_spawnInterval;
-        int row = GetRand(ROW_MAX - 1);                                                      // 出現位置
+        int row = GetRand(ROW_MAX - 1); // 出現位置
         ColorId color = static_cast<ColorId>(GetRand(static_cast<int>(ColorId::COUNT) - 1)); // 出現カラー
         m_viruses.emplace_back(row, color);
     }
@@ -62,25 +62,57 @@ void VirusManager::Draw()
     }
 }
 
-void VirusManager::KillVirus(int col, int row)
+// タップした位置にウィルスがあるかどうか
+// あれば消滅させ、色を返す
+std::optional<ColorId> VirusManager::GetVirusColorAtPoint(int col, int row)
 {
     for (auto &v : m_viruses)
     {
-        if (v.IsAlive() && v.GetCol() == col && v.GetRow() == row)
-            return v.Despawn();
-    }
-}
-
-std::optional<ColorId> VirusManager::GetVirusColor(int col, int row)
-{
-    for (auto &v : m_viruses)
-    {
-        if (v.IsAlive() && v.GetCol() == col && v.GetRow() == row)
-            return v.GetColor();
+        int drawX = ORIGIN_X + v.GetRow() * BOX_SIZE;
+        if (v.IsAlive() && drawX < row && row < drawX + BOX_SIZE && v.GetDrawY() < col && col < v.GetDrawY() + BOX_SIZE)
+        {
+            std::optional<ColorId> color = v.GetColor();
+            v.Despawn();
+            return color;
+        }
     }
     return std::nullopt;
 }
 
+// 波紋がウィルスに衝突したかどうか
+// 衝突した場合消滅させ、色を返す
+std::optional<ColorId> VirusManager::CollisionRipple(int screenX, int screenY, float size, int &outCol, int &outRow)
+{
+    // 波紋が届いている正方形の範囲
+    float squareX0 = screenX - size;
+    float squareY0 = screenY - size;
+    float squareX1 = screenX + size;
+    float squareY1 = screenY + size;
+
+    for (auto &v : m_viruses)
+    {
+        if (!v.IsAlive()) continue;
+
+        // Virusの衝突範囲
+        int virusX0 = ORIGIN_X + v.GetRow() * BOX_SIZE;
+        int virusY0 = v.GetDrawY();
+        int virusX1 = virusX0 + BOX_SIZE;
+        int virusY1 = virusY0 + BOX_SIZE;
+
+        bool overlap = virusX0 < squareX1 && squareX0 < virusX1 && virusY0 < squareY1 && squareY0 < virusY1;
+        if (overlap)
+        {
+            std::optional<ColorId> color = v.GetColor();
+            outCol = v.GetCol();
+            outRow = v.GetRow();
+            v.Despawn();
+            return color;
+        }
+    }
+    return std::nullopt;
+}
+
+// コア到達したウィルス数を取得
 int VirusManager::PopLeakCount()
 {
     int count = m_leakCount;
