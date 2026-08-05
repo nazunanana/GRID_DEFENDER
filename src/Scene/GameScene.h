@@ -6,6 +6,7 @@
 #include "../GameSystem/VirusManager.h"
 #include "../GameSystem/ChainManager.h"
 #include "../GameSystem/ScoreManager.h"
+#include "../Audio/AudioManager.h"
 
 class GameScene : public IScene
 {

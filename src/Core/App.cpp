@@ -1,7 +1,7 @@
 #include "App.h"
 #include "DxLib.h"
 #include "Config.h"
-//#include "../Scene/SceneManager.h"
+// #include "../Scene/SceneManager.h"
 #include <memory>
 
 /*
@@ -55,6 +55,13 @@ int App::Run()
 
 	m_time.Reset();
 	m_scene->RequestChange(SceneType::Title);
+
+	// BGMとSEの読み込み
+	AudioManager::Instance().LoadBgm("gameBgm", "audio/ZONE_-X13-.mp3");
+	AudioManager::Instance().LoadSe("shootSe", "audio/beam-gun03.mp3");
+	AudioManager::Instance().LoadSe("hitSe", "audio/beam-gun01.mp3");
+	AudioManager::Instance().LoadSe("chainSe", "audio/Cyber21-1.mp3");
+	AudioManager::Instance().LoadSe("chainSe2", "audio/Cyber21-2.mp3");
 
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{

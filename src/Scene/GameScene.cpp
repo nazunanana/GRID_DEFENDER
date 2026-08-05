@@ -22,11 +22,14 @@ void GameScene::Enter()
     // frameImg = LoadGraph("img/frame.png");
     // 仮
     isStart = true;
+
+    AudioManager::Instance().PlayBgm("gameBgm");
 }
 
 // ゲーム画面を出たときの処理
 void GameScene::Exit()
 {
+    AudioManager::Instance().StopBgm();
     DeleteGraph(coreTex);
     DeleteGraph(fieldTex);
     DeleteGraph(hpTex);
@@ -105,6 +108,12 @@ void GameScene::ResolveTapHit(int x, int y)
     // ウィルスがいたら色を返し、退治
     std::optional<ColorId> virusColor = m_virusMgr.GetVirusColorAtPoint(y, x);
 
+    // SEを鳴らす
+    if(!virusColor)
+        AudioManager::Instance().PlaySe("shootSe");
+    else
+        AudioManager::Instance().PlaySe("hitSe");
+
     int blockCol, blockRow;
     m_blockGrid.ScreenToIndex(x, y, blockCol, blockRow); // スクリーン座標からブロック座標に変換
     // ウィルスが存在しない&無色ブロックであればreturn
@@ -128,8 +137,15 @@ void GameScene::ResolveRippleHit(int col, int row, ColorId virusColor, ColorId r
     else
     {
         m_scoreMgr.IncreaseScore(1000 * chainLevel); // 別色の波紋で退治（ここで連鎖は途切れる）
+        AudioManager::Instance().PlaySe("hitSe");
         return;
     }
+
+    // SEを鳴らす
+    if(chainLevel == 1)
+        AudioManager::Instance().PlaySe("chainSe");
+    else
+        AudioManager::Instance().PlaySe("chainSe2");
 
     // ブロックの色変更
     m_blockGrid.ChangeColor(col, row, virusColor);
