@@ -22,7 +22,7 @@ ClearScene::ClearScene(SceneManager *manager, Input *input, int score)
         -1,                            // 文字セット（-1でデフォルト）
         3                              // 縁のサイズ（EDGE系タイプ使用時）
     );
-    m_resultTextWidth = GetDrawStringWidthToHandle("GAME CLEAR", -1, m_resultFontHandle);
+    m_resultTextWidth = GetDrawStringWidthToHandle(GAMECLEAR_TEXT, -1, m_resultFontHandle);
     // スコア
     m_resultScoreFontHandle = CreateFontToHandle(
         FONT_NAME,                     // フォント名
@@ -42,7 +42,7 @@ ClearScene::ClearScene(SceneManager *manager, Input *input, int score)
         -1,                            // 文字セット（-1でデフォルト）
         3                              // 縁のサイズ（EDGE系タイプ使用時）
     );
-    m_commandTextWidth = GetDrawStringWidthToHandle("PRESS RETRY", -1, m_commandFontHandle);
+    m_commandTextWidth = GetDrawStringWidthToHandle(COMMAND_TEXT, -1, m_commandFontHandle);
 }
 
 ClearScene::~ClearScene()
@@ -77,7 +77,7 @@ void ClearScene::Update(float dt)
 void ClearScene::Draw()
 {
     DrawBox(0, 0, SCREEN_W, SCREEN_H, GetColor(5, 0, 40), true);
-    DrawStringToHandle((SCREEN_W - m_resultTextWidth) / 2, SCREEN_H / 5, "GAME CLEAR", GetColor(255, 255, 255), m_resultFontHandle);
+    DrawStringToHandle((SCREEN_W - m_resultTextWidth) / 2, SCREEN_H / 5, GAMECLEAR_TEXT, GetColor(255, 255, 255), m_resultFontHandle);
     DrawFormatStringToHandle((SCREEN_W - m_resultScoreTextWidth) / 2, SCREEN_H / 3, GetColor(255, 255, 255), m_resultScoreFontHandle, "SCORE : %d", m_score);
-    DrawStringToHandle((SCREEN_W - m_commandTextWidth) / 2, SCREEN_H * 3 / 4, "PRESS RETRY", GetColor(255, 255, 255), m_commandFontHandle);
+    DrawStringToHandle((SCREEN_W - m_commandTextWidth) / 2, SCREEN_H * 3 / 4, COMMAND_TEXT, GetColor(255, 255, 255), m_commandFontHandle);
 }

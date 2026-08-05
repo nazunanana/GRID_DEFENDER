@@ -22,4 +22,6 @@ private:
     int m_resultScoreTextWidth;
     int m_resultTimeTextWidth;
     int m_commandTextWidth;
+    static constexpr const char* GAMEOVER_TEXT = "GAME OVER";
+    static constexpr const char* COMMAND_TEXT = "PRESS RETRY";
 };

@@ -54,7 +54,7 @@ int App::Run()
 		return -1;
 
 	m_time.Reset();
-	m_scene->RequestChange(SceneType::Game);
+	m_scene->RequestChange(SceneType::Title);
 
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{
