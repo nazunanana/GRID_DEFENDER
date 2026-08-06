@@ -42,11 +42,13 @@ TitleScene::~TitleScene()
 // タイトル画面に入ったときの処理
 void TitleScene::Enter()
 {
+    AudioManager::Instance().PlayBgm("menuBgm");
 }
 
 // タイトル画面を出たときの処理
 void TitleScene::Exit()
 {
+    AudioManager::Instance().StopBgm();
 }
 
 // タイトル画面の更新処理

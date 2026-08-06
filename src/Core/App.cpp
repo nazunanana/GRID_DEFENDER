@@ -57,6 +57,7 @@ int App::Run()
 	m_scene->RequestChange(SceneType::Title);
 
 	// BGMとSEの読み込み
+	AudioManager::Instance().LoadBgm("menuBgm", "audio/Introduction.mp3");
 	AudioManager::Instance().LoadBgm("gameBgm", "audio/ZONE_-X13-.mp3");
 	AudioManager::Instance().LoadSe("shootSe", "audio/beam-gun03.mp3");
 	AudioManager::Instance().LoadSe("hitSe", "audio/beam-gun01.mp3");

@@ -1,5 +1,6 @@
 #pragma once
 #include "IScene.h"
+#include "../Audio/AudioManager.h"
 
 class ClearScene : public IScene
 {

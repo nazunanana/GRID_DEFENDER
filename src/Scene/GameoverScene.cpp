@@ -56,6 +56,7 @@ GameoverScene::~GameoverScene()
 // ゲームオーバー画面に入ったときの処理
 void GameoverScene::Enter()
 {
+    AudioManager::Instance().PlayBgm("menuBgm");
 }
 
 // ゲームオーバー画面を出たときの処理
@@ -69,6 +70,7 @@ void GameoverScene::Update(float dt)
     // Decideでタイトルシーンに移行
     if (m_input->Pressed(Action::Decide))
     {
+        AudioManager::Instance().StopBgm();
         m_sceneMgr->RequestChange(SceneType::Game);
         return;
     }
