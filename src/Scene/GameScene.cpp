@@ -43,7 +43,15 @@ void GameScene::Update(float dt)
     m_blockGrid.Update();
     m_virusMgr.Update(dt, m_scoreMgr.GetLevel());
     m_scoreMgr.Update(dt);
-    hpNum -= m_virusMgr.PopLeakCount(); // コアに到達されたらHPを減らす
+
+    if (m_damageTimer > 0.0f) m_damageTimer -= dt;
+    int damage = m_virusMgr.PopLeakCount(); // コアに到達したウィルス数
+    if(damage != 0) // ダメージを受ける
+    {
+        hpNum -= damage;
+        m_damageTimer = DAMAGE_TIME;
+        AudioManager::Instance().PlaySe("damageSe");
+    }
 
     // 発射検知＆ブロック上であればヒット処理
     if (m_player.isShoot)
@@ -102,6 +110,14 @@ void GameScene::Draw()
     // メインコア
     DrawExtendGraph(ORIGIN_X, COL_MAX * BOX_SIZE + ORIGIN_Y, SCREEN_W - ORIGIN_X, SCREEN_H - ORIGIN_Y,
                     coreTex, TRUE);
+    if (m_damageTimer > 0.0f)
+    {
+        SetDrawBlendMode(DX_BLENDMODE_MULA, 255);
+        DrawBox(ORIGIN_X, COL_MAX * BOX_SIZE + ORIGIN_Y, SCREEN_W - ORIGIN_X, SCREEN_H - ORIGIN_Y,
+                    GetColor(255, 100, 100), TRUE);
+        // 乗算やめる
+        SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+    }
 }
 
 // 直接タップでのヒット処理

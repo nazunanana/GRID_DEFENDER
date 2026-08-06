@@ -21,6 +21,7 @@ public:
 private:
     void ResolveTapHit(int x, int y); // 直接タップでのヒット処理
     void ResolveRippleHit(int col, int row, ColorId virusColor, ColorId rippleColor, int chainLevel); // 波紋がVirusを見つけた時のヒット処理
+    const float DAMAGE_TIME = 0.1f;
     int coreTex = -1;
     int fieldTex = -1;
     int hpTex = -1;
@@ -28,6 +29,7 @@ private:
     int hpNum = 3;
     int hpUiOffset = 5;
     float m_elapsedTime = 0.0f;
+    float m_damageTimer = 0.0f;
     Player m_player;
     BlockGrid m_blockGrid;
     VirusManager m_virusMgr;
