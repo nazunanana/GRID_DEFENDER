@@ -14,7 +14,7 @@ TitleScene::TitleScene(SceneManager *manager, Input *input)
     // タイトル
     m_titleFontHandle = CreateFontToHandle(
         FONT_NAME,                     // フォント名
-        RESULT_FONT_SIZE,              // フォントサイズ
+        TITLE_FONT_SIZE,              // フォントサイズ
         -1,                            // 太さ（-1で規定値）
         DX_FONTTYPE_ANTIALIASING_EDGE, // フォントタイプ（縁取り付きアンチエイリアス）
         -1,                            // 文字セット（-1でデフォルト）

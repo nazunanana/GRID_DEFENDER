@@ -19,14 +19,15 @@ VirusManager::~VirusManager()
     }
 }
 
-void VirusManager::Update(float dt)
+void VirusManager::Update(float dt, int level)
 {
+    LevelUp(level);
     m_spawnTimer += dt;
     if (m_spawnTimer > m_spawnInterval)
     {
         // スポーン
         m_spawnTimer -= m_spawnInterval;
-        int row = GetRand(ROW_MAX - 1); // 出現位置
+        int row = GetRand(ROW_MAX - 1);                                                      // 出現位置
         ColorId color = static_cast<ColorId>(GetRand(static_cast<int>(ColorId::COUNT) - 1)); // 出現カラー
         m_viruses.emplace_back(row, color);
     }
@@ -91,7 +92,8 @@ std::optional<ColorId> VirusManager::CollisionRipple(int screenX, int screenY, f
 
     for (auto &v : m_viruses)
     {
-        if (!v.IsAlive()) continue;
+        if (!v.IsAlive())
+            continue;
 
         // Virusの衝突範囲
         int virusX0 = ORIGIN_X + v.GetRow() * BOX_SIZE;
@@ -118,4 +120,29 @@ int VirusManager::PopLeakCount()
     int count = m_leakCount;
     m_leakCount = 0;
     return count;
+}
+
+// レベルアップ時のパラメータ変化
+void VirusManager::LevelUp(int level)
+{
+    // パラメータを変える
+    switch(level)
+    {
+    case 1:
+        m_spawnInterval = 1.0f;
+        m_moveInterval = 0.5f;
+        break;
+    case 2:
+        m_spawnInterval = 0.8f;
+        m_moveInterval = 0.4f;
+        break;
+    case 3:
+        m_spawnInterval = 0.6f;
+        m_moveInterval = 0.3f;
+        break;
+    default:
+        m_spawnInterval = 0.5f;
+        m_moveInterval = 0.25f;
+        break;
+    }
 }
