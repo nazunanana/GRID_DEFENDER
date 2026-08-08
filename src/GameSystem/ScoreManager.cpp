@@ -35,7 +35,11 @@ void ScoreManager::IncreaseScore(int amount)
 {
     m_score += amount;
     if(IsIncreaseLevel())
+    {
+        AudioManager::Instance().PlaySe("levelUp");
         m_levelUpTimer = DISPLAY_LEVELUP_TIME;
+        m_scoreLevel++;
+    }
 }
 
 int ScoreManager::GetScore()
@@ -48,12 +52,11 @@ int ScoreManager::GetLevel()
     return m_level;
 }
 
-bool ScoreManager::IsIncreaseLevel()
+bool ScoreManager::IsIncreaseLevel(bool isClimax)
 {
-    if(m_score > m_level * SCORE_PER_LEVEL && m_level < 4)
+    if((m_score > m_scoreLevel * SCORE_PER_LEVEL || isClimax) && m_level < 4)
     {
         m_level++;
-        AudioManager::Instance().PlaySe("levelUp");
         return true;
     }
     return false;

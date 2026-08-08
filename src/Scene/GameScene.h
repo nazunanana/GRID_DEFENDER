@@ -30,6 +30,7 @@ private:
     int hpUiOffset = 5;
     float m_elapsedTime = 0.0f;
     float m_damageTimer = 0.0f;
+    bool m_isClimax = false;
     Player m_player;
     BlockGrid m_blockGrid;
     VirusManager m_virusMgr;

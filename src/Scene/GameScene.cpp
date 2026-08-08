@@ -73,7 +73,12 @@ void GameScene::Update(float dt)
     // 終了判定
     m_elapsedTime += dt;
     float remainingTime = TIME_LIMIT - m_elapsedTime;
-    if (remainingTime <= 0.0f)
+    if (remainingTime <= 15.0f && !m_isClimax)
+    {
+        m_isClimax = true;
+        m_scoreMgr.IsIncreaseLevel(m_isClimax);
+    }
+    else if (remainingTime <= 0.0f)
     {
         m_sceneMgr->RequestChange(SceneType::Clear, m_scoreMgr.GetScore());
         return;
