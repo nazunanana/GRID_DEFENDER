@@ -65,6 +65,8 @@ int App::Run()
 	AudioManager::Instance().LoadSe("chainSe2", "audio/Cyber21-2.mp3");
 	AudioManager::Instance().LoadSe("levelUp", "audio/8bitkaihuku3.mp3");
 	AudioManager::Instance().LoadSe("damageSe", "audio/8bitdamage3.mp3");
+	AudioManager::Instance().LoadSe("clearSe", "audio/Cyber09-1.mp3");
+	AudioManager::Instance().LoadSe("errorSe", "audio/button11.mp3");
 
 	while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0)
 	{

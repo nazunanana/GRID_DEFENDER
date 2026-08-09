@@ -1,5 +1,6 @@
 #pragma once
 #include "../Audio/AudioManager.h"
+#include "CutInUIManager.h"
 
 class ScoreManager
 {
@@ -14,12 +15,11 @@ public:
     bool IsIncreaseLevel(bool isClimax = false);
 private:
     const int SCORE_PER_LEVEL = 50000;
-    const float DISPLAY_LEVELUP_TIME = 1.5f;
     int m_score = 0;
     int m_level = 1;
     int m_scoreLevel = 1;
-    float m_levelUpTimer = 0.0f;
     int m_scoreFontHandle = -1;
     int m_displayFontHandle = -1;
     int m_displayTextWidth;
+    CutInUIManager m_cutInUI;
 };

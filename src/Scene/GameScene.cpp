@@ -20,9 +20,8 @@ void GameScene::Enter()
     fieldTex = LoadGraph("img/field_tex3.png");
     hpTex = LoadGraph("img/hp_tex.png");
     // frameImg = LoadGraph("img/frame.png");
-    // 仮
-    isStart = true;
 
+     m_cutInUI.SetText("GAME START", false);
     AudioManager::Instance().PlayBgm("gameBgm");
 }
 
@@ -38,11 +37,34 @@ void GameScene::Exit()
 // ゲーム画面の更新処理
 void GameScene::Update(float dt)
 {
+    if (m_phase != GamePhase::Playing) // カットイン表示中はゲームプレイ更新を止める
+    {
+        m_cutInUI.Update(dt);
+        if (m_cutInUI.IsDisplaying() == false) // カットイン表示が終わったら
+        {
+            switch (m_phase)
+            {
+            case GamePhase::Start:
+                m_phase = GamePhase::Playing; // ゲーム再開
+                break;
+            case GamePhase::Clear:
+                m_sceneMgr->RequestChange(SceneType::Clear, m_scoreMgr.GetScore());
+                break;
+            case GamePhase::GameOver:
+                m_sceneMgr->RequestChange(SceneType::GameOver, m_scoreMgr.GetScore(), TIME_LIMIT - m_elapsedTime);
+                break;
+            default:
+                break;
+            }
+        }
+        return;
+    }
     // 各クラスのUpdateを呼び出す
     m_player.Update(m_input->Pressed(Action::Shoot), m_input->GetMousePosition());
     m_blockGrid.Update();
     m_virusMgr.Update(dt, m_scoreMgr.GetLevel());
-    m_scoreMgr.Update(dt);
+    //m_scoreMgr.Update(dt);
+    m_cutInUI.Update(dt);
 
     if (m_damageTimer > 0.0f) m_damageTimer -= dt;
     int damage = m_virusMgr.PopLeakCount(); // コアに到達したウィルス数
@@ -77,15 +99,22 @@ void GameScene::Update(float dt)
     {
         m_isClimax = true;
         m_scoreMgr.IsIncreaseLevel(m_isClimax);
+        m_cutInUI.SetText("CLIMAX", false);
     }
     else if (remainingTime <= 0.0f)
     {
-        m_sceneMgr->RequestChange(SceneType::Clear, m_scoreMgr.GetScore());
+        m_phase = GamePhase::Clear;
+        m_cutInUI.SetText("SYSTEM SECURED", false);
+        AudioManager::Instance().StopBgm();
+        AudioManager::Instance().PlaySe("clearSe");
         return;
     }
     if (hpNum <= 0)
     {
-        m_sceneMgr->RequestChange(SceneType::GameOver, m_scoreMgr.GetScore(), remainingTime);
+        m_phase = GamePhase::GameOver;
+        m_cutInUI.SetText("SYSTEM ERROR", false);
+        AudioManager::Instance().StopBgm();
+        AudioManager::Instance().PlaySe("errerSe");
         return;
     }
 }
@@ -111,6 +140,7 @@ void GameScene::Draw()
     m_chainMgr.Draw();
     m_player.Draw();
     m_scoreMgr.Draw(m_elapsedTime);
+    m_cutInUI.Draw();
 
     // メインコア
     DrawExtendGraph(ORIGIN_X, COL_MAX * BOX_SIZE + ORIGIN_Y, SCREEN_W - ORIGIN_X, SCREEN_H - ORIGIN_Y,

@@ -6,6 +6,7 @@
 #include "../GameSystem/VirusManager.h"
 #include "../GameSystem/ChainManager.h"
 #include "../GameSystem/ScoreManager.h"
+#include "../GameSystem/CutInUIManager.h"
 #include "../Audio/AudioManager.h"
 
 class GameScene : public IScene
@@ -16,9 +17,9 @@ public:
     void Exit() override;
     void Update(float dt) override;
     void Draw() override;
-    bool isStart = false;
 
 private:
+    enum class GamePhase { Start, Playing, Clear, GameOver }; // ゲームの進行状態
     void ResolveTapHit(int x, int y); // 直接タップでのヒット処理
     void ResolveRippleHit(int col, int row, ColorId virusColor, ColorId rippleColor, int chainLevel); // 波紋がVirusを見つけた時のヒット処理
     const float DAMAGE_TIME = 0.1f;
@@ -30,10 +31,13 @@ private:
     int hpUiOffset = 5;
     float m_elapsedTime = 0.0f;
     float m_damageTimer = 0.0f;
+    float m_virusClearTimer = 0.0f;
     bool m_isClimax = false;
+    GamePhase m_phase = GamePhase::Start;
     Player m_player;
     BlockGrid m_blockGrid;
     VirusManager m_virusMgr;
     ChainManager m_chainMgr;
     ScoreManager m_scoreMgr;
+    CutInUIManager m_cutInUI;
 };

@@ -13,6 +13,7 @@
 ClearScene::ClearScene(SceneManager *manager, Input *input, int score)
     : IScene(manager, input), m_score(score)
 {
+    m_rank = GetRank();
     // ゲームクリア
     m_resultFontHandle = CreateFontToHandle(
         FONT_NAME,                     // フォント名
@@ -33,6 +34,16 @@ ClearScene::ClearScene(SceneManager *manager, Input *input, int score)
         3                              // 縁のサイズ（EDGE系タイプ使用時）
     );
     m_resultScoreTextWidth = GetDrawFormatStringWidthToHandle(m_resultScoreFontHandle, "SCORE : %d", m_score);
+    // ランク
+    m_resultRankFontHandle = CreateFontToHandle(
+        FONT_NAME,                     // フォント名
+        RESULT_RANK_FONT_SIZE,              // フォントサイズ
+        -1,                            // 太さ（-1で規定値）
+        DX_FONTTYPE_ANTIALIASING_EDGE, // フォントタイプ（縁取り付きアンチエイリアス）
+        -1,                            // 文字セット（-1でデフォルト）
+        3                              // 縁のサイズ（EDGE系タイプ使用時）
+    );
+    m_resultRankTextWidth = GetDrawStringWidthToHandle(m_rank, -1, m_resultRankFontHandle);
     // コマンド
     m_commandFontHandle = CreateFontToHandle(
         FONT_NAME,                     // フォント名
@@ -49,6 +60,7 @@ ClearScene::~ClearScene()
 {
     DeleteFontToHandle(m_resultFontHandle);
     DeleteFontToHandle(m_resultScoreFontHandle);
+    DeleteFontToHandle(m_resultRankFontHandle);
     DeleteFontToHandle(m_commandFontHandle);
 }
 
@@ -81,5 +93,20 @@ void ClearScene::Draw()
     DrawBox(0, 0, SCREEN_W, SCREEN_H, GetColor(5, 0, 40), true);
     DrawStringToHandle((SCREEN_W - m_resultTextWidth) / 2, SCREEN_H / 5, GAMECLEAR_TEXT, GetColor(255, 255, 255), m_resultFontHandle);
     DrawFormatStringToHandle((SCREEN_W - m_resultScoreTextWidth) / 2, SCREEN_H / 3, GetColor(255, 255, 255), m_resultScoreFontHandle, "SCORE : %d", m_score);
+    DrawStringToHandle((SCREEN_W - m_resultRankTextWidth) / 2, SCREEN_H * 3 / 5, m_rank, GetColor(255, 255, 255), m_resultRankFontHandle);
     DrawStringToHandle((SCREEN_W - m_commandTextWidth) / 2, SCREEN_H * 3 / 4, COMMAND_TEXT, GetColor(255, 255, 255), m_commandFontHandle);
+}
+
+const char* ClearScene::GetRank()
+{
+    if(m_score >= 300000)
+        return "S";
+    else if(m_score >= 260000)
+        return "A";
+    else if(m_score >= 220000)
+        return "B";
+    else if(m_score >= 150000)
+        return "C";
+    else
+        return "D";
 }

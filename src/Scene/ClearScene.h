@@ -13,13 +13,17 @@ public:
     void Draw() override;
 
 private:
+    const char* GetRank();
     void DrawCenteredString(int y, int fontHandle, const char* text);
     int m_score;
+    const char* m_rank;
     int m_resultFontHandle;
     int m_resultScoreFontHandle;
+    int m_resultRankFontHandle;
     int m_commandFontHandle;
     int m_resultTextWidth;
     int m_resultScoreTextWidth;
+    int m_resultRankTextWidth;
     int m_commandTextWidth;
     static constexpr const char* GAMECLEAR_TEXT = "GAME CLEAR";
     static constexpr const char* COMMAND_TEXT = "PRESS RETRY";
