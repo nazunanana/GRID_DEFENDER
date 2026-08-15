@@ -19,9 +19,9 @@ VirusManager::~VirusManager()
     }
 }
 
-void VirusManager::Update(float dt, int level)
+void VirusManager::Update(float dt, int level, Difficulty difficulty)
 {
-    LevelUp(level);
+    LevelUp(level, difficulty);
     m_spawnTimer += dt;
     if (m_spawnTimer > m_spawnInterval)
     {
@@ -123,30 +123,70 @@ int VirusManager::PopLeakCount()
 }
 
 // レベルアップ時のパラメータ変化
-void VirusManager::LevelUp(int level)
+void VirusManager::LevelUp(int level, Difficulty difficulty)
 {
     // パラメータを変える
     switch(level)
     {
     case 1:
-        m_spawnInterval = 1.0f;
-        m_moveInterval = 0.5f;
+        if(difficulty == Difficulty::Normal)
+        {
+            m_spawnInterval = 1.0f;
+            m_moveInterval = 0.5f;
+        }
+        else
+        {
+            m_spawnInterval = 0.8f;
+            m_moveInterval = 0.4f;
+        }
         break;
     case 2:
-        m_spawnInterval = 0.8f;
-        m_moveInterval = 0.4f;
+        if(difficulty == Difficulty::Normal)
+        {
+            m_spawnInterval = 0.8f;
+            m_moveInterval = 0.4f;
+        }
+        else
+        {
+            m_spawnInterval = 0.7f;
+            m_moveInterval = 0.35f;
+        }
         break;
     case 3:
-        m_spawnInterval = 0.7f;
-        m_moveInterval = 0.35f;
+        if(difficulty == Difficulty::Normal)
+        {
+            m_spawnInterval = 0.7f;
+            m_moveInterval = 0.35f;
+        }
+        else
+        {
+            m_spawnInterval = 0.6f;
+            m_moveInterval = 0.3f;
+        }
         break;
     case 4:
-        m_spawnInterval = 0.6f;
-        m_moveInterval = 0.3f;
+        if(difficulty == Difficulty::Normal)
+        {
+            m_spawnInterval = 0.6f;
+            m_moveInterval = 0.3f;
+        }
+        else
+        {
+            m_spawnInterval = 0.5f;
+            m_moveInterval = 0.25f;
+        }
         break;
     default:
-        m_spawnInterval = 0.5f;
-        m_moveInterval = 0.25f;
+        if(difficulty == Difficulty::Normal)
+        {
+            m_spawnInterval = 0.5f;
+            m_moveInterval = 0.25f;
+        }
+        else
+        {
+            m_spawnInterval = 0.4f;
+            m_moveInterval = 0.2f;
+        }
         break;
     }
 }

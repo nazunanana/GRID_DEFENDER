@@ -1,5 +1,6 @@
 #pragma once
 #include "IScene.h"
+#include "../GameSystem/Common.h"
 #include <memory>
 
 class Input;
@@ -21,7 +22,7 @@ public:
     // シーンの描画
     void Draw();
     // シーン変更を予約する
-    void RequestChange(SceneType type, int score = 0, float remainingTime = 0.0f);
+    void RequestChange(SceneType type, Difficulty difficulty = Difficulty::Normal, int score = 0, float remainingTime = 0.0f);
 private:
     Input* m_input;
     // 現在のシーンを保持

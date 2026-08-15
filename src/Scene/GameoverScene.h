@@ -1,11 +1,12 @@
 #pragma once
 #include "IScene.h"
 #include "../Audio/AudioManager.h"
+#include "../GameSystem/Common.h"
 
 class GameoverScene : public IScene
 {
 public:
-    GameoverScene(SceneManager *mgr, Input *input, int score, float remainingTime);
+    GameoverScene(SceneManager *mgr, Input *input, int score, float remainingTime, Difficulty difficulty);
     ~GameoverScene();
     void Enter() override;
     void Exit() override;
@@ -28,5 +29,6 @@ private:
     int m_resultRankTextWidth;
     int m_commandTextWidth;
     static constexpr const char* GAMEOVER_TEXT = "GAME OVER";
-    static constexpr const char* COMMAND_TEXT = "PRESS RETRY";
+    static constexpr const char* COMMAND_TEXT = "[X] RETRY    [C] TITLE";
+    Difficulty m_difficulty;
 };

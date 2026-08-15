@@ -1,11 +1,12 @@
 #pragma once
 #include "IScene.h"
 #include "../Audio/AudioManager.h"
+#include "../GameSystem/Common.h"
 
 class ClearScene : public IScene
 {
 public:
-    ClearScene(SceneManager* mgr, Input* input, int score);
+    ClearScene(SceneManager* mgr, Input* input, int score, Difficulty difficulty);
     ~ClearScene();
     void Enter() override;
     void Exit() override;
@@ -27,4 +28,5 @@ private:
     int m_commandTextWidth;
     static constexpr const char* GAMECLEAR_TEXT = "GAME CLEAR";
     static constexpr const char* COMMAND_TEXT = "[X] RETRY    [C] TITLE";
+    Difficulty m_difficulty;
 };

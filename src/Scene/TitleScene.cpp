@@ -58,14 +58,14 @@ void TitleScene::Update(float dt)
     // Decideでノーマルモード
     if (m_input->Pressed(Action::Decide))
     {
-        m_sceneMgr->RequestChange(SceneType::Game);
+        m_sceneMgr->RequestChange(SceneType::Game, Difficulty::Normal);
         return;
     }
 
     // Decide2でハードモード
-    if (m_input->Pressed(Action::Decide))
+    if (m_input->Pressed(Action::Decide2))
     {
-        m_sceneMgr->RequestChange(SceneType::Game);
+        m_sceneMgr->RequestChange(SceneType::Game, Difficulty::Hard);
         return;
     }
 }

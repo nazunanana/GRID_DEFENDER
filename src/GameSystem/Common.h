@@ -13,3 +13,8 @@ enum class ColorId {
 
     COUNT
 };
+
+enum class Difficulty {
+    Normal,
+    Hard
+};

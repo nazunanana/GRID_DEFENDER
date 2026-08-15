@@ -10,8 +10,8 @@
 クリアシーン
 */
 
-ClearScene::ClearScene(SceneManager *manager, Input *input, int score)
-    : IScene(manager, input), m_score(score)
+ClearScene::ClearScene(SceneManager *manager, Input *input, int score, Difficulty difficulty)
+    : IScene(manager, input), m_score(score), m_difficulty(difficulty) 
 {
     m_rank = GetRank();
     // ゲームクリア
@@ -82,7 +82,7 @@ void ClearScene::Update(float dt)
     if (m_input->Pressed(Action::Decide))
     {
         AudioManager::Instance().StopBgm();
-        m_sceneMgr->RequestChange(SceneType::Game);
+        m_sceneMgr->RequestChange(SceneType::Game, m_difficulty);
         return;
     }
     // Decide2でタイトルシーンに移行
@@ -106,14 +106,30 @@ void ClearScene::Draw()
 
 const char* ClearScene::GetRank()
 {
-    if(m_score >= 300000)
-        return "S";
-    else if(m_score >= 260000)
-        return "A";
-    else if(m_score >= 220000)
-        return "B";
-    else if(m_score >= 150000)
-        return "C";
+    if(m_difficulty == Difficulty::Normal)
+    {
+        if(m_score >= 280000)
+            return "S";
+        else if(m_score >= 220000)
+            return "A";
+        else if(m_score >= 180000)
+            return "B";
+        else if(m_score >= 120000)
+            return "C";
+        else
+            return "D";
+    }
     else
-        return "D";
+    {
+        if(m_score >= 300000)
+            return "S";
+        else if(m_score >= 260000)
+            return "A";
+        else if(m_score >= 220000)
+            return "B";
+        else if(m_score >= 150000)
+            return "C";
+        else
+            return "D";
+    }
 }

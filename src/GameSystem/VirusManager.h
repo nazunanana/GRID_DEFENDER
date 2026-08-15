@@ -10,7 +10,7 @@ public:
     VirusManager();
     ~VirusManager();
 
-    void Update(float dt, int level);
+    void Update(float dt, int level, Difficulty difficulty);
     void Draw();
     std::optional<ColorId> GetVirusColorAtPoint(int col, int row);
     std::optional<ColorId> CollisionRipple(int screenX, int screenY, float size, int &outCol, int &outRow);
@@ -23,5 +23,5 @@ private:
     float m_spawnInterval = 1.0f;
     float m_moveInterval = 0.5f;
     int m_leakCount = 0;
-    void LevelUp(int level);
+    void LevelUp(int level, Difficulty difficulty);
 };

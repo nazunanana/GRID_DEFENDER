@@ -12,7 +12,7 @@
 class GameScene : public IScene
 {
 public:
-    GameScene(SceneManager* mgr, Input* input);
+    GameScene(SceneManager* mgr, Input* input, Difficulty difficulty);
     void Enter() override;
     void Exit() override;
     void Update(float dt) override;
@@ -34,6 +34,7 @@ private:
     float m_virusClearTimer = 0.0f;
     bool m_isClimax = false;
     GamePhase m_phase = GamePhase::Start;
+    Difficulty m_difficulty;
     Player m_player;
     BlockGrid m_blockGrid;
     VirusManager m_virusMgr;

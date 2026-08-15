@@ -10,8 +10,8 @@ using namespace DxLib;
 ゲームシーン
 */
 
-GameScene::GameScene(SceneManager *manager, Input *input)
-    : IScene(manager, input) {}
+GameScene::GameScene(SceneManager *manager, Input *input, Difficulty difficulty)
+    : IScene(manager, input), m_difficulty(difficulty) {}
 
 // ゲーム画面に入ったときの処理
 void GameScene::Enter()
@@ -48,10 +48,10 @@ void GameScene::Update(float dt)
                 m_phase = GamePhase::Playing; // ゲーム再開
                 break;
             case GamePhase::Clear:
-                m_sceneMgr->RequestChange(SceneType::Clear, m_scoreMgr.GetScore());
+                m_sceneMgr->RequestChange(SceneType::Clear, m_difficulty, m_scoreMgr.GetScore());
                 break;
             case GamePhase::GameOver:
-                m_sceneMgr->RequestChange(SceneType::GameOver, m_scoreMgr.GetScore(), TIME_LIMIT - m_elapsedTime);
+                m_sceneMgr->RequestChange(SceneType::GameOver, m_difficulty, m_scoreMgr.GetScore(), TIME_LIMIT - m_elapsedTime);
                 break;
             default:
                 break;
@@ -62,7 +62,7 @@ void GameScene::Update(float dt)
     // 各クラスのUpdateを呼び出す
     m_player.Update(m_input->Pressed(Action::Shoot), m_input->GetMousePosition());
     m_blockGrid.Update();
-    m_virusMgr.Update(dt, m_scoreMgr.GetLevel());
+    m_virusMgr.Update(dt, m_scoreMgr.GetLevel(), m_difficulty);
     //m_scoreMgr.Update(dt);
     m_cutInUI.Update(dt);
 
