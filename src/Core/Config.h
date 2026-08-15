@@ -20,5 +20,5 @@ constexpr const char* FONT_NAME = "x12y16pxMaruMonica";
 constexpr int SCORE_FONT_SIZE = 24;
 constexpr int TITLE_FONT_SIZE = 52;
 constexpr int RESULT_SCORE_FONT_SIZE = 24;
-constexpr int RESULT_RANK_FONT_SIZE = 32;
+constexpr int RESULT_RANK_FONT_SIZE = 42;
 constexpr int COMMAND_FONT_SIZE = 20;

@@ -13,6 +13,7 @@
 GameoverScene::GameoverScene(SceneManager *manager, Input *input, int score, float remainingTime)
     : IScene(manager, input), m_score(score), m_remainingTime(remainingTime)
 {
+    m_rank = GetRank();
     // ゲームオーバー
     m_resultFontHandle = CreateFontToHandle(
         FONT_NAME,                     // フォント名
@@ -94,7 +95,7 @@ void GameoverScene::Draw()
     DrawStringToHandle((SCREEN_W - m_resultTextWidth) / 2, SCREEN_H / 5, GAMEOVER_TEXT, GetColor(255, 255, 255), m_resultFontHandle);
     DrawFormatStringToHandle((SCREEN_W - m_resultScoreTextWidth) / 2, SCREEN_H / 3, GetColor(255, 255, 255), m_resultScoreFontHandle, "SCORE : %d", m_score);
     DrawFormatStringToHandle((SCREEN_W - m_resultTimeTextWidth) / 2, SCREEN_H / 3 + 40, GetColor(255, 255, 255), m_resultScoreFontHandle, "TIME LEFT : %.1f", m_remainingTime);
-    DrawStringToHandle((SCREEN_W - m_resultRankTextWidth) / 2, SCREEN_H * 3 / 5, m_rank, GetColor(255, 255, 255), m_resultRankFontHandle);
+    DrawStringToHandle((SCREEN_W - m_resultRankTextWidth) / 2, SCREEN_H * 4 / 7, m_rank, GetColor(255, 255, 255), m_resultRankFontHandle);
     DrawStringToHandle((SCREEN_W - m_commandTextWidth) / 2, SCREEN_H * 3 / 4, COMMAND_TEXT, GetColor(255, 255, 255), m_commandFontHandle);
 }
 

@@ -137,16 +137,16 @@ void VirusManager::LevelUp(int level)
         m_moveInterval = 0.4f;
         break;
     case 3:
+        m_spawnInterval = 0.7f;
+        m_moveInterval = 0.35f;
+        break;
+    case 4:
         m_spawnInterval = 0.6f;
         m_moveInterval = 0.3f;
         break;
-    case 4:
+    default:
         m_spawnInterval = 0.5f;
         m_moveInterval = 0.25f;
-        break;
-    default:
-        m_spawnInterval = 0.4f;
-        m_moveInterval = 0.2f;
         break;
     }
 }
