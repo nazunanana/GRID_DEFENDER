@@ -78,11 +78,18 @@ void ClearScene::Exit()
 // クリア画面の更新処理
 void ClearScene::Update(float dt)
 {
-    // Decideでタイトルシーンに移行
+    // Decideでリトライ
     if (m_input->Pressed(Action::Decide))
     {
         AudioManager::Instance().StopBgm();
         m_sceneMgr->RequestChange(SceneType::Game);
+        return;
+    }
+    // Decide2でタイトルシーンに移行
+    if (m_input->Pressed(Action::Decide2))
+    {
+        AudioManager::Instance().StopBgm();
+        m_sceneMgr->RequestChange(SceneType::Title);
         return;
     }
 }

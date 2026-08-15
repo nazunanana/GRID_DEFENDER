@@ -54,7 +54,15 @@ void TitleScene::Exit()
 // タイトル画面の更新処理
 void TitleScene::Update(float dt)
 {
-    // Decideでゲームシーンに移行
+    // ゲームシーンに移行
+    // Decideでノーマルモード
+    if (m_input->Pressed(Action::Decide))
+    {
+        m_sceneMgr->RequestChange(SceneType::Game);
+        return;
+    }
+
+    // Decide2でハードモード
     if (m_input->Pressed(Action::Decide))
     {
         m_sceneMgr->RequestChange(SceneType::Game);

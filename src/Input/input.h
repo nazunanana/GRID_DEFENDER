@@ -6,7 +6,7 @@ enum class Action
 {
     Shoot,
     Decide,
-    Back,
+    Decide2,
     Quit,
 
     COUNT

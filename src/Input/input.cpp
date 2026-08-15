@@ -35,7 +35,7 @@ int Input::GetActionDown_(Action a)
         return IsMouseDown_(MOUSE_INPUT_LEFT);
     case Action::Decide:
         return IsKeyDown_(KEY_INPUT_X);
-    case Action::Back:
+    case Action::Decide2:
         return IsKeyDown_(KEY_INPUT_C);
     case Action::Quit:
         return IsKeyDown_(KEY_INPUT_ESCAPE);

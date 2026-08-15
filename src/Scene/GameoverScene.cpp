@@ -79,11 +79,18 @@ void GameoverScene::Exit()
 // ゲームオーバー画面の更新処理
 void GameoverScene::Update(float dt)
 {
-    // Decideでタイトルシーンに移行
-    if (m_input->Pressed(Action::Decide))
+    // Decideでリトライ
+    if (m_input->Pressed(Action::Decide2))
     {
         AudioManager::Instance().StopBgm();
         m_sceneMgr->RequestChange(SceneType::Game);
+        return;
+    }
+    // Decide2でタイトルシーンに移行
+    if (m_input->Pressed(Action::Decide2))
+    {
+        AudioManager::Instance().StopBgm();
+        m_sceneMgr->RequestChange(SceneType::Title);
         return;
     }
 }

@@ -26,5 +26,5 @@ private:
     int m_resultRankTextWidth;
     int m_commandTextWidth;
     static constexpr const char* GAMECLEAR_TEXT = "GAME CLEAR";
-    static constexpr const char* COMMAND_TEXT = "PRESS RETRY";
+    static constexpr const char* COMMAND_TEXT = "[X] RETRY    [C] TITLE";
 };
