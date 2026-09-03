@@ -21,9 +21,9 @@ public:
 
 private:
     std::array<int, (int)Action::COUNT> m_curr{}; // アクションごとの入力状況
+    std::array<int, (int)Action::COUNT> m_prevRaw{}; // アクションごとの前フレームの入力状況
     Vec2 m_mousePos{};                            // マウスの位置
-    int m_lastMouseState = 0;
-    int GetActionDown_(Action a);  // Actionとキーの結び付け　入力されていれば1を返す
+    int GetActionRaw_(Action a);   // Actionとキーの結び付け　押されていれば1を返す
     static int IsKeyDown_(int key);      // キーが押されているかどうかを返す
-    int IsMouseDown_(int button); // マウスが押されているかどうかを返す
+    static int IsMouseDown_(int button); // マウスが押されているかどうかを返す
 };

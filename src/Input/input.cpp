@@ -7,7 +7,10 @@ void Input::Update()
     SetMouseDispFlag(GetWindowActiveFlag() ? FALSE : TRUE);
     for (int i = 0; i < (int)Action::COUNT; ++i)
     {
-        m_curr[i] = GetActionDown_((Action)i);
+        int raw = GetActionRaw_((Action)i);
+        // 前フレームで押されておらず今フレームで押された瞬間だけtrue
+        m_curr[i] = (raw != 0 && m_prevRaw[i] == 0) ? 1 : 0;
+        m_prevRaw[i] = raw;
     }
     int mouseX, mouseY;
     GetMousePoint(&mouseX, &mouseY);
@@ -27,7 +30,7 @@ Vec2 Input::GetMousePosition() const
 }
 
 // Actionとキーの結び付け　入力されていれば1を返す
-int Input::GetActionDown_(Action a)
+int Input::GetActionRaw_(Action a)
 {
     switch (a)
     {
@@ -53,8 +56,5 @@ int Input::IsKeyDown_(int key)
 // マウスが押されているかどうかを返す
 int Input::IsMouseDown_(int button)
 {
-    int currentMouseState = (GetMouseInput() & button) ? 1 : 0;
-    int trigger = (m_lastMouseState == 0 && currentMouseState == 1) ? 1 : 0;
-    m_lastMouseState = currentMouseState; // 状態を更新
-    return trigger;
+    return (GetMouseInput() & button) ? 1 : 0;
 }
