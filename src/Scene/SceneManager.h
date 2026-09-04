@@ -8,6 +8,7 @@ class Input;
 enum class SceneType
 {
     Title,
+    Rule,
     Game,
     Clear,
     GameOver,

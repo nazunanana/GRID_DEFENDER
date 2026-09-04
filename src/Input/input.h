@@ -7,6 +7,7 @@ enum class Action
     Shoot,
     Decide,
     Decide2,
+    Decide3,
     Quit,
 
     COUNT

@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include "TitleScene.h"
+#include "RuleScene.h"
 #include "GameScene.h"
 #include "GameoverScene.h"
 #include "ClearScene.h"
@@ -42,6 +43,9 @@ void SceneManager::RequestChange(SceneType type, Difficulty difficulty, int scor
     {
     case SceneType::Title:
         m_nextScene = std::make_unique<TitleScene>(this, m_input);
+        break;
+    case SceneType::Rule:
+        m_nextScene = std::make_unique<RuleScene>(this, m_input);
         break;
     case SceneType::Game:
         m_nextScene = std::make_unique<GameScene>(this, m_input, difficulty);

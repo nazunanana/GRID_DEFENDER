@@ -68,6 +68,13 @@ void TitleScene::Update(float dt)
         m_sceneMgr->RequestChange(SceneType::Game, Difficulty::Hard);
         return;
     }
+
+    // Decide3で遊び方画面
+    if (m_input->Pressed(Action::Decide3))
+    {
+        m_sceneMgr->RequestChange(SceneType::Rule);
+        return;
+    }
 }
 
 // タイトル画面の描画処理
@@ -76,4 +83,5 @@ void TitleScene::Draw()
     DrawBox(0, 0, SCREEN_W, SCREEN_H, GetColor(5, 0, 40), true);
     DrawStringToHandle((SCREEN_W - m_titleTextWidth) / 2, SCREEN_H / 5, TITLE_TEXT, GetColor(255, 255, 255), m_titleFontHandle);
     DrawStringToHandle((SCREEN_W - m_commandTextWidth) / 2, SCREEN_H * 3 / 4, COMMAND_TEXT, GetColor(255, 255, 255), m_commandFontHandle);
+    //DrawStringToHandle((SCREEN_W - m_commandTextWidth) / 2, SCREEN_H * 4 / 5, "[V] RULE", GetColor(255, 255, 255), m_commandFontHandle);
 }

@@ -40,6 +40,8 @@ int Input::GetActionRaw_(Action a)
         return IsKeyDown_(KEY_INPUT_X);
     case Action::Decide2:
         return IsKeyDown_(KEY_INPUT_C);
+    case Action::Decide3:
+        return IsKeyDown_(KEY_INPUT_V);
     case Action::Quit:
         return IsKeyDown_(KEY_INPUT_ESCAPE);
     default:

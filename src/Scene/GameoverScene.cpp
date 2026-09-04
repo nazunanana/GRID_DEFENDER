@@ -110,9 +110,9 @@ const char *GameoverScene::GetRank()
 {
     if(m_difficulty == Difficulty::Normal)
     {
-        if(m_score >= 280000)
+        if(m_score >= 300000)
             return "S";
-        else if(m_score >= 220000)
+        else if(m_score >= 240000)
             return "A";
         else if(m_score >= 180000)
             return "B";
@@ -123,13 +123,13 @@ const char *GameoverScene::GetRank()
     }
     else
     {
-        if(m_score >= 300000)
+        if(m_score >= 340000)
             return "S";
-        else if(m_score >= 260000)
+        else if(m_score >= 280000)
             return "A";
         else if(m_score >= 220000)
             return "B";
-        else if(m_score >= 150000)
+        else if(m_score >= 160000)
             return "C";
         else
             return "D";

@@ -18,5 +18,5 @@ private:
     int m_titleTextWidth;
     int m_commandTextWidth;
     static constexpr const char* TITLE_TEXT = "GRID DEFENDER";
-    static constexpr const char* COMMAND_TEXT = "[X] NORMAL MODE    [C] HARD MODE";
+    static constexpr const char* COMMAND_TEXT = "[X] NORMAL MODE   [C] HARD MODE   [V] RULE";
 };
