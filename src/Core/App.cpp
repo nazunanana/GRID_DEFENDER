@@ -1,7 +1,7 @@
 #include "App.h"
 #include "DxLib.h"
 #include "Config.h"
-// #include "../Scene/SceneManager.h"
+#include "../Graphics/TextureManager.h"
 #include <memory>
 
 /*
@@ -24,12 +24,14 @@ bool App::InitDxLib_()
 		return false;
 
 	SetDrawScreen(DX_SCREEN_BACK);
+	TextureManager::Instance().Load();
 	return true;
 }
 
 // DxLibを終わらせる
 void App::ShutdownDxLib_()
 {
+	TextureManager::Instance().Unload();
 	DxLib_End();
 }
 

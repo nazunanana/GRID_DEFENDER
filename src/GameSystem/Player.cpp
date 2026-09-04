@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "DxLib.h"
+#include "../Core/Config.h"
 
 using namespace DxLib;
 
@@ -17,13 +18,13 @@ void Player::Update(bool isInput, Vec2 pos)
 
 void Player::Draw()
 {
-    DrawLine(m_pos.x - LINE_LENGTH, m_pos.y,
-             m_pos.x + LINE_LENGTH, m_pos.y,
-             GetColor(255, 255, 255), LINE_THICKNESS);
-    DrawLine(m_pos.x, m_pos.y - LINE_LENGTH,
-             m_pos.x, m_pos.y + LINE_LENGTH,
-             GetColor(255, 255, 255), LINE_THICKNESS);
-    DrawCircle(m_pos.x, m_pos.y, CIRCLE_RADIUS, GetColor(255, 255, 255), FALSE, LINE_THICKNESS);
+    DrawLine(m_pos.x - CURSOR_LINE_LENGTH, m_pos.y,
+             m_pos.x + CURSOR_LINE_LENGTH, m_pos.y,
+             GetColor(255, 255, 255), CURSOR_THICKNESS);
+    DrawLine(m_pos.x, m_pos.y - CURSOR_LINE_LENGTH,
+             m_pos.x, m_pos.y + CURSOR_LINE_LENGTH,
+             GetColor(255, 255, 255), CURSOR_THICKNESS);
+    DrawCircle(m_pos.x, m_pos.y, CURSOR_RADIUS, GetColor(255, 255, 255), FALSE, CURSOR_THICKNESS);
 }
 
 Vec2 Player::GetPos()

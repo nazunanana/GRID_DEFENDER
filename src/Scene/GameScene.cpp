@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "../Input/input.h"
 #include "../Core/Config.h"
+#include "../Graphics/TextureManager.h"
 #include "DxLib.h"
 
 using namespace DxLib;
@@ -128,13 +129,13 @@ void GameScene::Draw()
     for (int i = 1; i <= hpNum; i++)
     {
         DrawExtendGraph(SCREEN_W - ORIGIN_X - ORIGIN_Y * i + hpUiOffset, hpUiOffset + SCREEN_H - ORIGIN_Y, SCREEN_W - ORIGIN_X - ORIGIN_Y * (i - 1) - hpUiOffset, SCREEN_H - hpUiOffset,
-                        hpTex, TRUE);
+                        TextureManager::Instance().GetHpGraph(), TRUE);
     }
     m_blockGrid.Draw();
 
     // 背景
     DrawExtendGraph(ORIGIN_X, ORIGIN_Y, SCREEN_W - ORIGIN_X, ORIGIN_Y + COL_MAX * BOX_SIZE,
-                    fieldTex, TRUE);
+                    TextureManager::Instance().GetFieldGraph(), TRUE);
 
     m_virusMgr.Draw();
     m_chainMgr.Draw();
@@ -144,7 +145,7 @@ void GameScene::Draw()
 
     // メインコア
     DrawExtendGraph(ORIGIN_X, COL_MAX * BOX_SIZE + ORIGIN_Y, SCREEN_W - ORIGIN_X, SCREEN_H - ORIGIN_Y,
-                    coreTex, TRUE);
+                    TextureManager::Instance().GetCoreGraph(), TRUE);
     if (m_damageTimer > 0.0f)
     {
         SetDrawBlendMode(DX_BLENDMODE_MULA, 255);

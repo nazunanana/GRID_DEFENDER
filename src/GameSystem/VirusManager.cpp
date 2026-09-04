@@ -1,23 +1,9 @@
 #include <algorithm>
 #include "VirusManager.h"
 #include "../Core/Config.h"
+#include "../Graphics/TextureManager.h"
 #include "Common.h"
 #include "DxLib.h"
-
-VirusManager::VirusManager()
-{
-    m_graph[static_cast<int>(ColorId::Magenta)] = LoadGraph("img/magenta_virus.png");
-    m_graph[static_cast<int>(ColorId::Cyan)] = LoadGraph("img/cyan_virus.png");
-    m_graph[static_cast<int>(ColorId::Purple)] = LoadGraph("img/purple_virus.png");
-}
-
-VirusManager::~VirusManager()
-{
-    for (int graph : m_graph)
-    {
-        DeleteGraph(graph);
-    }
-}
 
 void VirusManager::Update(float dt, int level, Difficulty difficulty)
 {
@@ -57,7 +43,8 @@ void VirusManager::Draw()
         {
             int x = ORIGIN_X + v.GetRow() * BOX_SIZE;
             int y = v.GetDrawY();
-            int graph = m_graph[static_cast<int>(v.GetColor())];
+            int graph = TextureManager::Instance().GetVirusGraph(v.GetColor());
+            if (graph == -1) continue;
             DrawExtendGraph(x, y, x + BOX_SIZE, y + BOX_SIZE, graph, TRUE);
         }
     }

@@ -2,6 +2,7 @@
 #include "IScene.h"
 #include "../Audio/AudioManager.h"
 #include "../Entity/Block.h"
+#include "../Graphics/TextureManager.h"
 
 class RuleScene : public IScene
 {
@@ -15,15 +16,10 @@ public:
 
 private:
     void DrawTextBlock(int x, int y, const char *const *lines, int lineCount) const;
-    static constexpr int FIG_COLS = 5;
-    static constexpr int FIG_ROWS = 4;
-    Block m_figA[FIG_ROWS][FIG_COLS];
-    Block m_figB[FIG_ROWS][FIG_COLS];
-    int m_virusGraph[3];
-    void DrawVirus(int gx, int gy, int col, int row, ColorId color) const;
-    void DrawBlock(int gx, int gy, int col, int row, ColorId color) const;
-    void DrawCursor(int gx, int gy, float col, float row) const;
-    void DrawRipple(int gx, int gy, int col, int row, int radius, ColorId color) const;
+    void DrawVirus(int x, int y, ColorId color) const;
+    void DrawBlock(int x, int y, ColorId color) const;
+    void DrawCursor(int x, int y) const;
+    void DrawRipple(int x, int y, int radius, ColorId color) const;
     int m_titleFontHandle;
     int m_descriptionFontHandle;
     int m_commandFontHandle;

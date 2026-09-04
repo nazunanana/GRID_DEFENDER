@@ -25,3 +25,8 @@ constexpr int DESCRIPTION_LINE_H = 32;
 constexpr int RESULT_SCORE_FONT_SIZE = 24;
 constexpr int RESULT_RANK_FONT_SIZE = 42;
 constexpr int COMMAND_FONT_SIZE = 20;
+
+/* 照準 */
+constexpr int CURSOR_LINE_LENGTH = 14;
+constexpr int CURSOR_RADIUS      = 9;
+constexpr int CURSOR_THICKNESS   = 2;

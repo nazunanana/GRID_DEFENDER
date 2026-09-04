@@ -7,9 +7,6 @@
 class VirusManager
 {
 public:
-    VirusManager();
-    ~VirusManager();
-
     void Update(float dt, int level, Difficulty difficulty);
     void Draw();
     std::optional<ColorId> GetVirusColorAtPoint(int col, int row);
@@ -17,7 +14,6 @@ public:
     int PopLeakCount();
 
 private:
-    int m_graph[static_cast<int>(ColorId::COUNT)];
     std::vector<Virus> m_viruses;
     float m_spawnTimer = 0.0f;
     float m_spawnInterval = 1.0f;
