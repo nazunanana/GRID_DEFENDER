@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "../Input/input.h"
 #include "../Core/Config.h"
+#include "../GameSystem/Common.h"
 #include "DxLib.h"
 
 /*
@@ -82,20 +83,22 @@ void RuleScene::DrawVirus(int x, int y, ColorId color) const
 {
     int graph = TextureManager::Instance().GetVirusGraph(color);
     if (graph == -1) return;
-    DrawExtendGraph(x, y, x + BOX_SIZE, y + BOX_SIZE, graph, TRUE);
+    DrawExtendGraph(x, y, x + RULE_VIRUS_SIZE, y + RULE_VIRUS_SIZE, graph, TRUE);
 }
 
 void RuleScene::DrawBlock(int x, int y, ColorId color) const
 {
-    DrawBox(x, y, x + BOX_SIZE, y + BOX_SIZE, GetColor(255, 50, 150), TRUE);
+    DrawBox(x, y, x + RULE_BOX_SIZE, y + RULE_BOX_SIZE, BlockColor(color), TRUE);
 }
 
-void RuleScene::DrawRipple(int x, int y, int radius, ColorId color) const
+void RuleScene::DrawRipple(int gx, int gy, int radius, ColorId color) const
 {
-    const float size = (radius + 0.5f) * BOX_SIZE;
+    const float size = (radius + 0.5f) * (RULE_BOX_SIZE);
+    const int x = gx + RULE_BOX_SIZE/2;
+    const int y = gy + RULE_BOX_SIZE/2;
  
     DrawBoxAA(x - size, y - size, x + size, y + size,
-              GetColor(255, 50, 150), FALSE, 2.0f);
+              RippleColor(color), FALSE, 2.0f);
 }
 
 void RuleScene::DrawCursor(int x, int y) const
@@ -122,5 +125,15 @@ void RuleScene::Draw()
                        COMMAND_TEXT, GetColor(255, 255, 255), m_commandFontHandle);
 
     // ウィルス
-
+    DrawVirus(540, 80, ColorId::Magenta);
+    DrawVirus(690, 140, ColorId::Cyan);
+    DrawVirus(630, 180, ColorId::Purple);
+    // 照準
+    DrawCursor(640, 130);
+    // ブロック
+    DrawBlock(50, 360, ColorId::Cyan);
+    DrawBlock(200, 440, ColorId::Purple);
+    DrawBlock(110, 490, ColorId::Magenta);
+    // 衝撃波
+    DrawRipple(110, 490, 2, ColorId::Magenta);
 }

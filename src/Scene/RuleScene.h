@@ -45,4 +45,6 @@ private:
         "反射神経と判断力で、ウィルスを一掃しよう。",
     };
     static constexpr int TEXT_C_LINES = sizeof(TEXT_C) / sizeof(TEXT_C[0]);
+    static constexpr int RULE_VIRUS_SIZE = 60;
+    static constexpr int RULE_BOX_SIZE = 40;
 };

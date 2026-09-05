@@ -1,5 +1,6 @@
 #include "Block.h"
 #include "../Core/Config.h"
+#include "../GameSystem/Common.h"
 #include "DxLib.h"
 #include <algorithm>
 
@@ -19,7 +20,7 @@ void Block::Draw(int screenX, int screenY)
 {
     // 塗りつぶしブロック
     DrawBox(screenX, screenY, screenX + BOX_SIZE, screenY + BOX_SIZE,
-            ToDrawColor(m_color), TRUE);
+            BlockColor(m_color), TRUE);
 
     // 発光
     if (m_brightness > 0)
@@ -36,21 +37,6 @@ void Block::Hit(ColorId color)
 {
     m_color = color;
     m_brightness = 120;
-}
-
-unsigned int Block::ToDrawColor(ColorId colorId)
-{
-    switch (colorId)
-    {
-    case ColorId::Magenta:
-        return GetColor(255, 50, 150);
-    case ColorId::Cyan:
-        return GetColor(100, 255, 255);
-    case ColorId::Purple:
-        return GetColor(160, 80, 255);
-    default:
-        return GetColor(5, 0, 40); // 無色
-    }
 }
 
 ColorId Block::GetBlockColor()

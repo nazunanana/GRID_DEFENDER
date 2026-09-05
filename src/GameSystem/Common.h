@@ -18,3 +18,6 @@ enum class Difficulty {
     Normal,
     Hard
 };
+
+unsigned int BlockColor(ColorId id);
+unsigned int RippleColor(ColorId id);

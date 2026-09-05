@@ -1,6 +1,7 @@
 #include "Ripple.h"
 #include "DxLib.h"
 #include "../Core/Config.h"
+#include "../GameSystem/Common.h"
 
 /*
 波紋
@@ -29,7 +30,7 @@ void Ripple::Draw()
 {
     if (!m_isActive || m_color == ColorId::None) return;
     // 中心位置
-    DrawBoxAA(m_screenX - m_size, m_screenY - m_size, m_screenX + m_size, m_screenY + m_size, ToDrawColor(m_color), FALSE, 2.0f);
+    DrawBoxAA(m_screenX - m_size, m_screenY - m_size, m_screenX + m_size, m_screenY + m_size, RippleColor(m_color), FALSE, 2.0f);
 }
 
 int Ripple::GetScreenX()
@@ -60,19 +61,4 @@ int Ripple::GetChainLevel()
 bool Ripple::IsActive()
 {
     return m_isActive;
-}
-
-unsigned int Ripple::ToDrawColor(ColorId colorId)
-{
-    switch (colorId)
-    {
-    case ColorId::Magenta:
-        return GetColor(230, 0, 126);
-    case ColorId::Cyan:
-        return GetColor(0, 237, 250);
-    case ColorId::Purple:
-        return GetColor(134, 36, 255);
-    default:
-        return GetColor(255, 255, 255);
-    }
 }
