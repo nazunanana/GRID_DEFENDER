@@ -67,11 +67,11 @@ std::optional<ColorId> VirusManager::GetVirusColorAtPoint(int col, int row)
     return std::nullopt;
 }
 
-// 波紋がウィルスに衝突したかどうか
+// 衝撃波がウィルスに衝突したかどうか
 // 衝突した場合消滅させ、色を返す
 std::optional<ColorId> VirusManager::CollisionRipple(int screenX, int screenY, float size, int &outCol, int &outRow)
 {
-    // 波紋が届いている正方形の範囲
+    // 衝撃波が届いている正方形の範囲
     float squareX0 = screenX - size;
     float squareY0 = screenY - size;
     float squareX1 = screenX + size;

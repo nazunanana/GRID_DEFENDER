@@ -8,6 +8,7 @@
 #include "../GameSystem/ScoreManager.h"
 #include "../GameSystem/CutInUIManager.h"
 #include "../Audio/AudioManager.h"
+#include <Vector>
 
 class GameScene : public IScene
 {
@@ -21,7 +22,7 @@ public:
 private:
     enum class GamePhase { Start, Playing, Clear, GameOver }; // ゲームの進行状態
     void ResolveTapHit(int x, int y); // 直接タップでのヒット処理
-    void ResolveRippleHit(int col, int row, ColorId virusColor, ColorId rippleColor, int chainLevel); // 波紋がVirusを見つけた時のヒット処理
+    void ResolveRippleHit(int col, int row, ColorId virusColor, ColorId rippleColor, int chainLevel); // 衝撃波がVirusを見つけた時のヒット処理
     const float DAMAGE_TIME = 0.1f;
     int coreTex = -1;
     int fieldTex = -1;
@@ -33,6 +34,8 @@ private:
     float m_damageTimer = 0.0f;
     float m_virusClearTimer = 0.0f;
     bool m_isClimax = false;
+    struct RippleHit { int col; int row; ColorId virusColor; ColorId rippleColor; int chainLevel; };
+    std::vector<RippleHit> m_rippleHits;// ウイルスに衝突した衝撃波を記録
     GamePhase m_phase = GamePhase::Start;
     Difficulty m_difficulty;
     Player m_player;

@@ -4,7 +4,7 @@
 #include "../GameSystem/Common.h"
 
 /*
-波紋
+衝撃波
 */
 
 Ripple::Ripple(int screenX, int screenY, ColorId color, int chainLevel)

@@ -17,11 +17,6 @@ GameScene::GameScene(SceneManager *manager, Input *input, Difficulty difficulty)
 // ゲーム画面に入ったときの処理
 void GameScene::Enter()
 {
-    coreTex = LoadGraph("img/core_tex.png");
-    fieldTex = LoadGraph("img/field_tex3.png");
-    hpTex = LoadGraph("img/hp_tex.png");
-    // frameImg = LoadGraph("img/frame.png");
-
      m_cutInUI.SetText("GAME START", false);
     AudioManager::Instance().PlayBgm("gameBgm");
 }
@@ -30,9 +25,6 @@ void GameScene::Enter()
 void GameScene::Exit()
 {
     AudioManager::Instance().StopBgm();
-    DeleteGraph(coreTex);
-    DeleteGraph(fieldTex);
-    DeleteGraph(hpTex);
 }
 
 // ゲーム画面の更新処理
@@ -80,7 +72,7 @@ void GameScene::Update(float dt)
     if (m_player.isShoot)
         ResolveTapHit(m_player.GetPos().x, m_player.GetPos().y);
 
-    // 波紋の処理（成長・消滅のみ）
+    // 衝撃波の処理（成長・消滅のみ）
     m_chainMgr.Update();
     for (auto &r : m_chainMgr.GetRipples())
     {
@@ -89,9 +81,11 @@ void GameScene::Update(float dt)
 
         int col, row;
         std::optional<ColorId> virusColor = m_virusMgr.CollisionRipple(r.GetScreenX(), r.GetScreenY(), r.GetSize(), col, row);
-        if (virusColor)
-            ResolveRippleHit(col, row, *virusColor, r.GetRippleColor(), r.GetChainLevel());
+        if (virusColor) // 衝撃波とウイルスが衝突したらメモする
+            m_rippleHits.push_back({col, row, *virusColor, r.GetRippleColor(), r.GetChainLevel()});
     }
+    for (const RippleHit &hit : m_rippleHits) // ウイルスとの衝突処理
+        ResolveRippleHit(hit.col, hit.row, hit.virusColor, hit.rippleColor, hit.chainLevel);
 
     // 終了判定
     m_elapsedTime += dt;
@@ -115,7 +109,7 @@ void GameScene::Update(float dt)
         m_phase = GamePhase::GameOver;
         m_cutInUI.SetText("SYSTEM ERROR", false);
         AudioManager::Instance().StopBgm();
-        AudioManager::Instance().PlaySe("errerSe");
+        AudioManager::Instance().PlaySe("errorSe");
         return;
     }
 }
@@ -192,18 +186,18 @@ void GameScene::ResolveTapHit(int x, int y)
     ColorId colorToSet = virusColor ? *virusColor : m_blockGrid.GetBlockColorAt(blockCol, blockRow).value();
     m_blockGrid.ChangeColor(blockCol, blockRow, colorToSet);
 
-    // 波紋生成
+    // 衝撃波生成
     m_chainMgr.GenerateRipple(blockCol, blockRow, colorToSet, 1);
 }
 
-// 波紋でのヒット処理
+// 衝撃波でのヒット処理
 void GameScene::ResolveRippleHit(int col, int row, ColorId virusColor, ColorId rippleColor, int chainLevel)
 {
     if (virusColor == rippleColor)
-        m_scoreMgr.IncreaseScore(3000 * chainLevel); // 同色の波紋で退治（連鎖継続）
+        m_scoreMgr.IncreaseScore(3000 * chainLevel); // 同色の衝撃波で退治（連鎖継続）
     else
     {
-        m_scoreMgr.IncreaseScore(1000 * chainLevel); // 別色の波紋で退治（ここで連鎖は途切れる）
+        m_scoreMgr.IncreaseScore(1000 * chainLevel); // 別色の衝撃波で退治（ここで連鎖は途切れる）
         AudioManager::Instance().PlaySe("hitSe");
         return;
     }
@@ -217,6 +211,6 @@ void GameScene::ResolveRippleHit(int col, int row, ColorId virusColor, ColorId r
     // ブロックの色変更
     m_blockGrid.ChangeColor(col, row, virusColor);
 
-    // 波紋生成
+    // 衝撃波生成
     m_chainMgr.GenerateRipple(col, row, virusColor, chainLevel + 1);
 }

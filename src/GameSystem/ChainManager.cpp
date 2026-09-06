@@ -3,7 +3,7 @@
 #include <algorithm>
 
 /*
-波紋の制御
+衝撃波の制御
 */
 
 void ChainManager::Update()
@@ -12,10 +12,10 @@ void ChainManager::Update()
         r.Update();
 
     // デスポーン
-    m_ripples.erase( // 後ろにつめた消滅している波紋を削除
+    m_ripples.erase( // 後ろにつめた消滅している衝撃波を削除
         std::remove_if(m_ripples.begin(), m_ripples.end(),
                        [](Ripple &r)
-                       { return !r.IsActive(); }), // 生きている波紋を配列の前につめる
+                       { return !r.IsActive(); }), // 生きている衝撃波を配列の前につめる
         m_ripples.end());
 }
 
@@ -28,7 +28,7 @@ void ChainManager::Draw()
     }
 }
 
-// 波紋を生成
+// 衝撃波を生成
 void ChainManager::GenerateRipple(int col, int row, ColorId color, int chainLevel)
 {
     int screenX = ORIGIN_X + row * BOX_SIZE + BOX_SIZE / 2;
@@ -37,7 +37,7 @@ void ChainManager::GenerateRipple(int col, int row, ColorId color, int chainLeve
     m_ripples.emplace_back(screenX, screenY, color, chainLevel);
 }
 
-// 波紋を取得
+// 衝撃波を取得
 std::vector<Ripple>& ChainManager::GetRipples()
 {
     return m_ripples;
