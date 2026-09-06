@@ -18,6 +18,7 @@ App::App()
 bool App::InitDxLib_()
 {
 	ChangeWindowMode(TRUE);
+	SetAlwaysRunFlag(TRUE); // ウィンドウが非アクティブでも動かす
 	SetGraphMode(SCREEN_W, SCREEN_H, 32);
 
 	if (DxLib_Init() == -1)

@@ -2,6 +2,7 @@
 .vscode/
 
 # ビルド成果物
+release/
 build/
 
 # DXライブラリ
