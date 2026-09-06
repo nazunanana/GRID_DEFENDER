@@ -7,8 +7,8 @@
 衝撃波
 */
 
-Ripple::Ripple(int screenX, int screenY, ColorId color, int chainLevel)
-    : m_screenX(screenX), m_screenY(screenY), m_color(color), m_chainLevel(chainLevel)
+Ripple::Ripple(int screenX, int screenY, ColorId color, int rippleLevel)
+    : m_screenX(screenX), m_screenY(screenY), m_color(color), m_rippleLevel(rippleLevel)
     {
         m_size = BOX_SIZE / 2.0f;
         m_isActive = true;
@@ -20,7 +20,7 @@ bool Ripple::Update()
     m_size += SPEED;
 
     // 最大サイズになったら消滅フラグ
-    if (m_size / static_cast<float>(BOX_SIZE) >= MAX_LEVEL)
+    if (m_size / static_cast<float>(BOX_SIZE) >= MAX_SIZE)
         m_isActive = false;
 
     return true;
@@ -53,9 +53,9 @@ ColorId Ripple::GetRippleColor()
     return m_color;
 }
 
-int Ripple::GetChainLevel()
+int Ripple::GetRippleLevel()
 {
-    return m_chainLevel;
+    return m_rippleLevel;
 }
 
 bool Ripple::IsActive()

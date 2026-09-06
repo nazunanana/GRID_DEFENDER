@@ -64,8 +64,8 @@ int App::Run()
 	AudioManager::Instance().LoadBgm("gameBgm", "audio/ZONE_-X13-.mp3");
 	AudioManager::Instance().LoadSe("shootSe", "audio/beam-gun03.mp3");
 	AudioManager::Instance().LoadSe("hitSe", "audio/beam-gun01.mp3");
-	AudioManager::Instance().LoadSe("chainSe", "audio/Cyber21-1.mp3");
-	AudioManager::Instance().LoadSe("chainSe2", "audio/Cyber21-2.mp3");
+	AudioManager::Instance().LoadSe("rippleSe", "audio/Cyber21-1.mp3");
+	AudioManager::Instance().LoadSe("rippleSe2", "audio/Cyber21-2.mp3");
 	AudioManager::Instance().LoadSe("levelUp", "audio/8bitkaihuku3.mp3");
 	AudioManager::Instance().LoadSe("damageSe", "audio/8bitdamage3.mp3");
 	AudioManager::Instance().LoadSe("clearSe", "audio/Cyber09-1.mp3");

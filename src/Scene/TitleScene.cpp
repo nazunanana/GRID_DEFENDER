@@ -1,6 +1,6 @@
 #include "TitleScene.h"
 #include "SceneManager.h"
-#include "../Input/input.h"
+#include "../Input/Input.h"
 #include "../Core/Config.h"
 #include "DxLib.h"
 

@@ -4,22 +4,22 @@
 class Ripple
 {
 public:
-    Ripple(int screenX, int screenY, ColorId color, int chainLevel);
+    Ripple(int screenX, int screenY, ColorId color, int rippleLevel);
     bool Update();
     void Draw();
     int GetScreenX();
     int GetScreenY();
     float GetSize(); // 現在の半径
     ColorId GetRippleColor();
-    int GetChainLevel();
+    int GetRippleLevel();
     bool IsActive();
 private:
     int m_screenX;
     int m_screenY;
     float m_size;
     ColorId m_color;
-    int m_chainLevel; // 何連鎖目か
+    int m_rippleLevel; // 何連鎖目か
     bool m_isActive;
     static constexpr float SPEED = 3.0f;
-    static constexpr float MAX_LEVEL = 2.5f;
+    static constexpr float MAX_SIZE = 2.5f;
 };

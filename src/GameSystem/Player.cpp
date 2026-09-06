@@ -12,7 +12,7 @@ void Player::Update(bool isInput, Vec2 pos)
 {
     isShoot = false;
     m_pos = pos;
-    if (isInput) // クールタイム条件も足す
+    if (isInput)
         isShoot = true;
 }
 

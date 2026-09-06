@@ -1,4 +1,4 @@
-#include "ChainManager.h"
+#include "RippleManager.h"
 #include "../Core/Config.h"
 #include <algorithm>
 
@@ -6,7 +6,7 @@
 衝撃波の制御
 */
 
-void ChainManager::Update()
+void RippleManager::Update()
 {
     for (auto &r : m_ripples)
         r.Update();
@@ -19,7 +19,7 @@ void ChainManager::Update()
         m_ripples.end());
 }
 
-void ChainManager::Draw()
+void RippleManager::Draw()
 {
     for (auto &r : m_ripples)
     {
@@ -29,16 +29,16 @@ void ChainManager::Draw()
 }
 
 // 衝撃波を生成
-void ChainManager::GenerateRipple(int col, int row, ColorId color, int chainLevel)
+void RippleManager::GenerateRipple(int col, int row, ColorId color, int rippleLevel)
 {
     int screenX = ORIGIN_X + row * BOX_SIZE + BOX_SIZE / 2;
     int screenY = ORIGIN_Y + col * BOX_SIZE + BOX_SIZE / 2;
     // コンストラクタを生成してm_ripplesに追加
-    m_ripples.emplace_back(screenX, screenY, color, chainLevel);
+    m_ripples.emplace_back(screenX, screenY, color, rippleLevel);
 }
 
 // 衝撃波を取得
-std::vector<Ripple>& ChainManager::GetRipples()
+std::vector<Ripple>& RippleManager::GetRipples()
 {
     return m_ripples;
 }

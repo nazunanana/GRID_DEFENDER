@@ -48,6 +48,6 @@ void AudioManager::StopBgm()
 void AudioManager::PlaySe(const std::string& name)
 {
     if (!m_se.count(name)) return; // 指定したSEが存在しない場合はreturn
-    ChangeVolumeSoundMem(m_bgmVolume, m_se[name]);
+    ChangeVolumeSoundMem(m_seVolume, m_se[name]);
     PlaySoundMem(m_se[name], DX_PLAYTYPE_BACK); // SEは重ねて再生
 }

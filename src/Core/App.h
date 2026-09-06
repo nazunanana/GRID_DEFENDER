@@ -1,5 +1,5 @@
 #pragma once
-#include "../Input/input.h"
+#include "../Input/Input.h"
 #include "../Scene/SceneManager.h"
 #include "../Audio/AudioManager.h"
 #include "Time.h"

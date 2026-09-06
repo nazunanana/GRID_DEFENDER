@@ -62,8 +62,3 @@ void ScoreManager::Draw(float time)
     DrawFormatStringToHandle(SCREEN_W - ORIGIN_X - 150, (ORIGIN_Y - SCORE_FONT_SIZE) / 2, GetColor(255, 255, 255), m_scoreFontHandle,
                              "TIME: %d", remainingTime);
 }
-
-// void ScoreManager::Update(float dt)
-// {
-//     if (m_levelUpTimer > 0.0f) m_levelUpTimer -= dt;
-// }

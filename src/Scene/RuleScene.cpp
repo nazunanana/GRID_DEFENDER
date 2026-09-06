@@ -1,6 +1,6 @@
 #include "RuleScene.h"
 #include "SceneManager.h"
-#include "../Input/input.h"
+#include "../Input/Input.h"
 #include "../Core/Config.h"
 #include "../GameSystem/Common.h"
 #include "DxLib.h"

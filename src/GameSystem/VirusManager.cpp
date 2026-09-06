@@ -52,12 +52,12 @@ void VirusManager::Draw()
 
 // タップした位置にウィルスがあるかどうか
 // あれば消滅させ、色を返す
-std::optional<ColorId> VirusManager::GetVirusColorAtPoint(int col, int row)
+std::optional<ColorId> VirusManager::GetVirusColorAtPoint(int screenX, int screenY)
 {
     for (auto &v : m_viruses)
     {
         int drawX = ORIGIN_X + v.GetRow() * BOX_SIZE;
-        if (v.IsAlive() && drawX < row && row < drawX + BOX_SIZE && v.GetDrawY() < col && col < v.GetDrawY() + BOX_SIZE)
+        if (v.IsAlive() && drawX < screenX && screenX < drawX + BOX_SIZE && v.GetDrawY() < screenY && screenY < v.GetDrawY() + BOX_SIZE)
         {
             std::optional<ColorId> color = v.GetColor();
             v.Despawn();
@@ -79,16 +79,26 @@ std::optional<ColorId> VirusManager::CollisionRipple(int screenX, int screenY, f
 
     for (auto &v : m_viruses)
     {
-        if (!v.IsAlive())
+        if (!v.IsAlive() || v.GetCol() == 0)
             continue;
 
         // Virusの衝突範囲
-        int virusX0 = ORIGIN_X + v.GetRow() * BOX_SIZE;
-        int virusY0 = v.GetDrawY();
-        int virusX1 = virusX0 + BOX_SIZE;
-        int virusY1 = virusY0 + BOX_SIZE;
+        int virusMinX = ORIGIN_X + v.GetRow() * BOX_SIZE;
+        int virusMinY = v.GetDrawY();
+        int virusMaxX = virusMinX + BOX_SIZE;
+        int virusMaxY = virusMinY + BOX_SIZE;
 
-        bool overlap = virusX0 < squareX1 && squareX0 < virusX1 && virusY0 < squareY1 && squareY0 < virusY1;
+        bool overlap = virusMinX < squareX1 && squareX0 < virusMaxX && virusMinY < squareY1 && squareY0 < virusMaxY;
+
+        int rippleSizeLevel = size / static_cast<float>(BOX_SIZE);
+        if(rippleSizeLevel >=1.5f
+            && virusMinX < screenX + rippleSizeLevel
+            && screenX - rippleSizeLevel < virusMaxX
+            && virusMinY < screenY + rippleSizeLevel
+            && screenY - rippleSizeLevel < virusMaxY
+            && v.GetCol() == 1) // 衝撃波とウイルスが一番上のマスですれ違った時、判定を無視
+            return std::nullopt;
+
         if (overlap)
         {
             std::optional<ColorId> color = v.GetColor();

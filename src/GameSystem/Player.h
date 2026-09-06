@@ -10,7 +10,5 @@ public:
     bool isShoot = false;
 
 private:
-    float m_cooldown = 0.f;
-    float m_maxCooldown = 0.5f;
     Vec2 m_pos;
 };

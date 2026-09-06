@@ -19,7 +19,5 @@ private:
     int m_level = 1;
     int m_scoreLevel = 1;
     int m_scoreFontHandle = -1;
-    int m_displayFontHandle = -1;
-    int m_displayTextWidth;
     CutInUIManager m_cutInUI;
 };
