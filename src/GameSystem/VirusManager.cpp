@@ -13,7 +13,7 @@ void VirusManager::Update(float dt, int level, Difficulty difficulty)
     {
         // スポーン
         m_spawnTimer -= m_spawnInterval;
-        int row = GetRand(ROW_MAX - 1);                                                      // 出現位置
+        int row = GetRand(ROW_MAX - 1); // 出現位置
         ColorId color = static_cast<ColorId>(GetRand(static_cast<int>(ColorId::COUNT) - 1)); // 出現カラー
         m_viruses.emplace_back(row, color);
     }
@@ -67,9 +67,8 @@ std::optional<ColorId> VirusManager::GetVirusColorAtPoint(int screenX, int scree
     return std::nullopt;
 }
 
-// 衝撃波がウィルスに衝突したかどうか
-// 衝突した場合消滅させ、色を返す
-std::optional<ColorId> VirusManager::CollisionRipple(int screenX, int screenY, float size, int &outCol, int &outRow)
+// 衝撃波がウィルスに衝突したときの処理（ウイルスを退治できたかどうかを返す）
+bool VirusManager::CollisionRipple(int screenX, int screenY, float size, ColorId color, int &outCol, int &outRow)
 {
     // 衝撃波が届いている正方形の範囲
     float squareX0 = screenX - size;
@@ -79,7 +78,7 @@ std::optional<ColorId> VirusManager::CollisionRipple(int screenX, int screenY, f
 
     for (auto &v : m_viruses)
     {
-        if (!v.IsAlive() || v.GetCol() == 0)
+        if (!v.IsAlive() || v.GetColor() != color || v.GetCol() == 0)
             continue;
 
         // Virusの衝突範囲
@@ -97,18 +96,18 @@ std::optional<ColorId> VirusManager::CollisionRipple(int screenX, int screenY, f
             && virusMinY < screenY + rippleSizeLevel
             && screenY - rippleSizeLevel < virusMaxY
             && v.GetCol() == 1) // 衝撃波とウイルスが一番上のマスですれ違った時、判定を無視
-            return std::nullopt;
+            return false;
 
         if (overlap)
         {
-            std::optional<ColorId> color = v.GetColor();
+            ColorId color = v.GetColor();
             outCol = v.GetCol();
             outRow = v.GetRow();
             v.Despawn();
-            return color;
+            return true;
         }
     }
-    return std::nullopt;
+    return false;
 }
 
 // コア到達したウィルス数を取得

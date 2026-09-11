@@ -24,10 +24,7 @@ void ScoreManager::IncreaseScore(int amount)
 {
     m_score += amount;
     if(IsIncreaseLevel())
-    {
-        m_cutInUI.SetText("LEVEL UP", true);
         m_scoreLevel++;
-    }
 }
 
 int ScoreManager::GetScore()

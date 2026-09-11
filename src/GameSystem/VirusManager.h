@@ -10,7 +10,7 @@ public:
     void Update(float dt, int level, Difficulty difficulty);
     void Draw();
     std::optional<ColorId> GetVirusColorAtPoint(int screenX, int screenY);
-    std::optional<ColorId> CollisionRipple(int screenX, int screenY, float size, int &outCol, int &outRow);
+    bool CollisionRipple(int screenX, int screenY, float size, ColorId color, int &outCol, int &outRow);
     int PopLeakCount();
 
 private:

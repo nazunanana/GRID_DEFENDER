@@ -10,7 +10,6 @@ public:
     void IncreaseScore(int amount);
     int GetScore();
     int GetLevel();
-    void Update(float dt);
     void Draw(float time);
     bool IsIncreaseLevel(bool isClimax = false);
 private:
@@ -19,5 +18,4 @@ private:
     int m_level = 1;
     int m_scoreLevel = 1;
     int m_scoreFontHandle = -1;
-    CutInUIManager m_cutInUI;
 };

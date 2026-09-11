@@ -5,6 +5,11 @@ struct Vec2{
   float y;
 };
 
+struct Cell{
+  float col;
+  float row;
+};
+
 enum class ColorId {
     None = -1,
     Magenta = 0,

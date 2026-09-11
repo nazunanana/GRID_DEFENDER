@@ -1,6 +1,8 @@
 #pragma once
 #include "IScene.h"
+#include "../Core/Config.h"
 #include "../Input/Input.h"
+#include "../GameSystem/Common.h"
 #include "../GameSystem/Player.h"
 #include "../GameSystem/BlockGrid.h"
 #include "../GameSystem/VirusManager.h"
@@ -20,9 +22,25 @@ public:
     void Draw() override;
 
 private:
-    enum class GamePhase { Start, Playing, Clear, GameOver }; // ゲームの進行状態
+    enum class GamePhase // ゲームの進行状態
+    {
+        Start,
+        Playing,
+        Clear,
+        GameOver
+    };
+    struct RippleHit // 衝撃波データ
+    {
+        int col;
+        int row;
+        ColorId color;
+        int rippleLevel;
+    };
     void ResolveTapHit(int x, int y); // 直接タップでのヒット処理
-    void ResolveRippleHit(int col, int row, ColorId virusColor, ColorId rippleColor, int rippleLevel); // 衝撃波がVirusを見つけた時のヒット処理
+    void ResolveVirusHit(int blockCol, int blockRow, ColorId virusColor, bool isCreateBlock, int chainLevel); // ウイルス退治後の処理
+    void ResolveBlockHit(int blockCol, int blockRow, ColorId blockColor); // 抗体タップ時の処理
+    void ResolveRippleVirus(std::vector<int> chainCount); // 衝撃波がVirusに当たった時のヒット処理
+    void ResolveRippleBlock(); // 衝撃波が抗体に当たった時のヒット処理
     const float DAMAGE_TIME = 0.1f;
     int m_coreTex = -1;
     int m_fieldTex = -1;
@@ -34,8 +52,7 @@ private:
     float m_damageTimer = 0.0f;
     float m_virusClearTimer = 0.0f;
     bool m_isClimax = false;
-    struct RippleHit { int col; int row; ColorId virusColor; ColorId rippleColor; int rippleLevel; };
-    std::vector<RippleHit> m_rippleHits;// ウイルスに衝突した衝撃波を記録
+    std::vector<RippleHit> m_rippleHits; // ブロックに衝突した衝撃波を記録
     GamePhase m_phase = GamePhase::Start;
     Difficulty m_difficulty;
     Player m_player;

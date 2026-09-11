@@ -7,40 +7,58 @@
 衝撃波
 */
 
-Ripple::Ripple(int screenX, int screenY, ColorId color, int rippleLevel)
-    : m_screenX(screenX), m_screenY(screenY), m_color(color), m_rippleLevel(rippleLevel)
+Ripple::Ripple(int col, int row)
+    : m_col(col), m_row(row)
     {
         m_size = BOX_SIZE / 2.0f;
         m_isActive = true;
+        m_sizeLevel = 1;
     }
 
-bool Ripple::Update()
+void Ripple::Update(bool &isExpand)
 {
-    if (!m_isActive) return false;
+    isExpand = false;
+    if (!m_isActive) return;
     m_size += SPEED;
 
+    // 衝撃波が一定の大きさを超えたら（ブロックとの衝突判定）
+    if(static_cast<float>(m_size / BOX_SIZE) > m_sizeLevel)
+    {
+        m_sizeLevel++;
+        isExpand = true;
+    }
     // 最大サイズになったら消滅フラグ
-    if (m_size / static_cast<float>(BOX_SIZE) >= MAX_SIZE)
+    else if (static_cast<float>(m_size / BOX_SIZE) >= MAX_SIZE)
         m_isActive = false;
-
-    return true;
 }
 
-void Ripple::Draw()
+void Ripple::Draw(ColorId color)
 {
-    if (!m_isActive || m_color == ColorId::None) return;
+    if (!m_isActive || color == ColorId::None) return;
     // 中心位置
-    DrawBoxAA(m_screenX - m_size, m_screenY - m_size, m_screenX + m_size, m_screenY + m_size, RippleColor(m_color), FALSE, 2.0f);
+    //DrawBoxAA(m_screenX - m_size, m_screenY - m_size, m_screenX + m_size, m_screenY + m_size, RippleColor(color), FALSE, 2.0f);
+    DrawBoxAA(ORIGIN_X + m_row * m_size, ORIGIN_Y + m_col * m_size,
+        ORIGIN_X + (m_row + 1) * m_size, ORIGIN_Y + (m_col + 1) * m_size, RippleColor(color), FALSE, 2.0f);
 }
 
-int Ripple::GetScreenX()
+int Ripple::GetCol()
 {
-    return m_screenX;
+    return m_col;
 }
 
-int Ripple::GetScreenY()
+int Ripple::GetRow()
 {
-    return m_screenY;
+    return m_row;
+}
+
+float Ripple::GetScreenX()
+{
+    return ORIGIN_X + GetRow() * BOX_SIZE + (BOX_SIZE / 2);
+}
+
+float Ripple::GetScreenY()
+{
+    return ORIGIN_Y + GetCol() * BOX_SIZE + (BOX_SIZE / 2);
 }
 
 float Ripple::GetSize()
@@ -48,17 +66,12 @@ float Ripple::GetSize()
     return m_size;
 }
 
-ColorId Ripple::GetRippleColor()
-{
-    return m_color;
-}
-
-int Ripple::GetRippleLevel()
-{
-    return m_rippleLevel;
-}
-
 bool Ripple::IsActive()
 {
     return m_isActive;
+}
+
+int Ripple::GetSizeLevel()
+{
+    return m_sizeLevel;
 }

@@ -4,21 +4,21 @@
 class Ripple
 {
 public:
-    Ripple(int screenX, int screenY, ColorId color, int rippleLevel);
-    bool Update();
-    void Draw();
-    int GetScreenX();
-    int GetScreenY();
+    Ripple(int col, int row);
+    void Update(bool &isExpand);
+    void Draw(ColorId color);
+    int GetCol();
+    int GetRow();
+    float GetScreenX();
+    float GetScreenY();
     float GetSize(); // 現在の半径
-    ColorId GetRippleColor();
-    int GetRippleLevel();
     bool IsActive();
+    int GetSizeLevel();
 private:
-    int m_screenX;
-    int m_screenY;
-    float m_size;
-    ColorId m_color;
-    int m_rippleLevel; // 何連鎖目か
+    int m_col;
+    int m_row;
+    float m_size; // 衝撃波の大きさ
+    int m_sizeLevel; // 衝撃波の大きさレベル
     bool m_isActive;
     static constexpr float SPEED = 3.0f;
     static constexpr float MAX_SIZE = 2.5f;
