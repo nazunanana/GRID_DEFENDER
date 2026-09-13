@@ -25,25 +25,25 @@ void BlockGrid::Draw()
     }
 }
 
-// bool BlockGrid::HitBlock(Vec2 screenPos, int &outCol, int &outRow)
-// {
-//     int col = (screenPos.y - ORIGIN_Y) / BOX_SIZE;
-//     int row = (screenPos.x - ORIGIN_X) / BOX_SIZE;
-
-//     if (col < 0 || col >= COL_MAX || row < 0 || row >= ROW_MAX)
-//         return false;
-
-//     outCol = col;
-//     outRow = row;
-//     return true;
-// }
-
 void BlockGrid::ChangeColor(int col, int row, ColorId color)
 {
     if (col < 0 || col >= COL_MAX || row < 0 || row >= ROW_MAX)
         return;
 
     m_blocks[col][row].Hit(color);
+}
+
+void BlockGrid::AllBright()
+{
+    for (int i = 0; i < COL_MAX; i++)
+    {
+        int y = ORIGIN_Y + BOX_SIZE * i;
+        for (int j = 0; j < ROW_MAX; j++)
+        {
+            int x = ORIGIN_X + BOX_SIZE * j;
+            m_blocks[i][j].Bright();
+        }
+    }
 }
 
 ColorId BlockGrid::GetBlockColorAt(int col, int row)

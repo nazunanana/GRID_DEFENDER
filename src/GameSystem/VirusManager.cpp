@@ -23,7 +23,7 @@ void VirusManager::Update(float dt, int level, Difficulty difficulty)
         // ウィルスの状態を更新
         v.Update(dt, m_moveInterval);
         // ウィルスのコア到達数を集計
-        if (!v.IsAlive() && v.HasLeaked())
+        if (v.ConsumeLeak())
             m_leakCount++;
     }
 
@@ -31,7 +31,7 @@ void VirusManager::Update(float dt, int level, Difficulty difficulty)
     m_viruses.erase( // 後ろにつめた死んでいるVirusを削除
         std::remove_if(m_viruses.begin(), m_viruses.end(),
                        [](Virus &v)
-                       { return !v.IsAlive(); }), // 生きているVirusを配列の前につめる
+                       { return v.IsDespawned(); }), // 生きているVirusを配列の前につめる
         m_viruses.end());
 }
 
@@ -39,7 +39,7 @@ void VirusManager::Draw()
 {
     for (auto &v : m_viruses)
     {
-        if (v.IsAlive())
+        if (v.IsVisible())
         {
             int x = ORIGIN_X + v.GetRow() * BOX_SIZE;
             int y = v.GetDrawY();
@@ -130,60 +130,60 @@ void VirusManager::LevelUp(int level, Difficulty difficulty)
     case 1:
         if(difficulty == Difficulty::Normal)
         {
-            m_spawnInterval = 0.7f;
-            m_moveInterval = 0.5f;
+            m_spawnInterval = 0.8f;
+            m_moveInterval = 0.6f;
         }
         else
         {
             m_spawnInterval = 0.7f;
-            m_moveInterval = 0.5f;
+            m_moveInterval = 0.45f;
         }
         break;
     case 2:
         if(difficulty == Difficulty::Normal)
         {
-            m_spawnInterval = 0.6f;
-            m_moveInterval = 0.45f;
+            m_spawnInterval = 0.7f;
+            m_moveInterval = 0.5f;
         }
         else
         {
             m_spawnInterval = 0.6f;
-            m_moveInterval = 0.45f;
+            m_moveInterval = 0.4f;
         }
         break;
     case 3:
         if(difficulty == Difficulty::Normal)
         {
-            m_spawnInterval = 0.55f;
-            m_moveInterval = 0.4f;
+            m_spawnInterval = 0.6f;
+            m_moveInterval = 0.45f;
         }
         else
         {
-            m_spawnInterval = 0.55f;
-            m_moveInterval = 0.4f;
+            m_spawnInterval = 0.5f;
+            m_moveInterval = 0.35f;
         }
         break;
     case 4:
         if(difficulty == Difficulty::Normal)
         {
             m_spawnInterval = 0.5f;
-            m_moveInterval = 0.35f;
+            m_moveInterval = 0.4f;
         }
         else
         {
-            m_spawnInterval = 0.5f;
+            m_spawnInterval = 0.4f;
             m_moveInterval = 0.35f;
         }
         break;
     default:
         if(difficulty == Difficulty::Normal)
         {
-            m_spawnInterval = 0.45f;
-            m_moveInterval = 0.3f;
+            m_spawnInterval = 0.4f;
+            m_moveInterval = 0.35f;
         }
         else
         {
-            m_spawnInterval = 0.45f;
+            m_spawnInterval = 0.35f;
             m_moveInterval = 0.3f;
         }
         break;

@@ -13,7 +13,7 @@
 GameoverScene::GameoverScene(SceneManager *manager, Input *input, int score, float remainingTime, Difficulty difficulty)
     : IScene(manager, input), m_score(score), m_remainingTime(remainingTime), m_difficulty(difficulty)
 {
-    m_rank = GetRank();
+    //m_rank = GetRank();
     // ゲームオーバー
     m_resultFontHandle = CreateFontToHandle(
         FONT_NAME,                     // フォント名
@@ -36,15 +36,15 @@ GameoverScene::GameoverScene(SceneManager *manager, Input *input, int score, flo
     m_resultScoreTextWidth = GetDrawFormatStringWidthToHandle(m_resultScoreFontHandle, "SCORE : %d", m_score);
     m_resultTimeTextWidth = GetDrawFormatStringWidthToHandle(m_resultScoreFontHandle, "TIME LEFT : %.1f", m_remainingTime);
     // ランク
-    m_resultRankFontHandle = CreateFontToHandle(
-        FONT_NAME,                     // フォント名
-        RESULT_RANK_FONT_SIZE,         // フォントサイズ
-        -1,                            // 太さ（-1で規定値）
-        DX_FONTTYPE_ANTIALIASING_EDGE, // フォントタイプ（縁取り付きアンチエイリアス）
-        -1,                            // 文字セット（-1でデフォルト）
-        3                              // 縁のサイズ（EDGE系タイプ使用時）
-    );
-    m_resultRankTextWidth = GetDrawStringWidthToHandle(m_rank, -1, m_resultRankFontHandle);
+    // m_resultRankFontHandle = CreateFontToHandle(
+    //     FONT_NAME,                     // フォント名
+    //     RESULT_RANK_FONT_SIZE,         // フォントサイズ
+    //     -1,                            // 太さ（-1で規定値）
+    //     DX_FONTTYPE_ANTIALIASING_EDGE, // フォントタイプ（縁取り付きアンチエイリアス）
+    //     -1,                            // 文字セット（-1でデフォルト）
+    //     3                              // 縁のサイズ（EDGE系タイプ使用時）
+    // );
+    // m_resultRankTextWidth = GetDrawStringWidthToHandle(m_rank, -1, m_resultRankFontHandle);
     // コマンド
     m_commandFontHandle = CreateFontToHandle(
         FONT_NAME,                     // フォント名
@@ -106,32 +106,32 @@ void GameoverScene::Draw()
     DrawStringToHandle((SCREEN_W - m_commandTextWidth) / 2, SCREEN_H * 3 / 4, COMMAND_TEXT, GetColor(255, 255, 255), m_commandFontHandle);
 }
 
-const char *GameoverScene::GetRank()
-{
-    if(m_difficulty == Difficulty::Normal)
-    {
-        if(m_score >= 300000)
-            return "S";
-        else if(m_score >= 240000)
-            return "A";
-        else if(m_score >= 180000)
-            return "B";
-        else if(m_score >= 120000)
-            return "C";
-        else
-            return "D";
-    }
-    else
-    {
-        if(m_score >= 340000)
-            return "S";
-        else if(m_score >= 280000)
-            return "A";
-        else if(m_score >= 220000)
-            return "B";
-        else if(m_score >= 160000)
-            return "C";
-        else
-            return "D";
-    }
-}
+// const char* GameoverScene::GetRank()
+// {
+//     if(m_difficulty == Difficulty::Normal)
+//     {
+//         if(m_score >= 300000)
+//             return "S";
+//         else if(m_score >= 240000)
+//             return "A";
+//         else if(m_score >= 180000)
+//             return "B";
+//         else if(m_score >= 120000)
+//             return "C";
+//         else
+//             return "D";
+//     }
+//     else
+//     {
+//         if(m_score >= 340000)
+//             return "S";
+//         else if(m_score >= 280000)
+//             return "A";
+//         else if(m_score >= 220000)
+//             return "B";
+//         else if(m_score >= 160000)
+//             return "C";
+//         else
+//             return "D";
+//     }
+// }

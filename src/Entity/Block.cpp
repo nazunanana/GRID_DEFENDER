@@ -39,6 +39,11 @@ void Block::Hit(ColorId color)
     m_brightness = 120;
 }
 
+void Block::Bright()
+{
+    m_brightness = 25;
+}
+
 ColorId Block::GetBlockColor()
 {
     return m_color;

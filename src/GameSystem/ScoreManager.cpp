@@ -69,8 +69,8 @@ bool ScoreManager::IsLevelUp()
     case 3:
         return m_score > 100000;
     case 4:
-        return m_score > 200000;
+        return m_score > 150000;
     default:
-        return m_score > 300000;
+        return m_score > 200000;
     }
 }

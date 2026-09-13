@@ -7,6 +7,7 @@ public:
     void Update();
     void Draw(int screenX, int screenY);
     void Hit(ColorId color);
+    void Bright();
     ColorId GetBlockColor();
 private:
     ColorId m_color = ColorId::None;

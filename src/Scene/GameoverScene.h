@@ -15,7 +15,7 @@ public:
 
 private:
     void DrawCenteredString(int y, int fontHandle, const char* text);
-    const char* GetRank();
+    // const char* GetRank();
     int m_score;
     const char* m_rank;
     float m_remainingTime;

@@ -11,6 +11,7 @@ public:
     void Draw();
     // bool HitBlock(Vec2 screenPos, int& outCol, int& outRow);
     void ChangeColor(int col, int row, ColorId color);
+    void AllBright();
     ColorId GetBlockColorAt(int col, int row);
     void ScreenToIndex(int x, int y, int &outCol, int &outRow);
 private:

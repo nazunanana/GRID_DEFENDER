@@ -108,24 +108,24 @@ const char* ClearScene::GetRank()
 {
     if(m_difficulty == Difficulty::Normal)
     {
-        if(m_score >= 300000)
+        if(m_score >= 200000)
             return "S";
-        else if(m_score >= 240000)
+        else if(m_score >= 160000)
             return "A";
-        else if(m_score >= 180000)
-            return "B";
         else if(m_score >= 120000)
+            return "B";
+        else if(m_score >= 80000)
             return "C";
         else
             return "D";
     }
     else
     {
-        if(m_score >= 340000)
+        if(m_score >= 320000)
             return "S";
-        else if(m_score >= 280000)
+        else if(m_score >= 260000)
             return "A";
-        else if(m_score >= 220000)
+        else if(m_score >= 200000)
             return "B";
         else if(m_score >= 160000)
             return "C";

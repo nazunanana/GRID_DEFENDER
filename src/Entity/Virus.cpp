@@ -11,13 +11,22 @@ Virus::Virus(int row, ColorId color)
 
 void Virus::Update(float dt, float moveInterval)
 {
+    if (m_state == State::Despawned) return;
+    else if (m_state == State::Despawning)
+    {
+        m_despawnTimer += dt;
+        if (m_despawnTimer >= DESPAWN_TIME)
+            m_state = State::Despawned;
+        return;
+    }
+
     m_moveInterval = moveInterval;
     m_moveTimer += dt;
-    if(m_moveTimer > moveInterval)
+    if (m_moveTimer > moveInterval)
     {
         m_moveTimer -= moveInterval;
         m_col++;
-        if(m_col > COL_MAX) // 一番下まで到達
+        if (m_col > COL_MAX) // 一番下まで到達
         {
             m_leaked = true;
             Despawn();
@@ -27,17 +36,42 @@ void Virus::Update(float dt, float moveInterval)
 
 void Virus::Despawn()
 {
-    m_alive = false;
+    if (m_state != State::Alive)
+        return;
+    m_state = State::Despawning;
+    m_despawnTimer = 0.0f;
 }
 
 bool Virus::IsAlive()
 {
-    return m_alive;
+    return m_state == State::Alive;
 }
 
-bool Virus::HasLeaked()
+bool Virus::IsDespawned()
 {
-    return m_leaked;
+    return m_state == State::Despawned;
+}
+
+bool Virus::IsVisible()
+{
+    if (m_state == State::Alive)
+        return true;
+    else if (m_state == State::Despawned)
+        return false;
+    // Despawningの時はオンオフが切り替わる
+    else if (m_despawnTimer < BLINK_TIME)
+        return false;
+    return true;
+}
+
+bool Virus::ConsumeLeak()
+{
+    if (m_leaked)
+    {
+        m_leaked = false;
+        return true;
+    }
+    return false;
 }
 
 int Virus::GetCol()

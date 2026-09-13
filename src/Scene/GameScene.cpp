@@ -186,7 +186,7 @@ void GameScene::ResolveVirusHit(int blockCol, int blockRow, ColorId virusColor, 
     // SEを鳴らす
     AudioManager::Instance().PlaySe("hitSe");
     // スコア換算
-    m_scoreMgr.IncreaseScore(1000 + (chainLevel - 1) * 1000);
+    m_scoreMgr.IncreaseScore(1000 + (chainLevel - 1) * 2000);
     // 直接撃った場合は抗体生成
     if (isCreateBlock)
     {
@@ -217,12 +217,15 @@ void GameScene::ResolveRippleVirus(std::vector<int> chainCount, bool isSameColor
     }
 
     // SEを鳴らす
-    if (maxCount == 1)
-        AudioManager::Instance().PlaySe("rippleSe");
-    else if(maxCount == 2)
-        AudioManager::Instance().PlaySe("rippleSe2");
-    else
+    if(maxCount >= 5)
         AudioManager::Instance().PlaySe("rippleSe3");
+    else if(maxCount >= 3)
+        AudioManager::Instance().PlaySe("rippleSe2");
+    else if (maxCount >= 1)
+        AudioManager::Instance().PlaySe("rippleSe");
+
+    if(maxCount >= 5)
+        m_blockGrid.AllBright();
 }
 
 // 衝撃波とブロックのヒット処理
