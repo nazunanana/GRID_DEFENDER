@@ -23,7 +23,7 @@ public:
         int chainCount = 0; // 連鎖数
         bool passed[COL_MAX][ROW_MAX] = {}; // 通過フラグ
     };
-    void Update(BlockGrid& grid, VirusManager& viruses, ChainEventType& outChainEvent, std::vector<int>& outChainCount);
+    void Update(BlockGrid& grid, VirusManager& viruses, ChainEventType& outChainEvent, std::vector<int>& outChainCount, bool &isSameColor);
     void Draw();
     void StartChain(int col, int row, ColorId color);
     std::vector<ChainData> &GetChains(); // 生きている衝撃波の一覧（Virus当たり判定用）

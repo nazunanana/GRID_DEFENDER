@@ -48,7 +48,7 @@ void TitleScene::Enter()
 // タイトル画面を出たときの処理
 void TitleScene::Exit()
 {
-    AudioManager::Instance().StopBgm();
+
 }
 
 // タイトル画面の更新処理
@@ -59,6 +59,7 @@ void TitleScene::Update(float dt)
     if (m_input->Pressed(Action::Decide))
     {
         m_sceneMgr->RequestChange(SceneType::Game, Difficulty::Normal);
+        AudioManager::Instance().StopBgm();
         return;
     }
 
@@ -66,6 +67,7 @@ void TitleScene::Update(float dt)
     if (m_input->Pressed(Action::Decide2))
     {
         m_sceneMgr->RequestChange(SceneType::Game, Difficulty::Hard);
+        AudioManager::Instance().StopBgm();
         return;
     }
 

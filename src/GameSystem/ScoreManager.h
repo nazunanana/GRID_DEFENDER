@@ -11,11 +11,10 @@ public:
     int GetScore();
     int GetLevel();
     void Draw(float time);
-    bool IsIncreaseLevel(bool isClimax = false);
+    void IsIncreaseLevel(bool isClimax = false);
 private:
-    const int SCORE_PER_LEVEL = 50000;
     int m_score = 0;
     int m_level = 1;
-    int m_scoreLevel = 1;
     int m_scoreFontHandle = -1;
+    bool IsLevelUp();
 };

@@ -23,8 +23,7 @@ ScoreManager::~ScoreManager()
 void ScoreManager::IncreaseScore(int amount)
 {
     m_score += amount;
-    if(IsIncreaseLevel())
-        m_scoreLevel++;
+    IsIncreaseLevel();
 }
 
 int ScoreManager::GetScore()
@@ -37,15 +36,13 @@ int ScoreManager::GetLevel()
     return m_level;
 }
 
-bool ScoreManager::IsIncreaseLevel(bool isClimax)
+void ScoreManager::IsIncreaseLevel(bool isClimax)
 {
-    if((m_score > m_scoreLevel * SCORE_PER_LEVEL || isClimax) && m_level < 5)
+    if((IsLevelUp() || isClimax) && m_level < 5)
     {
         m_level++;
         AudioManager::Instance().PlaySe("levelUp");
-        return true;
     }
-    return false;
 }
 
 void ScoreManager::Draw(float time)
@@ -58,4 +55,22 @@ void ScoreManager::Draw(float time)
     if (remainingTime < 0) remainingTime = 0;
     DrawFormatStringToHandle(SCREEN_W - ORIGIN_X - 150, (ORIGIN_Y - SCORE_FONT_SIZE) / 2, GetColor(255, 255, 255), m_scoreFontHandle,
                              "TIME: %d", remainingTime);
+}
+
+// レベルアップできるかどうか
+bool ScoreManager::IsLevelUp()
+{
+    switch(m_level)
+    {
+    case 1:
+        return m_score > 25000;
+    case 2:
+        return m_score > 50000;
+    case 3:
+        return m_score > 100000;
+    case 4:
+        return m_score > 200000;
+    default:
+        return m_score > 300000;
+    }
 }

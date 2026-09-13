@@ -8,7 +8,7 @@
 衝撃波の制御
 */
 
-void RippleManager::Update(BlockGrid &blockMgr, VirusManager &virusMgr, ChainEventType &outChainEvent, std::vector<int> &outChainCount)
+void RippleManager::Update(BlockGrid &blockMgr, VirusManager &virusMgr, ChainEventType &outChainEvent, std::vector<int> &outChainCount, bool &isSameColor)
 {
     for (auto &c : m_chains)
     {
@@ -19,13 +19,14 @@ void RippleManager::Update(BlockGrid &blockMgr, VirusManager &virusMgr, ChainEve
             r.Update(isExpand);
 
             int col, row;
+            bool isSameColor;
             // ウイルスを退治する処理
-            // 衝撃波と同色のウイルスが衝突した場合
-            if (virusMgr.CollisionRipple(r.GetScreenX(), r.GetScreenY(), r.GetSize(), c.color, col, row))
+            if (virusMgr.CollisionRipple(r.GetScreenX(), r.GetScreenY(), r.GetSize(), c.color, col, row, isSameColor))
             {
                 c.chainCount++;
                 outChainCount.push_back(c.chainCount);
                 outChainEvent = ChainEventType::CollisionVirus;
+                if(isSameColor) blockMgr.ChangeColor(col, row, c.color); // 抗体生成
             }
 
             // 同色抗体から衝撃波生成する処理

@@ -75,45 +75,18 @@ void GameScene::Update(float dt)
     // 衝撃波の処理（成長・消滅のみ）
     RippleManager::ChainEventType chainEvent;
     std::vector<int> chainCount = {};
-    m_rippleMgr.Update(m_blockGrid, m_virusMgr, chainEvent, chainCount);
+    bool isSameColor;
+    m_rippleMgr.Update(m_blockGrid, m_virusMgr, chainEvent, chainCount, isSameColor);
 
     switch (chainEvent)
     {
     case RippleManager::ChainEventType::CollisionVirus:
-        ResolveRippleVirus(chainCount);
+        ResolveRippleVirus(chainCount, isSameColor);
         break;
     case RippleManager::ChainEventType::CollisionBlock:
         ResolveRippleBlock();
         break;
     }
-
-    // m_rippleHits.clear();
-    // for (auto &c : m_rippleMgr.GetChains())
-    // {
-    //     if (!c.active)
-    //         continue;
-
-    //     for (auto &r : c.m_ripples)
-    //     {
-    //         int col, row;
-    //         std::optional<ColorId> virusColor = m_virusMgr.CollisionRipple(r.GetScreenX(), r.GetScreenY(), r.GetSize(), col, row);
-    //         if (virusColor == c.color) // 衝撃波と同色のウイルスが衝突
-    //         {
-    //             ResolveRippleVirus(col, row, c.color, c.chainCount);
-    //             c.chainCount++;
-    //         }
-    //         else if (m_rippleMgr.HasPendingRipple())
-    //         {
-    //             RippleManager::PendingRipple pr = m_rippleMgr.PopPendingRipple();
-    //             if(pr.color != c.color) continue; // 衝撃波と別色の抗体もしくは無色のブロックと衝突した場合はスルー
-    //             m_rippleHits.push_back({pr.col, pr.row, pr.color, r.GetExpandedLevel()});
-    //         }
-    //     }
-    //     for (const RippleHit &hit : m_rippleHits) // 抗体との衝突処理
-    //     {
-    //         //ResolveRippleBlock()を呼び出して衝撃波生成
-    //     }
-    // }
 
     // 終了判定
     m_elapsedTime += dt;
@@ -182,24 +155,24 @@ void GameScene::Draw()
 void GameScene::ResolveTapHit(int x, int y)
 {
     // ウィルスがいたら色を返し、退治
-    std::optional<ColorId> virusColor = m_virusMgr.GetVirusColorAtPoint(x, y);
+    ColorId virusColor = m_virusMgr.GetVirusColorAtPoint(x, y);
 
     int blockCol = -1, blockRow = -1;
     // スクリーン座標からブロック座標に変換
     m_blockGrid.ScreenToIndex(x, y, blockCol, blockRow);
 
-    if (virusColor) // タップでウイルスが退治された場合
+    if (virusColor != ColorId::None) // タップでウイルスが退治された場合
     {
-        ResolveVirusHit(blockCol, blockRow, *virusColor, true, 1);
+        ResolveVirusHit(blockCol, blockRow, virusColor, true, 1);
         return;
     }
 
     // ブロックの色を取得
-    std::optional<ColorId> blockColor = m_blockGrid.GetBlockColorAt(blockCol, blockRow);
+    ColorId blockColor = m_blockGrid.GetBlockColorAt(blockCol, blockRow);
 
-    if (blockColor) // 抗体をタップした場合
+    if (blockColor != ColorId::None) // 抗体をタップした場合
     {
-        ResolveBlockHit(blockCol, blockRow, *blockColor);
+        ResolveBlockHit(blockCol, blockRow, blockColor);
         return;
     }
 
@@ -232,25 +205,28 @@ void GameScene::ResolveBlockHit(int blockCol, int blockRow, ColorId blockColor)
 }
 
 // 衝撃波とウイルスのヒット処理
-void GameScene::ResolveRippleVirus(std::vector<int> chainCount)
+void GameScene::ResolveRippleVirus(std::vector<int> chainCount, bool isSameColor)
 {
     int maxCount = 1;
     // スコア換算
     for(const auto &c : chainCount)
     {
-        m_scoreMgr.IncreaseScore(3000 * c);
+        if(isSameColor) m_scoreMgr.IncreaseScore(3000 * c);
+        else m_scoreMgr.IncreaseScore(1000 * c);
         if(c > maxCount) maxCount = c;
     }
 
     // SEを鳴らす
     if (maxCount == 1)
         AudioManager::Instance().PlaySe("rippleSe");
-    else
+    else if(maxCount == 2)
         AudioManager::Instance().PlaySe("rippleSe2");
+    else
+        AudioManager::Instance().PlaySe("rippleSe3");
 }
 
 // 衝撃波とブロックのヒット処理
 void GameScene::ResolveRippleBlock()
 {
-    // TODO: SE鳴らす
+    AudioManager::Instance().PlaySe("hitBlockSe");
 }

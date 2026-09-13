@@ -20,6 +20,6 @@ private:
     float m_size; // 衝撃波の大きさ
     int m_sizeLevel; // 衝撃波の大きさレベル
     bool m_isActive;
-    static constexpr float SPEED = 3.0f;
+    static constexpr float SPEED = 4.0f;
     static constexpr float MAX_SIZE = 2.5f;
 };

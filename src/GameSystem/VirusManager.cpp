@@ -52,23 +52,23 @@ void VirusManager::Draw()
 
 // タップした位置にウィルスがあるかどうか
 // あれば消滅させ、色を返す
-std::optional<ColorId> VirusManager::GetVirusColorAtPoint(int screenX, int screenY)
+ColorId VirusManager::GetVirusColorAtPoint(int screenX, int screenY)
 {
     for (auto &v : m_viruses)
     {
         int drawX = ORIGIN_X + v.GetRow() * BOX_SIZE;
         if (v.IsAlive() && drawX < screenX && screenX < drawX + BOX_SIZE && v.GetDrawY() < screenY && screenY < v.GetDrawY() + BOX_SIZE)
         {
-            std::optional<ColorId> color = v.GetColor();
+            ColorId color = v.GetColor();
             v.Despawn();
             return color;
         }
     }
-    return std::nullopt;
+    return ColorId::None;
 }
 
 // 衝撃波がウィルスに衝突したときの処理（ウイルスを退治できたかどうかを返す）
-bool VirusManager::CollisionRipple(int screenX, int screenY, float size, ColorId color, int &outCol, int &outRow)
+bool VirusManager::CollisionRipple(int screenX, int screenY, float size, ColorId color, int &outCol, int &outRow, bool &isSameColor)
 {
     // 衝撃波が届いている正方形の範囲
     float squareX0 = screenX - size;
@@ -78,8 +78,11 @@ bool VirusManager::CollisionRipple(int screenX, int screenY, float size, ColorId
 
     for (auto &v : m_viruses)
     {
-        if (!v.IsAlive() || v.GetColor() != color || v.GetCol() == 0)
+        if (!v.IsAlive() || v.GetCol() == 0)
             continue;
+
+        if(v.GetColor() == color) isSameColor = true;
+        else isSameColor = false;
 
         // Virusの衝突範囲
         int virusMinX = ORIGIN_X + v.GetRow() * BOX_SIZE;
@@ -127,61 +130,61 @@ void VirusManager::LevelUp(int level, Difficulty difficulty)
     case 1:
         if(difficulty == Difficulty::Normal)
         {
-            m_spawnInterval = 1.0f;
+            m_spawnInterval = 0.7f;
             m_moveInterval = 0.5f;
         }
         else
         {
-            m_spawnInterval = 0.8f;
-            m_moveInterval = 0.4f;
+            m_spawnInterval = 0.7f;
+            m_moveInterval = 0.5f;
         }
         break;
     case 2:
         if(difficulty == Difficulty::Normal)
         {
-            m_spawnInterval = 0.8f;
-            m_moveInterval = 0.4f;
+            m_spawnInterval = 0.6f;
+            m_moveInterval = 0.45f;
         }
         else
         {
-            m_spawnInterval = 0.7f;
-            m_moveInterval = 0.35f;
+            m_spawnInterval = 0.6f;
+            m_moveInterval = 0.45f;
         }
         break;
     case 3:
         if(difficulty == Difficulty::Normal)
         {
-            m_spawnInterval = 0.7f;
-            m_moveInterval = 0.35f;
+            m_spawnInterval = 0.55f;
+            m_moveInterval = 0.4f;
         }
         else
         {
-            m_spawnInterval = 0.6f;
-            m_moveInterval = 0.3f;
+            m_spawnInterval = 0.55f;
+            m_moveInterval = 0.4f;
         }
         break;
     case 4:
         if(difficulty == Difficulty::Normal)
         {
-            m_spawnInterval = 0.6f;
-            m_moveInterval = 0.3f;
+            m_spawnInterval = 0.5f;
+            m_moveInterval = 0.35f;
         }
         else
         {
             m_spawnInterval = 0.5f;
-            m_moveInterval = 0.25f;
+            m_moveInterval = 0.35f;
         }
         break;
     default:
         if(difficulty == Difficulty::Normal)
         {
-            m_spawnInterval = 0.5f;
-            m_moveInterval = 0.25f;
+            m_spawnInterval = 0.45f;
+            m_moveInterval = 0.3f;
         }
         else
         {
-            m_spawnInterval = 0.4f;
-            m_moveInterval = 0.2f;
+            m_spawnInterval = 0.45f;
+            m_moveInterval = 0.3f;
         }
         break;
     }

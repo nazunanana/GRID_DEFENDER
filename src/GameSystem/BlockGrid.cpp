@@ -46,10 +46,10 @@ void BlockGrid::ChangeColor(int col, int row, ColorId color)
     m_blocks[col][row].Hit(color);
 }
 
-std::optional<ColorId> BlockGrid::GetBlockColorAt(int col, int row)
+ColorId BlockGrid::GetBlockColorAt(int col, int row)
 {
     if (col < 0 || col >= COL_MAX || row < 0 || row >= ROW_MAX)
-        return std::nullopt;
+        return ColorId::None;
 
     return m_blocks[col][row].GetBlockColor();
 }

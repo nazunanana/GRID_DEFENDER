@@ -9,8 +9,8 @@ class VirusManager
 public:
     void Update(float dt, int level, Difficulty difficulty);
     void Draw();
-    std::optional<ColorId> GetVirusColorAtPoint(int screenX, int screenY);
-    bool CollisionRipple(int screenX, int screenY, float size, ColorId color, int &outCol, int &outRow);
+    ColorId GetVirusColorAtPoint(int screenX, int screenY);
+    bool CollisionRipple(int screenX, int screenY, float size, ColorId color, int &outCol, int &outRow, bool &isSameColor);
     int PopLeakCount();
 
 private:

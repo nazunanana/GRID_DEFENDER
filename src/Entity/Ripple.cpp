@@ -37,8 +37,8 @@ void Ripple::Draw(ColorId color)
     if (!m_isActive || color == ColorId::None) return;
     // 中心位置
     //DrawBoxAA(m_screenX - m_size, m_screenY - m_size, m_screenX + m_size, m_screenY + m_size, RippleColor(color), FALSE, 2.0f);
-    DrawBoxAA(ORIGIN_X + m_row * m_size, ORIGIN_Y + m_col * m_size,
-        ORIGIN_X + (m_row + 1) * m_size, ORIGIN_Y + (m_col + 1) * m_size, RippleColor(color), FALSE, 2.0f);
+    DrawBoxAA(ORIGIN_X + m_row * BOX_SIZE + (BOX_SIZE/2) - m_size, ORIGIN_Y + m_col * BOX_SIZE + (BOX_SIZE/2) - m_size,
+        ORIGIN_X + m_row * BOX_SIZE + (BOX_SIZE/2) + m_size, ORIGIN_Y + m_col * BOX_SIZE + (BOX_SIZE/2) + m_size, RippleColor(color), FALSE, 2.0f);
 }
 
 int Ripple::GetCol()
