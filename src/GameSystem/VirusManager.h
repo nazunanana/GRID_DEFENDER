@@ -10,7 +10,7 @@ public:
     void Update(float dt, int level, Difficulty difficulty);
     void Draw();
     ColorId GetVirusColorAtPoint(int screenX, int screenY);
-    bool CollisionRipple(int screenX, int screenY, float size, ColorId color, int &outCol, int &outRow, bool &isSameColor);
+    bool CollisionRipple(int screenX, int screenY, float size, ColorId &outColor, int &outCol, int &outRow);
     int PopLeakCount();
 
 private:

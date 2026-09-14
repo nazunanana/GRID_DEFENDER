@@ -37,7 +37,7 @@ private:
         int rippleLevel;
     };
     void ResolveTapHit(int x, int y); // 直接タップでのヒット処理
-    void ResolveVirusHit(int blockCol, int blockRow, ColorId virusColor, bool isCreateBlock, int chainLevel); // ウイルス退治後の処理
+    void ResolveVirusHit(int blockCol, int blockRow, ColorId virusColor, bool isCreateBlock); // ウイルス退治後の処理
     void ResolveBlockHit(int blockCol, int blockRow, ColorId blockColor); // 抗体タップ時の処理
     void ResolveRippleVirus(std::vector<int> chainCount, bool isSameColor); // 衝撃波がVirusに当たった時のヒット処理
     void ResolveRippleBlock(); // 衝撃波が抗体に当たった時のヒット処理

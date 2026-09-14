@@ -60,17 +60,10 @@ void ScoreManager::Draw(float time)
 // レベルアップできるかどうか
 bool ScoreManager::IsLevelUp()
 {
-    switch(m_level)
+    if(m_score >= LEVELUP_SCORE[m_levelupScoreIndex])
     {
-    case 1:
-        return m_score > 25000;
-    case 2:
-        return m_score > 50000;
-    case 3:
-        return m_score > 100000;
-    case 4:
-        return m_score > 150000;
-    default:
-        return m_score > 200000;
+        m_levelupScoreIndex++;
+        return true;
     }
+    return false;
 }

@@ -13,7 +13,7 @@ using namespace DxLib;
 void Block::Update()
 {
     if (m_brightness > 0)
-        m_brightness = std::max(0, m_brightness - 10);
+        m_brightness = std::max(0, m_brightness - m_brightDecrement);
 }
 
 void Block::Draw(int screenX, int screenY)
@@ -37,11 +37,13 @@ void Block::Hit(ColorId color)
 {
     m_color = color;
     m_brightness = 120;
+    m_brightDecrement = 10;
 }
 
-void Block::Bright()
+void Block::Bright(int brightness)
 {
-    m_brightness = 25;
+    m_brightness = brightness;
+    m_brightDecrement = 2;
 }
 
 ColorId Block::GetBlockColor()

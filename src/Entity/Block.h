@@ -7,9 +7,10 @@ public:
     void Update();
     void Draw(int screenX, int screenY);
     void Hit(ColorId color);
-    void Bright();
+    void Bright(int brightness);
     ColorId GetBlockColor();
 private:
     ColorId m_color = ColorId::None;
     int m_brightness = 0;
+    int m_brightDecrement = 10;
 };

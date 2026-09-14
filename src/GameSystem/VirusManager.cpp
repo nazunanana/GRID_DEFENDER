@@ -68,7 +68,7 @@ ColorId VirusManager::GetVirusColorAtPoint(int screenX, int screenY)
 }
 
 // 衝撃波がウィルスに衝突したときの処理（ウイルスを退治できたかどうかを返す）
-bool VirusManager::CollisionRipple(int screenX, int screenY, float size, ColorId color, int &outCol, int &outRow, bool &isSameColor)
+bool VirusManager::CollisionRipple(int screenX, int screenY, float size, ColorId &outColor, int &outCol, int &outRow)
 {
     // 衝撃波が届いている正方形の範囲
     float squareX0 = screenX - size;
@@ -81,8 +81,7 @@ bool VirusManager::CollisionRipple(int screenX, int screenY, float size, ColorId
         if (!v.IsAlive() || v.GetCol() == 0)
             continue;
 
-        if(v.GetColor() == color) isSameColor = true;
-        else isSameColor = false;
+        outColor = v.GetColor();
 
         // Virusの衝突範囲
         int virusMinX = ORIGIN_X + v.GetRow() * BOX_SIZE;

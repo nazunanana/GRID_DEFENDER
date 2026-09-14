@@ -12,21 +12,32 @@ void RippleManager::Update(BlockGrid &blockMgr, VirusManager &virusMgr, ChainEve
 {
     for (auto &c : m_chains)
     {
-        std::vector<Ripple> spawnedRipples; // 発生する衝撃波を保存
+        // 発生する衝撃波を保存
+        std::vector<Ripple> spawnedRipples;
+
+        // 衝撃波ループ
         for (auto &r : c.m_ripples)
         {
             bool isExpand;
             r.Update(isExpand);
 
+            // 衝突するウイルスのout引数
             int col, row;
-            bool isSameColor;
-            // ウイルスを退治する処理
-            if (virusMgr.CollisionRipple(r.GetScreenX(), r.GetScreenY(), r.GetSize(), c.color, col, row, isSameColor))
+            ColorId virusColor;
+
+            // ウイルスと衝突した場合、退治する
+            if (virusMgr.CollisionRipple(r.GetScreenX(), r.GetScreenY(), r.GetSize(), virusColor, col, row))
             {
                 c.chainCount++;
                 outChainCount.push_back(c.chainCount);
                 outChainEvent = ChainEventType::CollisionVirus;
-                if(isSameColor) blockMgr.ChangeColor(col, row, c.color); // 抗体生成
+                if(virusColor == c.color) // もし同色ウイルスと衝突したら
+                {
+                    isSameColor = true;
+                    blockMgr.ChangeColor(col, row, c.color, c.chainCount); // 抗体生成
+                    c.passed[col][row] = true;
+                }
+                isSameColor = false;
             }
 
             // 同色抗体から衝撃波生成する処理
@@ -52,7 +63,7 @@ void RippleManager::Update(BlockGrid &blockMgr, VirusManager &virusMgr, ChainEve
 
                     spawnedRipples.emplace_back(col, row);
                     c.passed[col][row] = true;
-                    if (outChainEvent == ChainEventType::CollisionVirus)
+                    if (outChainEvent != ChainEventType::CollisionVirus)
                         outChainEvent = ChainEventType::CollisionBlock;
                 }
             }

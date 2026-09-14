@@ -163,7 +163,7 @@ void GameScene::ResolveTapHit(int x, int y)
 
     if (virusColor != ColorId::None) // タップでウイルスが退治された場合
     {
-        ResolveVirusHit(blockCol, blockRow, virusColor, true, 1);
+        ResolveVirusHit(blockCol, blockRow, virusColor, true);
         return;
     }
 
@@ -181,17 +181,17 @@ void GameScene::ResolveTapHit(int x, int y)
 }
 
 // ウイルス退治後の処理
-void GameScene::ResolveVirusHit(int blockCol, int blockRow, ColorId virusColor, bool isCreateBlock, int chainLevel)
+void GameScene::ResolveVirusHit(int blockCol, int blockRow, ColorId virusColor, bool isCreateBlock)
 {
     // SEを鳴らす
     AudioManager::Instance().PlaySe("hitSe");
     // スコア換算
-    m_scoreMgr.IncreaseScore(1000 + (chainLevel - 1) * 2000);
+    m_scoreMgr.IncreaseScore(2000);
     // 直接撃った場合は抗体生成
     if (isCreateBlock)
     {
         // ブロックの色変更
-        m_blockGrid.ChangeColor(blockCol, blockRow, virusColor);
+        m_blockGrid.ChangeColor(blockCol, blockRow, virusColor, 1);
     }
 }
 
@@ -201,7 +201,7 @@ void GameScene::ResolveBlockHit(int blockCol, int blockRow, ColorId blockColor)
     // 衝撃波生成
     m_rippleMgr.StartChain(blockCol, blockRow, blockColor);
     // 撃った抗体は無色に戻す
-    m_blockGrid.ChangeColor(blockCol, blockRow, ColorId::None);
+    m_blockGrid.ChangeColor(blockCol, blockRow, ColorId::None,1);
 }
 
 // 衝撃波とウイルスのヒット処理
@@ -224,12 +224,15 @@ void GameScene::ResolveRippleVirus(std::vector<int> chainCount, bool isSameColor
     else if (maxCount >= 1)
         AudioManager::Instance().PlaySe("rippleSe");
 
-    if(maxCount >= 5)
-        m_blockGrid.AllBright();
+    // 盤面を光らせる
+    // if(maxCount == 5)
+    //     m_blockGrid.AllBright(20);
+    // else if(maxCount == 3)
+    //     m_blockGrid.AllBright(10);
 }
 
 // 衝撃波とブロックのヒット処理
 void GameScene::ResolveRippleBlock()
 {
-    AudioManager::Instance().PlaySe("hitBlockSe");
+    //AudioManager::Instance().PlaySe("hitBlockSe");
 }
