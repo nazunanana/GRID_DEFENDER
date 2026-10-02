@@ -69,10 +69,10 @@ void RippleManager::Update(BlockGrid &blockMgr, VirusManager &virusMgr, ChainEve
             }
         }
 
-        // rippleのスポーン
+        // 衝撃波のスポーン
         c.m_ripples.insert(c.m_ripples.end(), spawnedRipples.begin(), spawnedRipples.end());
 
-        // rippleのデスポーン
+        // 衝撃波のデスポーン
         c.m_ripples.erase( // 後ろにつめた消滅している衝撃波を削除
             std::remove_if(c.m_ripples.begin(), c.m_ripples.end(),
                            [](Ripple &r)

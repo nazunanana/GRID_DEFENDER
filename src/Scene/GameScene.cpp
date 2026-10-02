@@ -57,6 +57,7 @@ void GameScene::Update(float dt)
     m_blockGrid.Update();
     m_virusMgr.Update(dt, m_scoreMgr.GetLevel(), m_difficulty);
     m_cutInUI.Update(dt);
+    m_scoreMgr.Update();
 
     if (m_damageTimer > 0.0f)
         m_damageTimer -= dt;                // ダメージ演出時間

@@ -24,6 +24,8 @@ void ScoreManager::IncreaseScore(int amount)
 {
     m_score += amount;
     IsIncreaseLevel();
+    m_increasedScore = amount;
+    m_increasedScoreAlpha = 120;
 }
 
 int ScoreManager::GetScore()
@@ -38,21 +40,35 @@ int ScoreManager::GetLevel()
 
 void ScoreManager::IsIncreaseLevel(bool isClimax)
 {
-    if((IsLevelUp() || isClimax) && m_level < 5)
+    if ((IsLevelUp() || isClimax) && m_level < 5)
     {
         m_level++;
         AudioManager::Instance().PlaySe("levelUp");
     }
 }
 
+void ScoreManager::Update()
+{
+    if (m_increasedScoreAlpha > 0)
+        m_increasedScoreAlpha = std::max(0, m_increasedScoreAlpha - 1);
+}
+
 void ScoreManager::Draw(float time)
 {
     // スコア表示
-    DrawFormatStringToHandle(ORIGIN_X+20, (ORIGIN_Y - SCORE_FONT_SIZE) / 2, GetColor(255, 255, 255), m_scoreFontHandle,
+    DrawFormatStringToHandle(ORIGIN_X + 20, (ORIGIN_Y - SCORE_FONT_SIZE) / 2, GetColor(255, 255, 255), m_scoreFontHandle,
                              "SCORE: %d", m_score);
+
+    // スコア増加量表示
+    SetDrawBlendMode(DX_BLENDMODE_ALPHA, m_increasedScoreAlpha);
+    DrawFormatStringToHandle(ORIGIN_X + 230, (ORIGIN_Y - SCORE_FONT_SIZE) / 2, GetColor(255, 255, 255), m_scoreFontHandle,
+                             "+%d", m_increasedScore);
+    SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
     // 残り時間表示
     int remainingTime = static_cast<int>(TIME_LIMIT - time);
-    if (remainingTime < 0) remainingTime = 0;
+    if (remainingTime < 0)
+        remainingTime = 0;
     DrawFormatStringToHandle(SCREEN_W - ORIGIN_X - 150, (ORIGIN_Y - SCORE_FONT_SIZE) / 2, GetColor(255, 255, 255), m_scoreFontHandle,
                              "TIME: %d", remainingTime);
 }
@@ -60,7 +76,7 @@ void ScoreManager::Draw(float time)
 // レベルアップできるかどうか
 bool ScoreManager::IsLevelUp()
 {
-    if(m_score >= LEVELUP_SCORE[m_levelupScoreIndex])
+    if (m_score >= LEVELUP_SCORE[m_levelupScoreIndex])
     {
         m_levelupScoreIndex++;
         return true;
